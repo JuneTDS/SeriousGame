@@ -1,0 +1,54 @@
+:root {
+    --primary: #45494C;
+    --secondary: #C4C8BF;
+
+    --neutral-50: #FDFEFF;
+
+    --designWidth: 1920;
+    --designHeight: 1080;
+}
+
+body {
+    background-color: #fff;
+    margin: 0;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.auth-container .box:nth-child(1) {
+    width: 40%;
+    padding-top: calc(100vh * 153 / var(--designHeight));
+    padding-left: calc(100vw * 178 / var(--designWidth));
+}
+
+.auth-container .box:nth-child(2) {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../images/Rectangle.svg');
+    padding: 
+        calc(100vh * 124 / var(--designHeight))
+        calc(100vw * 173 / var(--designWidth))
+        calc(100vh * 205 / var(--designHeight))
+        calc(100vw * 173 / var(--designWidth));
+}
+
+.box:nth-child(2)>div {
+    text-align: center;
+}
+
+.box img.logo {
+    width: calc(100vw * 269 / var(--designWidth));
+}
+
+.auth-box {
+    width: calc(100vw * 526 / var(--designWidth));
+    height: calc(100vh * 466 / var(--designHeight));
+    padding: calc(100vh * 76 / var(--designHeight)) calc(100vw * 44 / var(--designWidth));
+    border-radius: 10px;
+    background: var(--neutral-50);
+}

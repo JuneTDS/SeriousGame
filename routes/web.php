@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/auth/login', [LoginController::class, 'show']);
 
 Route::get('/dashboard', [DashboardController::class, 'show']);
