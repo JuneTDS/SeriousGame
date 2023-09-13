@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\frontend\auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/auth/login', [LoginController::class, 'show']);
+Route::group(['middleware' => ['guest']], function() {
+
+    Route::get('/frontend/auth/login', [LoginController::class, 'show']);
+
+    Route::post('/login', [LoginController::class, 'login'])->name("user.login");
+
+});
 
 Route::get('/dashboard', [DashboardController::class, 'show']);
