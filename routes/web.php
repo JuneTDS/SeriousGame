@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\frontend\auth\LoginController;
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,22 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['guest']], function() {
 
-    Route::get('/frontend/auth/login', [LoginController::class, 'show']);
+    Route::get('/login', [LoginController::class, 'show'])->name("login");
 
-    Route::post('/login', [LoginController::class, 'login'])->name("user.login");
+    Route::post('/user/login', [LoginController::class, 'login'])->name("user.login");
+
+    Route::get('/classcode', [RegisterController::class, 'showClassCode'])->name("showClassCode");
+
+    Route::post('/user/classcode', [RegisterController::class, 'checkClassCode'])->name("user.classcode");
+
+    Route::get('/register', [RegisterController::class, 'showRegister'])->name("showRegister");
+
+    Route::post('/user/register', [RegisterController::class, 'register'])->name("user.register");
 
 });
 
-Route::get('/dashboard', [DashboardController::class, 'show']);
+Route::group(['middleware' => ['auth']], function() {
+
+    Route::get('/home', [DashboardController::class, 'show']);
+
+});

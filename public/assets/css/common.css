@@ -1,0 +1,39 @@
+:root {
+    --primary: #45494C;
+    --secondary: #C4C8BF;
+    --error: #ff0000;
+
+    --shades-white: #FFFFFF;
+
+    --neutral-50: #FDFEFF;
+    --neutral-400: #C4C8BF;
+    --neutral-800: #45494C;
+
+    --designWidth: 1920;
+    --designHeight: 1080;
+
+    --font-family: Helvetica;
+}
+
+* {
+    font-family: var(--font-family);
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.alert {
+    font-size: 14px;
+    text-align: left;
+    margin: 5px 0;
+}
+
+.alert-danger {
+    color: var(--error);
+}
+
+.cursor-pointer,
+.cursor-pointer * {
+    cursor: pointer;
+}
