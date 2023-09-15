@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
+use App\Http\Controllers\frontend\ClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +16,6 @@ use App\Http\Controllers\auth\RegisterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::group(['middleware' => ['guest']], function() {
 
@@ -38,6 +35,10 @@ Route::group(['middleware' => ['guest']], function() {
 
 Route::group(['middleware' => ['auth']], function() {
 
+    Route::get('/', [DashboardController::class, 'show']);
+
     Route::get('/home', [DashboardController::class, 'show']);
+
+    Route::get('/frontend/classes', [ClassController::class, 'index']);
 
 });
