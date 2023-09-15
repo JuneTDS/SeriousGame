@@ -1,13 +1,3 @@
-:root {
-    --primary: #45494C;
-    --secondary: #C4C8BF;
-
-    --neutral-50: #FDFEFF;
-
-    --designWidth: 1920;
-    --designHeight: 1080;
-}
-
 body {
     background-color: #fff;
     margin: 0;
@@ -47,8 +37,54 @@ body {
 
 .auth-box {
     width: calc(100vw * 526 / var(--designWidth));
-    height: calc(100vh * 466 / var(--designHeight));
-    padding: calc(100vh * 76 / var(--designHeight)) calc(100vw * 44 / var(--designWidth));
+    min-height: 466px;
+    padding: 76px 44px;
     border-radius: 10px;
     background: var(--neutral-50);
+}
+
+.auth-box h4 {
+    text-align: left;
+    color: #000;
+    font-size: 31.25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 0;
+}
+
+.auth-box div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.auth-box div label {
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.auth-box div input {
+    border-radius: 6px;
+    border: 1px solid var(--neutral-400);
+    background: var(--shades-white);
+    padding: 14px 16px;
+}
+
+.auth-box div input.error {
+    border: 1px solid var(--error);
+}
+
+.auth-box div button {
+    border-radius: 6px;
+    border: 1px solid var(--neutral-800);
+    background: var(--neutral-800);
+    padding: 14px 0px;
+    text-align: center;
+    color: var(--neutral-50);
+    margin-bottom: 36px;
+}
+
+.auth-box div span {
+    text-align: left;
 }

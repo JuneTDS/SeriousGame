@@ -1,0 +1,61 @@
+:root {
+    --primary: #45494C;
+    --secondary: #C4C8BF;
+    --error: #ff0000;
+
+    --shades-white: #FFFFFF;
+
+    --neutral-50: #FDFEFF;
+    --neutral-400: #C4C8BF;
+    --neutral-600: #A1ACB1;
+    --neutral-800: #45494C;
+    --neutral-900: #171819;
+
+    --designWidth: 1920;
+    --designHeight: 1080;
+
+    --font-family: Helvetica;
+}
+
+* {
+    font-family: var(--font-family);
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.alert {
+    font-size: 14px;
+    text-align: left;
+    margin: 5px 0;
+}
+
+.alert-danger {
+    color: var(--error);
+}
+
+.cursor-pointer,
+.cursor-pointer * {
+    cursor: pointer;
+}
+
+.flex-box {
+    display: flex;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
