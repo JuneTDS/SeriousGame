@@ -7,19 +7,68 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;  //To interact with database
 use App\Models\User;    //Import the User model
 
+
 class UserController extends Controller
 {
-    public function showUsersDashboard()
+    public function showUsersDashboard(Request $request)
     {
-        $userData = DB::table('tbl_user')
-            ->select('tbl_user.*', 'tbl_user_profile.last_visit', 'tbl_auth_item.description')      //Get all user data from userTable & lastvisit data from userProfileTable & userRoleDescription from authItemTable
-            ->leftJoin('tbl_user_profile', 'tbl_user.id', '=', 'tbl_user_profile.user_id')          //To compare the id in user table and user_id in userProfile table
-            ->leftJoin('tbl_auth_assignment', 'tbl_user.id', '=', 'tbl_auth_assignment.user_id')    // Add left join to tbl_auth_assignment
-            ->leftJoin('tbl_auth_item', 'tbl_auth_assignment.item_name', '=', 'tbl_auth_item.name') // Add left join to tbl_auth_item
-            ->get();
+        $roleDescriptions = DB::table('tbl_auth_item')
+        ->distinct()
+        ->where('type', 1) // Add this condition to filter by type = 1
+        ->pluck('description'); // To retrieve role descriptions from the filtered results
 
-        return view('backendSystem.user.userDashboard');
+        // Get the search keyword from the input field
+        $searchKeyword = $request->input('username');
+        $selectedStatus = $request->input('statusDropdown');
+        $selectedRoleName = $request->input('roleName');
+        $selectedDate = $request->input('lastVisit');
+
+        // Query the user data based on the search keyword, status, and date
+        $query = DB::table('tbl_user')
+        ->select('tbl_user.*', 'tbl_user_profile.last_visit', 'tbl_auth_item.description')
+        ->leftJoin('tbl_user_profile', 'tbl_user.id', '=', 'tbl_user_profile.user_id')
+        ->leftJoin('tbl_auth_assignment', 'tbl_user.id', '=', 'tbl_auth_assignment.user_id')
+        ->leftJoin('tbl_auth_item', 'tbl_auth_assignment.item_name', '=', 'tbl_auth_item.name');
+
+        if (!empty($searchKeyword) || !empty($selectedStatus) || !empty($selectedRoleName) || !empty($selectedDate)){
+            if (!empty($searchKeyword)){
+                $query->where(function ($query) use ($searchKeyword) {
+                    $query->where('tbl_user.username', 'like', '%' . $searchKeyword . '%')
+                        ->orWhere('tbl_user.email', 'like', '%' . $searchKeyword . '%');
+                });
+            }
+            
+            if ($selectedStatus !== 'All') {   // Filter by status if 'All' is not selected
+                $query->where('tbl_user.status', $selectedStatus);
+            }
+
+            if ($selectedRoleName !== 'All') {   // Filter by roleName if 'All' is not selected
+                $query->where('tbl_auth_item.description', $selectedRoleName);
+            }
+
+            if (!empty($selectedDate)) {
+                // Calculate the Unix timestamps for the start and end of the day
+                $startOfDay = strtotime($selectedDate . ' 00:00:00'); // First second of the day
+                $endOfDay = strtotime($selectedDate . ' 23:59:59');   // Last second of the day
+                // Query the user data based on the range of timestamps
+                $query->whereBetween('tbl_user_profile.last_visit', [$startOfDay, $endOfDay]);
+            }            
+        }
+
+
+        // Continue with sorting and retrieving the results
+        $user = $query
+        ->get();
+
+        return view('backendSystem.user.userDashboard', [
+            'user' => $user,
+            'searchKeyword' => $searchKeyword,
+            'selectedStatus' => $selectedStatus,
+            'selectedDate' => $selectedDate,
+            'roleDescriptions' => $roleDescriptions,
+        ]);
     }
+
 
     // Function to create a new user
     public function createUser(Request $request)
@@ -39,6 +88,8 @@ class UserController extends Controller
         $user->password_hash = bcrypt($request->input('password')); // Hash the password
         $user->status = $request->input('status');
         $user->save();
+
+        // dd($request->all());
 
         return response()->json(['success' => true]);
     }

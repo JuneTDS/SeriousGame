@@ -11,6 +11,24 @@
     --neutral-800: #45494C;
     --neutral-900: #171819;
 
+    --navLink_HoverBackground: #1de9b6;
+    --dropdownContent_Background: #f9f9f9;  /*Hardcode in backend.css*/
+    --accountIcon_Background: grey;
+    --dropdownContent_Achor: black;
+    --customContainer_Background: white;    /*Hardcode in backend.css*/
+    --header_Background: #f0f0f0;
+    --dropdownContent_AchorHover: #f1f1f1;
+    --headerRow_BorderBottom: #ddd;
+    --th_td: #ddd;
+    --pagination_Pagelink: grey;
+    --pagination_PagelinkActive: black;
+    --iconContainer: #737B7F;
+    --popup_Background: white;
+    --warningIcon_Background: #208D33;
+    --warningIcon: white;
+    --statusBlocked: red;       /*Hardcode in backend.css*/
+    --statusActive: #208D33;    /*Hardcode in backend.css*/
+
     --designWidth: 1920;
     --designHeight: 1080;
 

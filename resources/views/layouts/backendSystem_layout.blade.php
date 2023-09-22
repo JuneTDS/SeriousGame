@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
@@ -76,7 +77,7 @@
             </div>
 
             <!-- Main Content Goes Here -->
-            <div class="col py-3">
+            <div class="col py-3" style="margin-left: 15%;">
                 <div class="row">
                     <div class="col">
                         <div class="account-info" onclick="toggleDropdownMenu()">
@@ -84,7 +85,7 @@
                             <div class="account-icon">
                                 <i class="fas fa-user" style="font-size: 16px; color: white;"></i>
                             </div>
-                            Linda William
+                            {{ Auth::user()->username }}
                         </div>
                     </div>
                 </div>
@@ -104,7 +105,7 @@
                     <!-- jQuery (required for dynamic pagination) -->
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <!-- Pagination Javascript -->
-                    <script src="assets\js\backendSystem_Pagination.js"></script>
+                    <script src="{{ asset('assets\js\backendSystem_Pagination.js') }}"></script>
                 </div>
             </div>
         </div>
@@ -115,6 +116,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     
     <!-- Javascript for User Profile Dropdown -->
-    <script src="assets\js\backendSystem.js"></script>
+    <script src="{{ asset('assets\js\backendSystem.js') }}"></script>
 </body>
 </html>

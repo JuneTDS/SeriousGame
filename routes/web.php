@@ -5,6 +5,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\frontend\ClassController;
+// Backend Controller
+use App\Http\Controllers\BackendSystem\UserController;
+use App\Http\Controllers\BackendSystem\SubjectsController;
+use App\Http\Controllers\BackendSystem\SubjectEnrollmentsController;
+use App\Http\Controllers\BackendSystem\ModeSiteController;
+use App\Http\Controllers\BackendSystem\LectureClassesController;
+use App\Http\Controllers\BackendSystem\RBAC\RBAC_AccessRightsController;
+use App\Http\Controllers\BackendSystem\RBAC\RBAC_PermissionsController;
+use App\Http\Controllers\BackendSystem\RBAC\RBAC_RolesController;
 
 /*
 |--------------------------------------------------------------------------
