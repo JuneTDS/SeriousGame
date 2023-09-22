@@ -5,6 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\frontend\ClassController;
+use App\Http\Controllers\frontend\FeedbackController;
+use App\Http\Controllers\frontend\SubjectController;
+use App\Http\Controllers\frontend\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +42,24 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/home', [DashboardController::class, 'show']);
 
-    Route::get('/frontend/classes', [ClassController::class, 'index']);
+    Route::get('/frontend/classes', [ClassController::class, 'index'])->name("search.class");
+
+    Route::get('/frontend/profile', [ProfileController::class, 'index'])->name("profile");
+
+    Route::post('/update/profile', [ProfileController::class, 'update'])->name("profile.update");
+
+    Route::get('/frontend/subject', [SubjectController::class, 'index'])->name("subject");
+
+    Route::post('/user/getGraphData', [SubjectController::class, 'getGraphData'])->name("user.subject");
+
+    Route::get('/frontend/feedback', [FeedbackController::class, 'index'])->name("feedback");
+
+    Route::post('/user/getClassesAndTopicBySubject', [FeedbackController::class, 'getClassesAndTopicBySubject'])->name("user.getClassesAndTopicBySubject");
+
+    Route::post('/user/getFeedbacks', [FeedbackController::class, 'getFeedbacks'])->name("user.getFeedbacks");
+    
+
+    // Route::post('/classes', [ClassController::class, 'search'])->name("search.class");
 
     //Backend System Routing
     //User Profile Page

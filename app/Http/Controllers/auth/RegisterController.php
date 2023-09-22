@@ -57,7 +57,7 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'ingame_name'   => 'required',
-            'email'         => 'required|email',
+            'email'         => 'required|email|unique:tbl_user',
             'password'      => 'min:6',
         ]);
 
@@ -68,7 +68,7 @@ class RegisterController extends Controller
         }
 
         $ingameName     = $request->input("ingame_name");
-        $fullName       = $request->input("fullName");
+        $fullName       = $request->input("fullname");
         $email          = $request->input("email");
         $password       = Hash::make($request->input("password"));
 
