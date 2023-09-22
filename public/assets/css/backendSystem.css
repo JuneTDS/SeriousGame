@@ -1,12 +1,14 @@
 .sidebar {
+    position: fixed;
+    /* background-color: var(--primary); */
     background-color: #45494C;
-    color: #fff;
+    color: var(--shades-white);
     padding-top: 30px;
     padding-bottom: 30px;
 }
 
 .divider {
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid var(--shades-white);
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -27,7 +29,7 @@
 }
 
 .nav-link:hover {
-    background-color: #1de9b6;
+    background-color: var(--navLink_HoverBackground);
 }
 
 .nav-link{
@@ -60,7 +62,7 @@
 }
 
 .account-icon {
-    background-color: grey;
+    background-color: var(--accountIcon_Background);
     border-radius: 50%;
     padding-left: 7px;
     padding-right: 5px;
@@ -78,7 +80,7 @@
 .dropdown-content {
     position: absolute;
     display: none;
-    background-color: #f9f9f9;
+    background-color: white;
     width: 240px;
     box-shadow: -25px 20px 40px 0px rgba(173, 161, 161, 0.10);
     padding-top: 35px;
@@ -91,29 +93,29 @@
     display: block;
     padding: 12px 16px;
     text-decoration: none;
-    color: black;
+    color: var(--dropdownContent_Achor);
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color: var(--dropdownContent_AchorHover);
 }
 
 .custom-container {
-    background-color: white;
+    background-color: var(--shades-white);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-top: 26px;
 }
 
 header {
-    background-color: #f0f0f0;
+    background-color: var(--header_Background);
     padding: 10px;
 }
 
 .header-row {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--headerRow_BorderBottom);
     padding-bottom: 35px;
 }
 
@@ -128,7 +130,7 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--th_td);
     padding: 8px;
     text-align: center;
 }
@@ -138,8 +140,8 @@ th, td {
     margin: 0 auto;
 }
 
-th, td {
-    text-align: center;
+th {
+    text-decoration: none; /* Remove underline */
 }
 
 .pagination {
@@ -158,13 +160,13 @@ th, td {
 .pagination .page-link {
     border: none;
     background-color: transparent;
-    color: grey;
+    color: var(--pagination_Pagelink);
     cursor: pointer;
     outline: none;
 }
 
 .pagination .page-link.active {
-    color: black;
+    color: var(--pagination_PagelinkActive);
     font-weight: bold;
 }
 
@@ -191,8 +193,8 @@ th, td {
     gap: 10px;
 }
 
-.icon-container i {
-    color: #737B7F;
+.icon-container a {
+    color: var(--iconContainer);
 }
 
 .overlay {
@@ -213,6 +215,7 @@ th, td {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
+    /* background-color: var(--popup_Background); */
     background-color: white;
     padding: 67px 44px 66px 44px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -228,7 +231,7 @@ th, td {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    background-color: white;
+    background-color: var(--popup_Background);
     padding: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
@@ -241,7 +244,7 @@ th, td {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #208D33;
+    background-color: var(--warningIcon_Background);
     width: 70px;
     height: 70px;
     border-radius: 100%;
@@ -249,5 +252,19 @@ th, td {
 
 .warning-icon i {
     font-size: 22px;
-    color: white;
+    color: var(--warningIcon);
+}
+
+.statusBlocked {
+    color: red;
+}
+
+.statusActive {
+    color: #208D33;
+}
+
+.th-normal-text a {
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
 }

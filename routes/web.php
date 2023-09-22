@@ -8,6 +8,14 @@ use App\Http\Controllers\frontend\ClassController;
 use App\Http\Controllers\frontend\FeedbackController;
 use App\Http\Controllers\frontend\SubjectController;
 use App\Http\Controllers\frontend\ProfileController;
+use App\Http\Controllers\BackendSystem\UserController;
+use App\Http\Controllers\BackendSystem\SubjectsController;
+use App\Http\Controllers\BackendSystem\SubjectEnrollmentsController;
+use App\Http\Controllers\BackendSystem\ModeSiteController;
+use App\Http\Controllers\BackendSystem\LectureClassesController;
+use App\Http\Controllers\BackendSystem\RBAC\RBAC_AccessRightsController;
+use App\Http\Controllers\BackendSystem\RBAC\RBAC_PermissionsController;
+use App\Http\Controllers\BackendSystem\RBAC\RBAC_RolesController;
 
 /*
 |--------------------------------------------------------------------------

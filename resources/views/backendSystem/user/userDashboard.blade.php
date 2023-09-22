@@ -70,41 +70,43 @@
 
         <!--  //row start -->
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
-            <!-- First column containing the input field -->
-            <div class="col-4" style="float: left;padding-top:41px">
-                <input type="text" class="form-control input-field" id="username" name="username" placeholder="Search user by username or email address">
-            </div>
+            <form href="/admin/usersDashboard" id="filter-form">
+                <div class="row">
+                    <div class="col-4" style="float: left;padding-top:41px">
+                        <input type="text" class="form-control input-field" id="username" name="username" placeholder="Search user by username or email address"  value="{{ $searchKeyword }}">
+                    </div>
 
-            <!-- Second column containing the "Filter By" text -->
-            <div class="col-2" style="text-align: right; padding-top: 42px;">
-                <p>Filter By</p>
-            </div>
+                    <div class="col-2" style="text-align: right; padding-top: 42px;">
+                        <p>Filter By</p>
+                    </div>
 
-            <!-- Third column containing the first dropdown -->
-            <div class="col-2">
-                <p>Status</p>
-                <select class="form-select dropdown" id="dropdown1" name="dropdown1">
-                    <option value="option1">All</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
-            </div>
+                    <div class="col-2">
+                        <p>Status</p>
+                        <select class="form-select dropdown" id="statusDropdown" name="statusDropdown">
+                            <option value="All" {{ $selectedStatus === 'All' ? 'selected' : '' }}>All</option>
+                            <option value="0" {{ $selectedStatus === '0' ? 'selected' : '' }}>Blocked</option>
+                            <option value="1" {{ $selectedStatus === '1' ? 'selected' : '' }}>Active</option>
+                            <option value="2" {{ $selectedStatus === '2' ? 'selected' : '' }}>Wait</option>
+                            <option value="3" {{ $selectedStatus === '3' ? 'selected' : '' }}>Deleted</option>
+                        </select>
+                    </div>
 
-            <!-- Fourth column containing the second dropdown -->
-            <div class="col-2">
-                <p>User Role Name</p>
-                <select class="form-select dropdown" id="dropdown2" name="dropdown2">
-                    <option value="option1">All</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
-            </div>
+                    <div class="col-2">
+                        <p>User Role Name</p>
+                        <select class="form-select dropdown" id="roleName" name="roleName">
+                            <option value="All">All</option>
+                            @foreach ($roleDescriptions as $roleDescription)
+                                <option value="{{ $roleDescription }}">{{ $roleDescription }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-            <!-- Fifth column containing the third dropdown -->
-            <div class="col-2">
-                <p>Last Visit</p>
-                <input type="date" class="form-control input-field" id="datePicker" name="datePicker">
-            </div>
+                    <div class="col-2">
+                        <p>Last Visit</p>
+                        <input type="date" class="form-control input-field" id="lastVisit" name="lastVisit">
+                    </div>
+                </div>
+            </form>
         </div>
         <!-- //row end -->
 
@@ -112,13 +114,13 @@
         <div class="table-container">
             <table class="table">
                 <thead style="background-color: #CFDDE4;color:#45494C">
-                    <tr>
+                    <tr>                        
                         <th>S/N</th>
-                        <th>Username</th>
-                        <th>Email Address</th>
-                        <th>Status</th>
-                        <th>User Role Name</th>
-                        <th>Last Visit</th>
+                        <th class="th-normal-text">Username</th>
+                        <th class="th-normal-text">Email Address</th>
+                        <th class="th-normal-text">Status</th>
+                        <th class="th-normal-text">User Role Name</th>
+                        <th class="th-normal-text">Last Visit</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -132,16 +134,19 @@
                             {{ $userData->username }}
                         </td>
                         <td>{{ $userData->email }}</td>
-                        <td style="color: #208D33; font-weight: bold">
-                            <button class="status-toggle" data-user-id="{{ $userData->id }}" data-status="{{ $userData->status }}">
+                        <td style="font-weight: bold">
+                            <a href="#" class="status-toggle" data-user-id="{{ $userData->id }}" data-status="{{ $userData->status }}" style="text-decoration: none;">
                                 @php
                                     $statusText = '';
+                                    $statusClass = ''; // Provide a default value
                                     switch ($userData->status) {
                                         case '0':
                                             $statusText = 'Blocked';
+                                            $statusClass = 'statusBlocked';
                                             break;
                                         case '1':
                                             $statusText = 'Active';
+                                            $statusClass = 'statusActive';
                                             break;
                                         case '2':
                                             $statusText = 'Wait';
@@ -154,8 +159,8 @@
                                             break;
                                     }
                                 @endphp
-                                {{ $statusText }}
-                            </button>
+                                <span class="{{ $statusClass }}">{{ $statusText }}</span>
+                            </a>
                         </td>
                         <td>{{ $userData->description  }}</td>
                         <td>{{ date('M d, Y, h:i:s A', $userData->last_visit) }}</td>
@@ -185,10 +190,13 @@
                         <div class="col">
                             <p style="font-size:14px">Item Per Page</p>
                             <select id="items-per-page">
-                                <option value="5">5</option>
-                                <option value="25">25</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25" selected>25</option> <!-- Set as default -->
                                 <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
                             </select>
                         </div>
                     </div>
@@ -205,11 +213,24 @@
     </div>
 </div>
 
-<!-- Javascript for User Page Popup -->
-<script src="assets\js\backendSystem_UserPopup.js"></script>
+<!-- CSS for all backendSystem page -->
+<link rel="stylesheet" href="/assets/css/backendSystem.css">
 
-<!-- Javascript to handle status change (Start)-->
 <script>
+    // To create user
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+
+<!-- Javascript for User Page Popup -->
+<script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Javascript to handle status change (Start)
     $('.status-toggle').on('click', function(e) {
         e.preventDefault();
         var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
@@ -217,7 +238,13 @@
         // Send a POST request to update the user's status without expecting a response
         $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
     });
+    // Javascript to handle status change (End)
+
+    // Javascript to call function immediately when filter change (Start)
+    $('.input-field, .dropdown').on('change', function () {
+        $('form#filter-form').submit();
+    });
+    // Javascript to call function immediately when filter change (Start)
 </script>
-<!-- Javascript to handle status change (End)-->
 
 @endsection

@@ -27,7 +27,8 @@ class LoginController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email'     => 'required|email',
-            'password'  => 'required|min:6',
+            // 'password'  => 'required|min:6',
+            'password'  => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -72,7 +73,8 @@ class LoginController extends Controller
     private function redirectAfterLogin() {
         if ($this->checkPermission->isSuperAdmin() || $this->checkPermission->isAdmin())
         {
-            return '/home';
+            // return '/home';
+            return '/admin/usersDashboard';
         } else if ($this->checkPermission->isStudent())
         {
             return '/home';
