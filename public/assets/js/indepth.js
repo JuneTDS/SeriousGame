@@ -88,11 +88,34 @@ class Indepth {
                 },
                 series: [
                     {
-                        name: 'Average Time',
+                        name: 'Score',
                         data: seriesData,
                         color: "#16E7CF"
                     }
                 ]
+            });
+
+            let completeCount = 0;
+            let incompleteCount = 0;
+            loop = 1;
+            this.statsticTable.find("tr").remove();
+            Object.keys(data.statstic).forEach(key => {
+                let statstic = data.statstic[key];
+                this.statsticTable.append(`<tr class="${(loop % 2 == 0) ? "even": "odd"}">
+                    <td>${ statstic.username }</td>
+                    <td>${ statstic.class_name }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].duration != null) ? statstic.total_topics[0].duration : "N/A" }</td>
+                    <td>${ statstic.clear_topics }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_topics != null) ? statstic.total_topics[0].total_topics : "N/A" }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_score != null) ? statstic.total_topics[0].total_score : "N/A" }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) ? "Completed" : "Incomplete" }</td>
+                </tr>`);
+                if (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) {
+                    completeCount++;
+                } else {
+                    incompleteCount++;
+                }
+                loop++;
             });
 
             Highcharts.chart('pie', {
@@ -127,32 +150,26 @@ class Indepth {
                 series: [{
                     name: '',
                     colorByPoint: true,
-                    color: "#16E7CF",
-                    data: [{
-                        name: 'Incomplete',
-                        y: 100,
-                        sliced: true,
-                        selected: true,
-                        color: "#16E7CF"
-                    }]
+                    data: [
+                        {
+                            name: 'Incomplete',
+                            y: incompleteCount,
+                            sliced: false,
+                            selected: false,
+                            color: "#16E7CF"
+                        },
+                        {
+                            name: 'Complete',
+                            y: completeCount,
+                            sliced: false,
+                            selected: false,
+                            // color: "#16E7CF"
+                        }
+                    ]
                 }]
             });
 
-            loop = 1;
-            this.statsticTable.find("tr").remove();
-            Object.keys(data.statstic).forEach(key => {
-                let statstic = data.statstic[key];
-                this.statsticTable.append(`<tr class="${(loop % 2 == 0) ? "even": "odd"}">
-                    <td>${ statstic.username }</td>
-                    <td>${ statstic.class_name }</td>
-                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].duration != null) ? statstic.total_topics[0].duration : "N/A" }</td>
-                    <td>${ statstic.clear_topics }</td>
-                    <td>${ (statstic.total_topics.length > 0) ? statstic.total_topics[0].total_topics : "N/A" }</td>
-                    <td>${ (statstic.total_topics.length > 0) ? statstic.total_topics[0].total_score : "N/A" }</td>
-                    <td>${ (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) ? "Completed" : "Incomplete" }</td>
-                </tr>`);
-                loop++;
-            });
+            
 
             this.table.show();
             this.section.show();
@@ -333,6 +350,16 @@ class Indepth {
 
         return filteredlogs;
     }
+
+    export() {
+        let table = $(".statstic_table");
+        TableToExcel.convert(table[0], {
+            name: `indepth.xlsx`,
+            sheet: {
+                name: 'Indepth'
+            }
+        });
+    }
 }
 
 $(document).ready(function() {
@@ -426,4 +453,10 @@ $(document).ready(function() {
     function filter() {
         indepth.init();
     }
+
+    $(".indepth_export").on("click", function(e) {
+        e.preventDefault();
+
+        indepth.export();
+    });
 });

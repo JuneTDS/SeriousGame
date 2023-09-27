@@ -52,10 +52,26 @@
                     
                 </tbody>
             </table>
+            <table class="table activity_export_table" style="display: none">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Subtopic Name</th>
+                        <th>Pass Attempt Count</th>
+                        <th>Last Past Attempt Date</th>
+                        <th>Fail Attempt Count</th>
+                        <th>Last Fail Attempt Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
+<script src="/assets/js/tableToExcel.js"></script>
 <script src="/assets/js/activity.js"></script>
 
 @endsection

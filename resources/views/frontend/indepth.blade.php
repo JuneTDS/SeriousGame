@@ -133,6 +133,7 @@
 </div>
 
 <script src="/assets/js/range_slider.js"></script>
+<script src="/assets/js/tableToExcel.js"></script>
 <script src="/assets/js/indepth.js"></script>
 
 @endsection

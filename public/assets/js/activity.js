@@ -5,6 +5,8 @@ class Activity {
         this.initialMessage = $(".initial-message");
         this.title = $(".activity-title");
         this.table = $(".activity_table");
+
+        this.exportTable = $(".activity_export_table");
     }
 
     init(data){
@@ -28,7 +30,6 @@ class Activity {
             let loop = 1;
             keys.forEach((key, index) => {
                 let log = data.logs[key];
-                console.log(log);
                 this.table.append(`<tr class="${(loop % 2 == 0) ? "even": "odd"}">
                     <td>${ log.username }</td>
                     <td>${ log.login_count }</td>
@@ -45,7 +46,16 @@ class Activity {
                         <td>${(subLog.pass_at.length > 0) ? subLog.pass_at[0].pass_at : "N/A"}</td>
                         <td>${(subLog.no_pass > 0) ? subLog.no_pass : "N/A"}</td>
                         <td>${(subLog.no_pass_at.length > 0) ? subLog.no_pass_at[0].no_pass_at : "N/A"}</td>
-                    </tr>`
+                    </tr>`;
+
+                    this.exportTable.append(`<tr>
+                        <td>${log.username}</td>
+                        <td>${subLog.subtopic}</td>
+                        <td>${(subLog.pass > 0) ? subLog.pass : "N/A"}</td>
+                        <td>${(subLog.pass_at.length > 0) ? subLog.pass_at[0].pass_at : "N/A"}</td>
+                        <td>${(subLog.no_pass > 0) ? subLog.no_pass : "N/A"}</td>
+                        <td>${(subLog.no_pass_at.length > 0) ? subLog.no_pass_at[0].no_pass_at : "N/A"}</td>
+                    </tr>`);
                 });
 
                 this.table.append(`<tr class="child logs-${key} ${(loop % 2 == 0) ? "even": "odd"}">
@@ -66,6 +76,7 @@ class Activity {
                         </table>
                     </td>
                 </tr>`);
+
                 loop++;
             });
             this.table.show();
@@ -76,6 +87,15 @@ class Activity {
             this.table.hide();
             this.form.css("display", "flex");
         }
+    }
+
+    export() {
+        TableToExcel.convert(this.exportTable[0], {
+            name: `activity.xlsx`,
+            sheet: {
+                name: 'Activity'
+            }
+        });
     }
 }
 
@@ -114,11 +134,12 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".expand", function() {
-        
-        console.log($(this).attr("data-id"));
-
         $(".logs-"+$(this).attr("data-id")).toggle();
-
         $(this).toggleClass("down");
+    });
+    
+    $(document).on("click", ".activity_export", function(e) {
+        e.preventDefault();
+        activity.export();
     });
 });
