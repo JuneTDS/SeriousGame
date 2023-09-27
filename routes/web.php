@@ -52,6 +52,16 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/frontend/classes', [ClassController::class, 'index'])->name("search.class");
 
+    Route::get('/frontend/activity', [ClassController::class, 'activity'])->name("activity");
+
+    Route::post('/user/activity', [ClassController::class, 'searchActivity'])->name("search.activity");
+
+    Route::get('/frontend/indepth', [ClassController::class, 'indepth'])->name("indepth");
+
+    Route::post('/user/indepth', [ClassController::class, 'searchIndepth'])->name("search.indepth");
+
+    Route::post('/user/getClassGraphData', [ClassController::class, 'search'])->name("user.class");
+
     Route::get('/frontend/profile', [ProfileController::class, 'index'])->name("profile");
 
     Route::post('/update/profile', [ProfileController::class, 'update'])->name("profile.update");
