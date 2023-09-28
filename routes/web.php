@@ -85,6 +85,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin/userInfo/{id}', [UserController::class, 'showUserInfo']);
     //Edit User Action Button
     Route::get('/admin/userEdit/{id}', [UserController::class, 'showUserEdit']);
+    //Delete User Action Button
+    Route::delete('/admin/deleteUser/{id}', [UserController::class, 'deleteUser']);
+
 
 
     //RBAC Permissions Dashboard

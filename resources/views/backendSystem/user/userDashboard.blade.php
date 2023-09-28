@@ -14,36 +14,40 @@
         <div class="overlay" id="overlay"></div>
 
         <!-- Create Popup Form -->
-        <div id="create-popup-form" class="popup-form">
-            <h3 class="mb-4">Create New User</h3>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username*</label>
-                <input type="text" class="form-control" id="username" required>
+        <form action="/admin/createUser" method="post">
+            @csrf
+            <div id="create-popup-form" class="popup-form">
+                <h3 class="mb-4">Create New User</h3>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username*</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address*</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password*</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" required>
+                        <option value="0">Blocked</option>
+                        <option value="1">Active</option>
+                        <option value="2" selected>Wait</option> <!-- Set "Wait" as the default selection -->
+                        <option value="3">Deleted</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
+                <!-- <button type="submit" class="btn btn-dark" id="create-btn" style="width:526px">Create</button> -->
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address*</label>
-                <input type="email" class="form-control" id="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password*</label>
-                <input type="password" class="form-control" id="password" required>
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" required>
-                    <option value="0">Blocked</option>
-                    <option value="1">Active</option>
-                    <option value="2" selected>Wait</option> <!-- Set "Wait" as the default selection -->
-                    <option value="3">Deleted</option>
-                </select>
-            </div>
-            <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
-        </div>
+        </form>
 
         <!-- Delete Popup Form -->
         <div id="delete-popup-form" class="popup-form">
             <div class="row justify-content-center align-items-center ">
-                <div class="warning-icon col-1 ">
+                <div class="delete-warning-icon col-1 ">
                     <i class="fa fa-exclamation"></i>
                 </div>
             </div>
@@ -61,7 +65,7 @@
 
         <div id="success-popup" class="popup-form">
             <div class="row justify-content-center align-items-center ">
-                <div class="warning-icon">
+                <div class="create-warning-icon">
                     <i class="fa fa-check" ></i>
                 </div>
             </div>
@@ -172,7 +176,9 @@
                                 <a href="{{ url('/admin/userEdit/' . $userData->id) }}">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <i class="fa fa-trash" id="delete-popup-btn"></i>
+                                <!-- <i class="fa fa-trash" id="delete-popup-btn"></i> -->
+                                <i class="fa fa-trash delete-user-btn" data-user-id="{{ $userData->id }}"></i>
+
                             </div>
                         </td>
                     </tr>
@@ -215,15 +221,6 @@
 
 <!-- CSS for all backendSystem page -->
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
-
-<script>
-    // To create user
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-</script>
 
 <!-- Javascript for User Page Popup -->
 <script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>

@@ -52,9 +52,8 @@ class UserController extends Controller
                 $endOfDay = strtotime($selectedDate . ' 23:59:59');   // Last second of the day
                 // Query the user data based on the range of timestamps
                 $query->whereBetween('tbl_user_profile.last_visit', [$startOfDay, $endOfDay]);
-            }            
+            }
         }
-
 
         // Continue with sorting and retrieving the results
         $user = $query
@@ -73,6 +72,10 @@ class UserController extends Controller
     // Function to create a new user
     public function createUser(Request $request)
     {
+
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
         // Perform server-side validation
         $validatedData = $request->validate([
             'username' => 'required|unique:tbl_user,username',
@@ -82,14 +85,24 @@ class UserController extends Controller
         ]);
 
         // Create a new user record
-        $user = new User;
-        $user->username = $request->input('username');
-        $user->email = $request->input('email');
-        $user->password_hash = bcrypt($request->input('password')); // Hash the password
-        $user->status = $request->input('status');
-        $user->save();
+        // $username = $request->input('username');
+        // $email = $request->input('email');
+        // $password_hash = bcrypt($request->input('password')); // Hash the password
+        // $status = $request->input('status');
 
-        // dd($request->all());
+        // Extract data from the JSON request
+        $username = $data['username'];
+        $email = $data['email'];
+        $password_hash = bcrypt($data['password']); // Hash the password
+        $status = $data['status'];
+
+        $authKey        = Str::random(32);
+        $createdAt      = Carbon::now()->timestamp;
+
+        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `created_at`, `updated_at`) VALUES ('$username','$email','$authKey','$password_hash', $status, 'Yes', $createdAt, $createdAt )") );
+        $user           = User::where('email', $email)->where('status', true)->first();
+        $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$username','$email', ' ', $createdAt, $createdAt)") );
+        $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
 
         return response()->json(['success' => true]);
     }
@@ -146,6 +159,29 @@ class UserController extends Controller
     public function showUsersProfile()
     {
         return view('backendSystem.user.userProfile');
+    }
+
+    public function deleteUser($id)
+    {
+        // Start a database transaction
+        DB::beginTransaction();
+
+        try {
+            // Delete the user and related records
+            User::where('id', $id)->delete();   //Deleet user in the user table
+            UserProfile::where('user_id', $id)->delete();   // Delete the user profile
+            DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // If an error occurs during deletion, roll back the transaction
+            DB::rollback();
+
+            return response()->json(['success' => false]);
+        }
     }
 
 }

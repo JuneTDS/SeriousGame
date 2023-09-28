@@ -208,6 +208,7 @@ th {
     z-index: 9998;
 }
 
+/* Used by create popup and delete popup */
 .popup-form {
     display: none;
     position: fixed;
@@ -240,7 +241,35 @@ th {
     width:400px;
 }
 
-.warning-icon {
+.account-info-view {
+    float: left;
+    align-items: center;
+    margin-right: 20px;
+    margin-left: 80px;
+}
+
+.account-icon-view {
+    background-color: var(--accountIconView_Background);
+    border-radius: 50%;
+    padding: 20px;
+    height: 90px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-warning-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--warningIcon_Background);
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+}
+
+.delete-warning-icon {
     display: flex;
     justify-content: center;
     align-items: center;
