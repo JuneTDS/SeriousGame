@@ -4,36 +4,28 @@
 
 <div class="container page classes-page">
     <h3 class="page-header">Classes</h3>
-    <form action="{{ route('search.class') }}" method="get">
-        @csrf
-        <div class="search-section">
-            <div class="flex-box flex-column">
-                <label>Subject</label>
-                <select name="subject" id="">
-                    @foreach($data["classes"] as $key => $class)
-                        <option value="{{ $class->subject_id }}">{{ $class->subject_name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <button type="submit" class="primary">Search</button>
-            </div>
-        
-            <div>
-                <button type="button">Activity Tracker</button>
-            </div>
-            <div>
-                <button type="button">Go to Indepth</button>
-            </div>
+    @csrf
+    <div class="search-section">
+        <div class="flex-box flex-column">
+            <label>Subject</label>
+            <select name="subject" id="subject">
+                @foreach($data["classes"] as $key => $class)
+                    <option value="{{ $class->subject_id }}">{{ $class->subject_name }}</option>
+                @endforeach
+            </select>
         </div>
-    </form>
-
-    @php
-        $chartOne = "";
-        if(isset($data["chart1"])) {
-            $chartOne = $data["chart1"];
-        }
-    @endphp
+        <div>
+            <button type="submit" class="primary" id="search">Search</button>
+        </div>
+    
+        <div>
+            <a class="activity_link" href="/frontend/activity?subject=1"><button type="button">Activity Tracker</button></a>
+        </div>
+        
+        <div>
+            <a class="indepth_link" href="/frontend/indepth?subject=1"><button type="button">Go to Indepth</button></a>
+        </div>
+    </div>
 
     <div class="tab-wrap">
 
@@ -47,17 +39,18 @@
         <input type="radio" id="tab3" name="tabGroup1" class="tab">
         <label for="tab3">Scatter</label>
         
-        <div class="tab__content">
-            <h3>Summary Dashboard for Classes</h3>
-            <div class="flex-box flex-between">
-                <div class="chart" id="chart_one"></div>
-                <div class="chart" id="chart_two"></div>
+        <div class="tab__content graph-form">
+            <h3 class="graph-title">Summary Dashboard for Classes</h3>
+            <p class="initial-message">Select a subject from the dropdown menu to begin.</p>
+            <div class="graph-section">
+                <div id="bar"></div>
+                <div id="line"></div>
             </div>
         </div>
 
         <div class="tab__content">
             <h3>Leadership for Classes</h3>
-            <table class="leadership_table">
+            <table class="table leadership_table">
                 <thead>
                     <tr>
                         <th>Ranking</th>
@@ -68,99 +61,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (isset($data["leaderboard"]))
-                        @foreach ($data["leaderboard"] as $key => $value)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $value->username }}</td>
-                                <td>{{ $value->score }}</td>
-                                <td>{{ $value->topic_count }}</td>
-                                <td>{{ $value->duration }}</td>
-                            </tr>
-                        @endforeach
-                    @endif
+                    
                 </tbody>
             </table>
         </div>
 
-        <div class="tab__content">
-            <h3>Scatter for Classes</h3>
-            <p>Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
-
-            <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus blandit viverra.</p>
-
-            <p>Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
-
-            <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus blandit viverra.</p>
+        <div class="tab__content scatter-form">
+            <h3 class="scatter-form" style="display: none">Scatter for Classes</h3>
+            <p class="initial-message">Not enough students have completed the subject.</p>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    let chartOne = <?php echo json_encode($chartOne); ?>;
-
-    console.log(chartOne);
-
-    let categories = [];
-    let seriesSpace = [];
-    let seriesData = [];
-    let maxValue = 0;
-
-    (chartOne.calculation).forEach((value, key) => {
-        if (maxValue < value.score) {
-            maxValue = value.score;
-        }
-    });
-    
-    (chartOne.calculation).forEach((value, key) => {
-        categories[key] = value.subtopic_name;
-        seriesSpace[key] = 0;
-        seriesData[key] = value.score;
-    });
-
-    if (chartOne != "") {
-        Highcharts.chart('chart_one', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: categories
-            },
-            yAxis: {
-                min: 0,
-                max: maxValue,
-                title: {
-                    text: ''
-                }
-            },
-            tooltip: {
-                // pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-                shared: true
-            },
-            plotOptions: {
-                // column: {
-                //     stacking: 'percent'
-                // }
-                bar: {
-                    // borderRadius: '50%',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    groupPadding: 0.1
-                }
-            },
-            series: [
-                {
-                    name: 'Score',
-                    data: seriesData,
-                    color: "#16E7CF"
-                }
-            ]
-        });
-    }
-</script>
+<script src="/assets/js/class.js"></script>
 
 @endsection

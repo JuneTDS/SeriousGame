@@ -71,40 +71,62 @@ nav ul li img {
     width: calc(100vw * 573 / var(--designWidth));
 }
 
-.leadership_table {
+.table,
+.inner_table {
     border-collapse: collapse;
     width: 100%;
 }
 
-.leadership_table thead tr {
+.table>thead tr {
     background-color: var(--neutral-600);
-    /* border: 1px solid var(--neutral-600); */
 }
 
-.leadership_table tbody tr {
-    /* border: 1px solid var(--neutral-600); */
-}
-
-.leadership_table tbody tr:nth-child(odd) {
+.table>tbody tr.odd {
     background-color: var(--neutral-200);
 }
 
-.leadership_table tbody tr:nth-child(even) {
+.table>tbody tr.even {
     background-color: var(--neutral-500);
 }
 
-.leadership_table thead tr th,
-.leadership_table tbody tr td {
+.table>thead tr th,
+.table>tbody tr td {
     text-align: center;
     padding: 23px 0;
 }
 
-.leadership_table thead tr th {
+.table>thead tr th {
     color: var(--neutral-800);
 }
 
-.leadership_table tbody tr td {
+.table>tbody tr td {
     color: var(--neutral-700);
+}
+
+.inner_table thead tr th {
+    padding: 23px 0;
+    font-weight: 700;
+    text-align: center;
+}
+
+.inner_table tbody tr td {
+    padding: 7px 0;
+}
+
+.inner_table tbody tr {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+table thead tr th:first-child,
+table tbody tr td:first-child {
+    text-align: left !important;
+    padding-left: 60px;
+}
+
+.indepth_table thead tr th:first-child,
+.indepth_table tbody tr td:first-child {
+    padding-left: 40px !important;
 }
 
 .form {
@@ -206,4 +228,55 @@ nav ul li img {
 
 .graph-section>div {
     width: 49.5%;
+}
+
+.graph-form,
+.scatter-form,
+.activity-form {
+    display: flex;
+}
+
+.activity-title,
+.indepth-title {
+    position: relative;
+}
+
+.graph-form h3,
+.scatter-form h3,
+.activity-form h3 {
+    font-size: 25px;
+}
+
+.expand {
+    transition: all ease 0.5s;
+    transform: rotate(0deg);
+}
+
+.expand.down {
+    transform: rotate(180deg);
+}
+
+tr.child {
+    display: none;
+}
+
+.activity_export,
+.indepth_export {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 14px 37px 14px 38px;
+    border-radius: 6px;
+    border: 1px solid var(--neutral-800);
+}
+
+.back_icon {
+    transform: rotate(270deg);
+}
+
+.form-control select, 
+.form-control input {
+    width: 100%;
+    padding: 10px 16px;
+    margin-top: 8px;
 }

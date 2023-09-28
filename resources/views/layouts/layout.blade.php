@@ -8,6 +8,7 @@
     <link href="/assets/css/common.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/tab_menu.css" rel="stylesheet">
+    <link href="/assets/css/range_slider.css" rel="stylesheet">
 
     <script src="/assets/js/jquery-3.7.1.min.js"></script>
     <script src="/assets/js/highcharts.js"></script>
@@ -48,7 +49,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/logout">
+                            <a href="/auth/logout">
                                 <img src="../../assets/images/logout.svg" />
                                 <label for="">Logout</label>
                             </a>
