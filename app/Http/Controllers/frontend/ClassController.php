@@ -196,30 +196,36 @@ class ClassController extends Controller
         }
 
         $data["bar"] = $this->getStudentSubtopicAttemptTillFirstPass($subject, Auth::user()->id);
-        $data["statstic"] = $this->statstic($subject);
+        $data["statstic"] = $this->statstic($subject, $classId);
 
         return response()->json(array('data'=> $data), 200);
     }
 
-    public function statstic($subject) {
+    public function statstic($subject, $classId) {
         // get user list by subject and class
-        $userLists = DB::select( DB::raw("SELECT `tbl_user`.*, `tbl_subject_class`.`class_name`
+        $userLists = DB::select( DB::raw("SELECT `tbl_user`.*, `tbl_subject_class`.`subject_class_id`, `tbl_subject_class`.`class_name`
         FROM `tbl_user`
         LEFT JOIN `tbl_subject_class_enrolment` ON `tbl_subject_class_enrolment`.`user_id_fk` = `tbl_user`.`id`
         LEFT JOIN `tbl_subject_class` ON `tbl_subject_class`.`subject_class_id` = `tbl_subject_class_enrolment`.`subject_class_id_fk`
-        WHERE `tbl_subject_class`.`subject_class_id` = ".$subject.";"));
+        WHERE `tbl_subject_class_enrolment`.`subject_class_id_fk` = ".$classId.";"));
 
         // $subTopics = DB::select( DB::raw("SELECT * FROM tbl_subtopic left join `tbl_topic` on `tbl_topic`.`topic_id` = `tbl_subtopic`.`topic_id_fk` WHERE `tbl_topic`.`subject_id_fk` = ".$subject.";"));
 
         foreach ($userLists as $key => $user) {
+            $data[$user->id]["user_id"] = $user->id;
             $data[$user->id]["username"] = $user->username;
+            $data[$user->id]["subject_class_id"] = $user->subject_class_id;
             $data[$user->id]["class_name"] = $user->class_name;
             $data[$user->id]["clear_topics"] = DB::select( DB::raw(
-                "SELECT count(`tbl_subtopic_attempt_log`.`subtopic_attempt_log_id`) as clear_topics FROM `tbl_subtopic_attempt_log` left join `tbl_subtopic` on `tbl_subtopic`.`subtopic_id` = `tbl_subtopic_attempt_log`.`subtopic_id_fk` left join `tbl_topic` on `tbl_topic`.`topic_id` = `tbl_subtopic`.`topic_id_fk` Where `tbl_subtopic_attempt_log`.`user_id_fk` = ".$user->id." AND `tbl_subtopic_attempt_log`.`no_of_star` > 0;"
+                "SELECT count(distinct(`tbl_topic`.`topic_id`)) as clear_topics FROM `tbl_subtopic_attempt_log` left join `tbl_subtopic` on `tbl_subtopic`.`subtopic_id` = `tbl_subtopic_attempt_log`.`subtopic_id_fk` left join `tbl_topic` on `tbl_topic`.`topic_id` = `tbl_subtopic`.`topic_id_fk` Where `tbl_subtopic_attempt_log`.`user_id_fk` = ".$user->id." AND `tbl_subtopic_attempt_log`.`no_of_star` > 0;"
             ) )[0]->clear_topics;
 
+            $data[$user->id]["num_of_attempts"] = DB::select( DB::raw(
+                "SELECT count(`tbl_subtopic_attempt_log`.`subtopic_attempt_log_id`) as num_of_attempts, SUM(`tbl_subtopic_attempt_log`.`score`) as `total_score`, SEC_TO_TIME(SUM(TIME_TO_SEC(`tbl_subtopic_attempt_log`.`duration`))) as duration, max(`tbl_subtopic_attempt_log`.`created_at`) as last_attempt_time FROM `tbl_subtopic_attempt_log` left join `tbl_subtopic` on `tbl_subtopic`.`subtopic_id` = `tbl_subtopic_attempt_log`.`subtopic_id_fk` left join `tbl_topic` on `tbl_topic`.`topic_id` = `tbl_subtopic`.`topic_id_fk` Where `tbl_subtopic_attempt_log`.`user_id_fk` = ".$user->id.";"
+            ) );
+
             $data[$user->id]["total_topics"] = DB::select( DB::raw(
-                "SELECT count(`tbl_subtopic_attempt_log`.`subtopic_attempt_log_id`) as total_topics, SUM(`tbl_subtopic_attempt_log`.`score`) as `total_score`, SEC_TO_TIME(SUM(TIME_TO_SEC(`tbl_subtopic_attempt_log`.`duration`))) as duration FROM `tbl_subtopic_attempt_log` left join `tbl_subtopic` on `tbl_subtopic`.`subtopic_id` = `tbl_subtopic_attempt_log`.`subtopic_id_fk` left join `tbl_topic` on `tbl_topic`.`topic_id` = `tbl_subtopic`.`topic_id_fk` Where `tbl_subtopic_attempt_log`.`user_id_fk` = ".$user->id.";"
+                "SELECT count(topic_id) as total_topics FROM `tbl_topic` WHERE `subject_id_fk` = ".$subject.";"
             ) );
         }
 

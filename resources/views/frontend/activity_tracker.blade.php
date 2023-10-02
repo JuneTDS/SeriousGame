@@ -35,7 +35,7 @@
                 <label>Have Logged In: </label> <span class="login_count" style="margin-left: 50px;">0</span>
                 <label style="margin-left: 90px;">Have Not Logged In: </label> <span class="not_login_count" style="margin-left: 50px;">0</span>
             </div>
-            <button class="activity_export">Export Raw Data</button>
+            <!-- <button class="activity_export">Export Raw Data</button> -->
         </div>
         <p class="initial-message">Select a subject from the dropdown menu to begin.</p>
         <div>

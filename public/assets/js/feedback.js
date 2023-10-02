@@ -3,8 +3,9 @@ class Feedback {
     constructor() {
         this.classDropdown = $("#class");
         this.topicDropdown = $("#topic");
-        this.topicTwoDropdown = $("#topic-two");
+        // this.topicTwoDropdown = $("#topic-two");
 
+        this.flexToDisplay = $(".flex-display");
         this.feedbackSection = $(".feedback-section.topic");
         this.generalFeedbackSection = $(".feedback-section.general");
     }
@@ -25,14 +26,14 @@ class Feedback {
 
     renderTopics(topics) {
         this.topicDropdown.find("option.can-remove").remove();
-        this.topicTwoDropdown.find("option.can-remove").remove();
+        // this.topicTwoDropdown.find("option.can-remove").remove();
         topics.forEach(topic => {
             this.topicDropdown.append(
                 `<option class="can-remove" value="${topic.topic_id}">${topic.topic_name}</option>`
             );
-            this.topicTwoDropdown.append(
-                `<option class="can-remove" value="${topic.topic_id}">${topic.topic_name}</option>`
-            );
+            // this.topicTwoDropdown.append(
+            //     `<option class="can-remove" value="${topic.topic_id}">${topic.topic_name}</option>`
+            // );
         });
     }
 
@@ -99,7 +100,11 @@ class Feedback {
                     </div>`
                 );
             });
+
+            this.flexToDisplay.css("display", "block");
+            this.generalFeedbackSection.show();
         } else {
+            this.flexToDisplay.css("display", "flex");
             $("p.no-data.general").show();
             this.generalFeedbackSection.hide();
         }
@@ -155,13 +160,13 @@ function findFeedback() {
     let _subject = $("#subject").val();
     let _class = $("#class").val();
     let _topic = $("#topic").val();
-    let _topicTwo = $("#topic-two").val();
+    // let _topicTwo = $("#topic-two").val();
 
     var formData = {
         subject: _subject,
         class: _class,
         topic: _topic,
-        topicTwo: _topicTwo,
+        // topicTwo: _topicTwo,
     };
     var type = "POST";
     var ajaxurl = '/user/getFeedbacks';

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;  //To interact with database
 use App\Models\User;    //Import the User model
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -22,6 +24,7 @@ class UserController extends Controller
         $selectedStatus = $request->input('statusDropdown');
         $selectedRoleName = $request->input('roleName');
         $selectedDate = $request->input('lastVisit');
+        $sortbyName = $request->input('sortbyName');
 
         // Query the user data based on the search keyword, status, and date
         $query = DB::table('tbl_user')
@@ -53,6 +56,10 @@ class UserController extends Controller
                 // Query the user data based on the range of timestamps
                 $query->whereBetween('tbl_user_profile.last_visit', [$startOfDay, $endOfDay]);
             }
+
+            if ($sortbyName !== '' && $sortbyName !== null) {
+                $query->orderBy('username', $sortbyName);
+            }
         }
 
         // Continue with sorting and retrieving the results
@@ -63,6 +70,7 @@ class UserController extends Controller
             'user' => $user,
             'searchKeyword' => $searchKeyword,
             'selectedStatus' => $selectedStatus,
+            'selectedRoleName' => $selectedRoleName,
             'selectedDate' => $selectedDate,
             'roleDescriptions' => $roleDescriptions,
         ]);
@@ -93,22 +101,25 @@ class UserController extends Controller
         // Extract data from the JSON request
         $username = $data['username'];
         $email = $data['email'];
-        $password_hash = bcrypt($data['password']); // Hash the password
+        $password_hash = Hash::make($data['password']); // Hash the password
         $status = $data['status'];
 
         $authKey        = Str::random(32);
         $createdAt      = Carbon::now()->timestamp;
 
+        // return "INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `created_at`, `updated_at`) VALUES ('$username','$email','$authKey','$password_hash', $status, 'Yes', $createdAt, $createdAt )";
+
         $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `created_at`, `updated_at`) VALUES ('$username','$email','$authKey','$password_hash', $status, 'Yes', $createdAt, $createdAt )") );
-        $user           = User::where('email', $email)->where('status', true)->first();
+        $user           = User::where('email', $email)->where('status', $status)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$username','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
 
         return response()->json(['success' => true]);
     }
 
-    public function changeUsersDashboardStatus($id)
+    public function changeUsersDashboardStatus(Request $request)
     {
+        $id = $request->input("id");
         // Retrieve the user's current status from the database
         $user = DB::table('tbl_user')->where('id', $id)->first();
         
@@ -121,10 +132,11 @@ class UserController extends Controller
         $newStatus = $user->status == 1 ? 0 : 1;
 
         // Update the user's status in the database
-        DB::table('tbl_user')->where('id', $id)->update(['status' => $newStatus]);
+        $data["result"] = DB::table('tbl_user')->where('id', $id)->update(['status' => $newStatus]);
 
+        return response()->json(array('data'=> $data), 200);
         // Reload the userDashboard
-        return $this->showUsersDashboard();
+        // return $this->showUsersDashboard();
     }
 
     // Function to display userInfo page
@@ -169,7 +181,7 @@ class UserController extends Controller
         try {
             // Delete the user and related records
             User::where('id', $id)->delete();   //Deleet user in the user table
-            UserProfile::where('user_id', $id)->delete();   // Delete the user profile
+            DB::table('tbl_user_profile')->where('user_id', $id)->delete();
             DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table
 
             // Commit the transaction

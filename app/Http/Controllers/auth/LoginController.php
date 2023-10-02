@@ -77,7 +77,7 @@ class LoginController extends Controller
             return '/admin/usersDashboard';
         } else if ($this->checkPermission->isStudent())
         {
-            return '/home';
+            return '/frontend/classes';
         }
     }
 }

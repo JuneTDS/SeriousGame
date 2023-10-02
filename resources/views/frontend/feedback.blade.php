@@ -38,7 +38,7 @@
         <label for="tab2">General</label>
 
         
-        <div class="tab__content">
+        <div class="tab__content" style="display: flex;flex-direction: column;">
             <div class="search-section inside-form">
                 <div class="flex-box flex-column">
                     <label>Topic</label>
@@ -47,7 +47,7 @@
                     </select>
                 </div>
             </div>
-            <div>
+            <div style="margin: auto 0;">
                 <p class="no-data topic">No feedback available.</p>
                 <div class="feedback-section topic">
                     <h4>Feedback Questions</h4>
@@ -64,16 +64,16 @@
             </div>
         </div>
 
-        <div class="tab__content">
-            <div class="search-section inside-form">
+        <div class="tab__content flex-display" style="display: flex">
+            <!-- <div class="search-section inside-form">
                 <div class="flex-box flex-column">
                     <label>Topic</label>
                     <select name="topic" id="topic-two">
                         <option value="" disabled="disabled" selected="true">Select a topic</option>
                     </select>
                 </div>
-            </div>
-            <div>
+            </div> -->
+            <div style="margin: auto;">
                 <p class="no-data general">No feedback available.</p>
                 <div class="feedback-section general">
                     <h4>Feedback Questions</h4>

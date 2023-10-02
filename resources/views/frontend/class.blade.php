@@ -34,7 +34,7 @@
         <label for="tab1">Summary</label>
 
         <input type="radio" id="tab2" name="tabGroup1" class="tab">
-        <label for="tab2">Leadership</label>
+        <label for="tab2">Leaderboard</label>
 
         <input type="radio" id="tab3" name="tabGroup1" class="tab">
         <label for="tab3">Scatter</label>

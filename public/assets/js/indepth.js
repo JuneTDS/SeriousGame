@@ -10,17 +10,22 @@ class Indepth {
 
         this.statsticTable = $(".statstic_table tbody");
 
+        this.exportTable = $(".export_table tbody");
+
         this.data = data;
     }
 
     init() {
 
-        let data = this.getData(this.data);
+        if (this.data.is_exist) {
 
-        console.log("after filter", data);
+            let data = this.getData(this.data);
 
-        if (data.is_exist) {
+            // console.log("after filter", data);
+
             this.initialMessage.hide();
+
+            this.title.find("h3").text(`Activity Tracking for ${$("#class option:selected").text()}`);
             this.title.show();
 
             let loop = 1;
@@ -101,15 +106,35 @@ class Indepth {
             this.statsticTable.find("tr").remove();
             Object.keys(data.statstic).forEach(key => {
                 let statstic = data.statstic[key];
+                let log = data.logs[key];
+
                 this.statsticTable.append(`<tr class="${(loop % 2 == 0) ? "even": "odd"}">
                     <td>${ statstic.username }</td>
                     <td>${ statstic.class_name }</td>
-                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].duration != null) ? statstic.total_topics[0].duration : "N/A" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].duration != null) ? statstic.num_of_attempts[0].duration : "N/A" }</td>
                     <td>${ statstic.clear_topics }</td>
                     <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_topics != null) ? statstic.total_topics[0].total_topics : "N/A" }</td>
-                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_score != null) ? statstic.total_topics[0].total_score : "N/A" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].total_score != null) ? statstic.num_of_attempts[0].total_score : "N/A" }</td>
                     <td>${ (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) ? "Completed" : "Incomplete" }</td>
                 </tr>`);
+
+                
+                this.exportTable.append(`<tr class="${(loop % 2 == 0) ? "even": "odd"}">
+                    <td>${ statstic.user_id }</td>
+                    <td>${ "no" }</td>
+                    <td>${ statstic.username }</td>
+                    <td>${ statstic.subject_class_id }</td>
+                    <td>${ statstic.class_name }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].total_score != null) ? statstic.num_of_attempts[0].total_score : "N/A" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].duration != null) ? statstic.num_of_attempts[0].duration : "N/A" }</td>
+                    <td>${ statstic.clear_topics }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_topics != null) ? statstic.total_topics[0].total_topics : "N/A" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].num_of_attempts != null) ? statstic.num_of_attempts[0].num_of_attempts : "N/A" }</td>
+                    <td>${ (typeof log != "undefined") ? log.login_count : "N/A" }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) ? "Completed" : "Incomplete" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].last_attempt_time != null) ? statstic.num_of_attempts[0].last_attempt_time : "N/A" }</td>
+                </tr>`);
+
                 if (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) {
                     completeCount++;
                 } else {
@@ -186,38 +211,36 @@ class Indepth {
     }
 
     initSlider() {
-        let data = this.data;
-        let maxLogCount = 0;
-        let maxTopicClear = 0;
-        let maxScore = 0;
+        if (this.data.is_exist) {
+            let data = this.data;
+            let maxLogCount = 0;
+            let maxTopicClear = 0;
+            let maxScore = 0;
 
-        Object.keys(data.logs).forEach(key => {
-            let log = data.logs[key];
-            
-            if (log.login_count > maxLogCount) {
-                maxLogCount = log.login_count;
-            }
-        });
+            Object.keys(data.logs).forEach(key => {
+                let log = data.logs[key];
+                
+                if (log.login_count > maxLogCount) {
+                    maxLogCount = log.login_count;
+                }
+            });
 
-        Object.keys(data.statstic).forEach(key => {
-            let statstic = data.statstic[key];
-            
-            if (statstic.clear_topics > maxTopicClear) {
-                maxTopicClear = statstic.clear_topics;
-            }
+            Object.keys(data.statstic).forEach(key => {
+                let statstic = data.statstic[key];
+                
+                if (statstic.clear_topics > maxTopicClear) {
+                    maxTopicClear = statstic.clear_topics;
+                }
 
-            if (statstic.total_topics.length > 0 && parseInt(statstic.total_topics[0].total_score) > maxScore) {
-                maxScore = parseInt(statstic.total_topics[0].total_score);
-            }
-        });
+                if (statstic.total_topics.length > 0 && parseInt(statstic.total_topics[0].total_score) > maxScore) {
+                    maxScore = parseInt(statstic.total_topics[0].total_score);
+                }
+            });
 
-        console.log("maxLogCount", maxLogCount);
-        console.log("maxTopicClear", maxTopicClear);
-        console.log("maxScore", maxScore);
-
-        $("#log_range").attr("max", maxLogCount);
-        $("#topic_range").attr("max", maxTopicClear);
-        $("#score_range").attr("max", maxScore);
+            $("#log_range").attr("max", maxLogCount);
+            $("#topic_range").attr("max", maxTopicClear);
+            $("#score_range").attr("max", maxScore);
+        }
     }
 
     getData(data) {
@@ -352,9 +375,17 @@ class Indepth {
     }
 
     export() {
-        let table = $(".statstic_table");
+        const date = new Date();
+
+        let day = (date.getDate() < 10) ? "0"+date.getDate() : date.getDate();
+        let month = ((date.getMonth() + 1) < 10) ? "0"+(date.getMonth() + 1) : date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        // This arrangement can be altered based on how we want the date's format to appear.
+        let currentDate = `${day}-${month}-${year}`;
+        let table = $(".export_table");
         TableToExcel.convert(table[0], {
-            name: `indepth.xlsx`,
+            name: `Data for Logic and Mathematics (LOMA) - ${currentDate}.xlsx`,
             sheet: {
                 name: 'Indepth'
             }

@@ -127,6 +127,29 @@
                         
                     </tbody>
                 </table>
+
+                <table class="table export_table" style="display: none;">
+                    <thead>
+                        <tr>	
+                            <th>userId</th>
+                            <th>admin_no</th>
+                            <th>first_name</th>
+                            <th>subject_class_id</th>
+                            <th>class_name</th>
+                            <th>score</th>
+                            <th>time_taken</th>
+                            <th>topicsCleared</th>
+                            <th>totalTopics</th>
+                            <th>num_of_attempts</th>
+                            <th>log</th>
+                            <th>completionStatus</th>
+                            <th>last_attempt_time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
