@@ -116,15 +116,15 @@
 
         <!-- start table -->
         <div class="table-container">
-            <table class="table">
+            <table class="table" id="middleTable">
                 <thead style="background-color: #CFDDE4;color:#45494C">
                     <tr>                        
                         <th>S/N</th>
-                        <th class="th-normal-text">Username</th>
-                        <th class="th-normal-text">Email Address</th>
-                        <th class="th-normal-text">Status</th>
-                        <th class="th-normal-text">User Role Name</th>
-                        <th class="th-normal-text">Last Visit</th>
+                        <th class="normal-text">Username</th>
+                        <th class="normal-text">Email Address</th>
+                        <th class="normal-text">Status</th>
+                        <th class="normal-text">User Role Name</th>
+                        <th class="normal-text">Last Visit</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -220,6 +220,7 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
+<link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->

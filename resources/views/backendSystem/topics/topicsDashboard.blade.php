@@ -2,12 +2,15 @@
 
 @section('content')
 
-<div class="container custom-container">
+<a href="/admin/subjectsDashboard" style="margin-left: 5%;">
+    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Subjects</p>
+</a>
 
+<div class="container custom-container">
     <div class="header-row">
-        <div class="left"><h3>Manage Subjects</h3></div>
+        <div class="left"><h3>Manage Topics</h3></div>
         <div class="right" >
-            <button type="button" id="open-popup-btn" class="btn btn-outline-dark">Create New Subject</button>
+            <button type="button" id="open-popup-btn" class="btn btn-outline-dark">Create New Topic</button>
         </div>
     </div>
 
@@ -16,12 +19,35 @@
 
     <!-- Popup Form -->
     <div id="popup-form" class="popup-form">
-        <h3 class="mb-4">Create New Subject</h3>
+        <h3 class="mb-4">Create New Topic</h3>
+        <div class="mb-4">
+            <label for="topic" class="form-label">Topic Name*</label>
+            <input type="text" class="form-control" id="topic" required>
+        </div>
         <div class="mb-4">
             <label for="subject" class="form-label">Subject Name*</label>
             <input type="text" class="form-control" id="subject" required>
         </div>
-        <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create Subject</button>
+        <label class="form-label">Expected time to complete the topic</label>
+        <div class="row mb-4">
+            <div class="col">
+                <select class="form-select" id="hour-dropdown">
+                    <option value="00">0 Hour</option>
+                    <option value="01">01 Hour</option>
+                    <option value="02">02 Hour</option>
+                    <option value="23">23 Hour</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select" id="minute-dropdown">
+                    <option value="00">0 Minute</option>
+                    <option value="05">05 Minute</option>
+                    <option value="10">10 Minute</option>
+                    <option value="55">55 Minute</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create Topic</button>
     </div>
 
     <!-- Create_Success_popup -->
@@ -30,15 +56,38 @@
             <div class="warning-icon">
                 <i class="fa fa-check" ></i>
             </div>
-            <p class="text-center" style="padding-top:50px">A new subject has been created.</p>
+            <p class="text-center" style="padding-top:50px">A new topic has been created.</p>
         </div>
     </div>
 
     <div id="popup-form-update" class="popup-form">
-        <h3 class="mb-4">Edit Subject</h3>
+        <h3 class="mb-4">Edit Topic</h3>
+        <div class="mb-4">
+            <label for="topic-update" class="form-label">Topic Name*</label>
+            <input type="text" class="form-control" id="topic-update" required>
+        </div>
         <div class="mb-4">
             <label for="subject-update" class="form-label">Subject Name*</label>
             <input type="text" class="form-control" id="subject-update" required>
+        </div>
+        <label class="form-label">Expected time to complete the topic</label>
+        <div class="row mb-4">
+            <div class="col">
+                <select class="form-select" id="hour-dropdown">
+                    <option value="00">0 Hour</option>
+                    <option value="01">01 Hour</option>
+                    <option value="02">02 Hour</option>
+                    <option value="23">23 Hour</option>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-select" id="minute-dropdown">
+                    <option value="00">0 Minute</option>
+                    <option value="05">05 Minute</option>
+                    <option value="10">10 Minute</option>
+                    <option value="55">55 Minute</option>
+                </select>
+            </div>
         </div>
         <button type="button" class="btn btn-dark" id="update-btn" style="width: 526px">Save Changes</button>
     </div>
@@ -53,23 +102,26 @@
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <p class="text-center">Changes have been saved successfully.</p>
         </div>
-    </div>
+    </div> 
 
+    <!--  //row star -->
     <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
         <div class="col-4" style="float: left;padding-top:41px">
-            <input type="text" class="form-control input-field" id="subjectname" name="username" placeholder="Search by subject name">
-        </div>
-        <div class="col-2" style="text-align: right; padding-top: 42px;">
-            <p>Filter By</p>
-        </div>
-        <div class="col-2">
-            <p>Published</p>
-            <select class="form-select dropdown" id="dropdown1" name="dropdown1">
-                <option value="option1">All</option>
+            <select class="form-select dropdown" id="dropdown2" name="dropdown2">
+                <option value="option1">Logic and Mathematics (LOMA)</option>
                 <option value="option2">Option 2</option>
                 <option value="option3">Option 3</option>
             </select>
         </div>
+
+        <div class="col-3" style="float: left;padding-top:41px">
+            <input type="text" class="form-control input-field" id="subjectname" name="username" placeholder="Search by topic name">
+        </div>
+
+        <div class="col-1" style="text-align: right; padding-top: 42px;">
+            <p>Filter By</p>
+        </div>
+
         <div class="col-2">
             <p>Updated By</p>
             <select class="form-select dropdown" id="dropdown2" name="dropdown2">
@@ -78,6 +130,7 @@
                 <option value="option3">Option 3</option>
             </select>
         </div>
+
         <div class="col-2">
             <p>Updated On</p>
             <input type="date" class="form-control input-field" id="datePicker" name="datePicker">
@@ -89,8 +142,8 @@
             <thead style="background-color: #CFDDE4;color:#45494C">
                 <tr>
                     <th>S/N</th>
-                    <th>Subject Name</th>
-                    <th>Published</th>
+                    <th>SubjectName</th>
+                    <th>Topic Name</th>
                     <th>Updated On</th>
                     <th>Updated By</th>
                     <th></th>
@@ -98,48 +151,20 @@
                 </tr>
             </thead>
             <tbody style="background-color: #Neutral/50;">
-                @foreach ($subjects as $index => $subjectData)
+                @foreach ($topics as $index => $topicData)
                 <tr style="color:#737B7F" data-subject-id="1">
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $subjectData->subject_name }}</td>
-                    <td style="font-weight: bold">
-                        <a href="#" class="status-toggle" data-id="{{ $subjectData->subject_id }}" data-status="{{ $subjectData->published }}" style="text-decoration: none;">
-                            @php
-                                $publishText = '';
-                                $publishClass = ''; // Provide a default value
-                                switch ($subjectData->published) {
-                                    case '0':
-                                        $publishText = 'Not Published';
-                                        $publishClass = 'notPublished';
-                                        break;
-                                    case '1':
-                                        $publishText = 'Published';
-                                        $publishClass = 'Published';
-                                        break;
-                                    default:
-                                        $publishText = 'Unknown';
-                                        break;
-                                }
-                            @endphp
-                            <span class="{{ $publishClass }}">{{ $publishText }}</span>
-                        </a>
-                    </td>
-                    <td>{{ date('M d, Y, h:i:s A', strtotime($subjectData->updated_at)) }}</td>
-                    <td>{{ $subjectData->updated_by_username }}</td>
+                    <td>{{ $topicData->subject_name }}</td>>
+                    <td>{{ $topicData->topic_name }}</td>
+                    <td>{{ date('M d, Y, h:i:s A', $topicData->updated_at) }}</td>
+                    <td>{{ $topicData->updated_by_username }}</td>>
                     <td>
                         <div class="icon-container">
-                            <a href="{{ url('/admin/subjectInfo/' . $subjectData->subject_id) }}">
-                                <i class="fa fa-eye"></i>
-                            </a>
                             <i class="fa fa-pen edit-icon" onclick="showUpdateSubjectPopup(${subjectId})"></i>
                             <i class="fa fa-trash"></i>
                         </div>
                     </td>
-                    <td>
-                        <a href="{{ url('/admin/topicsDashboard/' . $subjectData->subject_id) }}">
-                            <button class="btn btn-outline-dark custom-btn-outline-dark">Manage Topics</button>
-                        </a>
-                    </td>
+                    <td><button class="btn btn-outline-dark custom-btn-outline-dark">Manage Subtopics</button></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -184,16 +209,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Javascript to handle published change (Start)
-    $('.status-toggle').on('click', function(e) {
-        e.preventDefault();
-        var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
-        
-        // Send a POST request to update the user's status without expecting a response
-        $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
-    });
-    // Javascript to handle status change (End)
-
     // Javascript to call function immediately when filter change (Start)
     $('.input-field, .dropdown').on('change', function () {
         $('form#filter-form').submit();

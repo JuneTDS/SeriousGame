@@ -131,7 +131,14 @@ class UserController extends Controller
     public function showUserInfo($id)
     {
         $userData = DB::table('tbl_user')
-            ->select('tbl_user.*', 'tbl_user_profile.last_visit', 'tbl_auth_item.description')
+            ->select(
+                'tbl_user.*',
+                'tbl_user_profile.last_visit',
+                'tbl_auth_item.description',
+                'tbl_user_profile.first_name',
+                'tbl_user_profile.last_name',
+                'tbl_user_profile.email_gravatar'
+            )
             ->leftJoin('tbl_user_profile', 'tbl_user.id', '=', 'tbl_user_profile.user_id')
             ->leftJoin('tbl_auth_assignment', 'tbl_user.id', '=', 'tbl_auth_assignment.user_id')
             ->leftJoin('tbl_auth_item', 'tbl_auth_assignment.item_name', '=', 'tbl_auth_item.name')
@@ -145,10 +152,15 @@ class UserController extends Controller
     public function showUserEdit($id)
     {
         $userData = DB::table('tbl_user')
-            ->select('tbl_user.*', 'tbl_user_profile.last_visit', 'tbl_auth_item.description')
+            ->select(
+                'tbl_user.*',
+                'tbl_user_profile.last_visit',
+                'tbl_user_profile.first_name',
+                'tbl_user_profile.last_name',
+                'tbl_user_profile.email_gravatar'
+            )
             ->leftJoin('tbl_user_profile', 'tbl_user.id', '=', 'tbl_user_profile.user_id')
             ->leftJoin('tbl_auth_assignment', 'tbl_user.id', '=', 'tbl_auth_assignment.user_id')
-            ->leftJoin('tbl_auth_item', 'tbl_auth_assignment.item_name', '=', 'tbl_auth_item.name')
             ->where('tbl_user.id', '=', $id)    // Retrieve the specific user's data based on the ID
             ->first();
     

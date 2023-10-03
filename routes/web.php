@@ -102,18 +102,36 @@ Route::group(['middleware' => ['auth']], function() {
 
     //RBAC Permissions Dashboard
     Route::get('/admin/rbac_PermissionsDashboard', [RBAC_PermissionsController::class, 'showRBAC_PermissionsDashboard']);
+    //View Permission Action Button
+    Route::get('/admin/permissionInfo/{name}', [RBAC_PermissionsController::class, 'showPermissionInfo']);
+    //Edit Permission Action Button
+    Route::get('/admin/permissionEdit/{name}', [RBAC_PermissionsController::class, 'showPermissionEdit']);
 
 
     //RBAC Roles Dashboard
     Route::get('/admin/rbac_RolesDashboard', [RBAC_RolesController::class, 'showRBAC_RolesDashboard']);
+    //View Permission Action Button
+    Route::get('/admin/roleInfo/{name}', [RBAC_RolesController::class, 'showRoleInfo']);
+    //Edit Permission Action Button
+    Route::get('/admin/roleEdit/{name}', [RBAC_RolesController::class, 'showRoleEdit']);
 
 
     //RBAC Access Right Dashboard
     Route::get('/admin/rbac_AccessRightsDashboard', [RBAC_AccessRightsController::class, 'showRBAC_AccessRightsDashboard']);
+    //View Assign Action Button
+    Route::get('/admin/assignRightInfo/{id}', [RBAC_AccessRightsController::class, 'showAccessRightInfo']);
+    //Edit Assign Action Button
+    Route::get('/admin/assignRightEdit/{id}', [RBAC_AccessRightsController::class, 'showaccessRightEdit']);
 
 
     //Subjects Dashboard
     Route::get('/admin/subjectsDashboard', [SubjectsController::class, 'showSubjectsDashboard']);
+    //View subject Action Button
+    Route::get('/admin/subjectInfo/{id}', [SubjectsController::class, 'showSubjectInfo']);
+    
+    
+    //Topics Dashboard
+    Route::get('/admin/topicsDashboard/{id}', [SubjectsController::class, 'showTopicsDashboard']);
 
 
     //Subject Enrollments Dashboard
