@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="/assets/css/common.css">
     <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
     <script src="/assets/js/jquery-3.7.1.min.js"></script>
@@ -20,7 +21,7 @@
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar">
                 <div class="text-white min-vh-100" style="width: 100%;">
                     <a href="#" class="d-flex align-items-center justify-content-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <img src="../assets/images/wannabee_logo.svg" alt="Your Logo" class="navbar-logo">
+                        <img src="../../assets/images/wannabee_logo_menu.svg" alt="Your Logo" class="navbar-logo">
                     </a>
                     <div class="divider"></div>
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu" style="padding-left: 20px; padding-right: 20px;">

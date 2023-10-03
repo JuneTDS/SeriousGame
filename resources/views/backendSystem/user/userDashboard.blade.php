@@ -118,7 +118,7 @@
 
         <!-- start table -->
         <div class="table-container">
-            <table class="table">
+            <table class="table" id="middleTable">
                 <thead style="background-color: #CFDDE4;color:#45494C">
                     <tr>                        
                         <th>S/N</th>
@@ -224,6 +224,7 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
+<link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
