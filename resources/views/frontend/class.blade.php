@@ -9,6 +9,7 @@
         <div class="flex-box flex-column">
             <label>Subject</label>
             <select name="subject" id="subject">
+                <option value="" selected disabled>Select a subject</option>
                 @foreach($data["classes"] as $key => $class)
                     <option value="{{ $class->subject_id }}">{{ $class->subject_name }}</option>
                 @endforeach

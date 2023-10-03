@@ -125,14 +125,14 @@ class Indepth {
                     <td>${ statstic.username }</td>
                     <td>${ statstic.subject_class_id }</td>
                     <td>${ statstic.class_name }</td>
-                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].total_score != null) ? statstic.num_of_attempts[0].total_score : "N/A" }</td>
-                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].duration != null) ? statstic.num_of_attempts[0].duration : "N/A" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].total_score != null) ? statstic.num_of_attempts[0].total_score : "0" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].duration != null) ? statstic.num_of_attempts[0].duration : "0" }</td>
                     <td>${ statstic.clear_topics }</td>
-                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_topics != null) ? statstic.total_topics[0].total_topics : "N/A" }</td>
-                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].num_of_attempts != null) ? statstic.num_of_attempts[0].num_of_attempts : "N/A" }</td>
-                    <td>${ (typeof log != "undefined") ? log.login_count : "N/A" }</td>
+                    <td>${ (statstic.total_topics.length > 0 && statstic.total_topics[0].total_topics != null) ? statstic.total_topics[0].total_topics : "0" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].num_of_attempts != null) ? statstic.num_of_attempts[0].num_of_attempts : "0" }</td>
+                    <td>${ (typeof log != "undefined") ? log.login_count : "0" }</td>
                     <td>${ (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) ? "Completed" : "Incomplete" }</td>
-                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].last_attempt_time != null) ? statstic.num_of_attempts[0].last_attempt_time : "N/A" }</td>
+                    <td>${ (statstic.num_of_attempts.length > 0 && statstic.num_of_attempts[0].last_attempt_time != null) ? statstic.num_of_attempts[0].last_attempt_time : "0" }</td>
                 </tr>`);
 
                 if (statstic.total_topics.length > 0 && statstic.clear_topics == statstic.total_topics[0].total_topics && statstic.total_topics[0].total_topics > 0) {

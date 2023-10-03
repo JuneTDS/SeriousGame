@@ -129,7 +129,24 @@ class UserController extends Controller
         }
 
         // Calculate the new status based on the current status
-        $newStatus = $user->status == 1 ? 0 : 1;
+        // $newStatus = $user->status == 3 ? 0 : 1;
+        switch ($user->status) {
+            case 3:
+                $newStatus = 2;
+                break;
+            case 2:
+                $newStatus = 1;
+                break;
+            case 1:
+                $newStatus = 0;
+                break;
+            case 0:
+                $newStatus = 1;
+                break;
+            default:
+                $newStatus = 1;
+                break;
+        }
 
         // Update the user's status in the database
         $data["result"] = DB::table('tbl_user')->where('id', $id)->update(['status' => $newStatus]);

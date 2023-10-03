@@ -156,9 +156,11 @@
                                             break;
                                         case '2':
                                             $statusText = 'Wait';
+                                            $statusClass = 'statusWait';
                                             break;
                                         case '3':
                                             $statusText = 'Deleted';
+                                            $statusClass = 'statusDeleted';
                                             break;
                                         default:
                                             $statusText = 'Unknown';
@@ -268,8 +270,15 @@
                     if (data.data.result) {
                         if (anchorEl.find("span.statusBlocked").length > 0) {
                             anchorEl.html(`<span class="statusActive">Active</span>`);
-                        } else {
+                        } else
+                        if (anchorEl.find("span.statusActive").length > 0) {
                             anchorEl.html(`<span class="statusBlocked">Blocked</span>`);
+                        } else
+                        if (anchorEl.find("span.statusDeleted").length > 0) {
+                            anchorEl.html(`<span class="statusWait">Wait</span>`);
+                        } else
+                        if (anchorEl.find("span.statusWait").length > 0) {
+                            anchorEl.html(`<span class="statusActive">Active</span>`);
                         }
                     } else {
                         console.log("Status change was fail.");
