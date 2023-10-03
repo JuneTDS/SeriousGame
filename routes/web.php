@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth']], function() {
     //User create
     Route::post('/admin/createUser', [UserController::class, 'createUser']);
     //User Status Change
-    Route::post('/admin/usersDashboardStatus/{id}', [UserController::class, 'changeUsersDashboardStatus']);
+    Route::post('/admin/usersDashboardStatus', [UserController::class, 'changeUsersDashboardStatus']);
     //View User Action Button
     Route::get('/admin/userInfo/{id}', [UserController::class, 'showUserInfo']);
     //Edit User Action Button

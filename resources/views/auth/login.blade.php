@@ -43,7 +43,7 @@
         
 
         <div style="margin-top: 80px;">
-            <label for="" class="text-center">Logging in as a student? <a href="/classcode" style="text-decoration: none;">Click Here</a></label>
+            <label for="" class="text-center">Logging in as a student? <a href="/classcode" style="text-decoration: none;display: contents;">Click Here</a></label>
         </div>
     </div>
 </div>

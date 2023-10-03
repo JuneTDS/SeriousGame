@@ -12,20 +12,22 @@ class Activity {
     init(data){
         console.log(data);
 
-        if (data.loginCount.length > 0) {
-            $(".login_count").text(data.loginCount[0].count);
-        }
-        if (data.noLoginCount.length > 0) {
-            $(".not_login_count").text(data.noLoginCount[0].count);
-        }
-
         if (data.is_exist) {
             this.initialMessage.hide();
+
+            this.title.text(`Activity Tracking for ${$("#class option:selected").text()}`);
             this.title.show();
             
             this.form.css("display", "block");
 
             const keys = Object.keys(data.logs);
+
+            if (data.loginCount.length > 0) {
+                $(".login_count").text(data.loginCount[0].count);
+            }
+            if (data.noLoginCount.length > 0) {
+                $(".not_login_count").text(data.noLoginCount[0].count);
+            }
 
             let loop = 1;
             keys.forEach((key, index) => {

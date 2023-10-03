@@ -53,16 +53,20 @@ class FeedbackController extends Controller
                 $conditionTopic = "`topic_id_fk` = ".$topic;
             }
         }
-        if ($topicTwo != "") {
-            if ($conditionGeneral != "") {
-                $conditionGeneral .= " AND `topic_id_fk` = ".$topicTwo;
-            } else {
-                $conditionGeneral = "`topic_id_fk` = ".$topicTwo;
-            }
-        }
+
+        // there is no topic id in general feedback table
+        // if ($topicTwo != "") {
+        //     if ($conditionGeneral != "") {
+        //         $conditionGeneral .= " AND `topic_id_fk` = ".$topicTwo;
+        //     } else {
+        //         $conditionGeneral = "`topic_id_fk` = ".$topicTwo;
+        //     }
+        // }
 
         $data["feedbacks"] = DB::select( DB::raw("SELECT * FROM `tbl_topic_feedback` left join `tbl_feedback_question` on `tbl_feedback_question`.`feedback_question_id` = `tbl_topic_feedback`.`feedback_question_id_fk` WHERE ".$conditionTopic." AND `tbl_feedback_question`.`feedback_type` = 'topic';") );
-        $data["generalFeedbacks"] = DB::select( DB::raw("SELECT * FROM `tbl_topic_feedback` left join `tbl_feedback_question` on `tbl_feedback_question`.`feedback_question_id` = `tbl_topic_feedback`.`feedback_question_id_fk` WHERE ".$conditionGeneral." AND `tbl_feedback_question`.`feedback_type` = 'general';") );
+        $data["feedbackSql"] = "SELECT * FROM `tbl_topic_feedback` left join `tbl_feedback_question` on `tbl_feedback_question`.`feedback_question_id` = `tbl_topic_feedback`.`feedback_question_id_fk` WHERE ".$conditionTopic." AND `tbl_feedback_question`.`feedback_type` = 'topic';";
+        $data["generalFeedbacks"] = DB::select( DB::raw("SELECT * FROM `tbl_general_feedback` left join `tbl_feedback_question` on `tbl_feedback_question`.`feedback_question_id` = `tbl_general_feedback`.`feedback_question_id_fk` WHERE ".$conditionGeneral." AND `tbl_feedback_question`.`feedback_type` = 'general';") );
+        $data["generalFeedbackSql"] = "SELECT * FROM `tbl_general_feedback` left join `tbl_feedback_question` on `tbl_feedback_question`.`feedback_question_id` = `tbl_general_feedback`.`feedback_question_id_fk` WHERE ".$conditionGeneral." AND `tbl_feedback_question`.`feedback_type` = 'general';";
 
         return response()->json(array('data'=> $data), 200);
     }

@@ -100,7 +100,7 @@
                         <select class="form-select dropdown" id="roleName" name="roleName">
                             <option value="All">All</option>
                             @foreach ($roleDescriptions as $roleDescription)
-                                <option value="{{ $roleDescription }}">{{ $roleDescription }}</option>
+                                <option value="{{ $roleDescription }}" {{ $roleDescription === $selectedRoleName ? 'selected' : '' }}>{{ $roleDescription }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -109,6 +109,8 @@
                         <p>Last Visit</p>
                         <input type="date" class="form-control input-field" id="lastVisit" name="lastVisit">
                     </div>
+
+                    <input type="hidden" id="sortbyName" name="sortbyName" value="">
                 </div>
             </form>
         </div>
@@ -120,11 +122,11 @@
                 <thead style="background-color: #CFDDE4;color:#45494C">
                     <tr>                        
                         <th>S/N</th>
-                        <th class="normal-text">Username</th>
-                        <th class="normal-text">Email Address</th>
-                        <th class="normal-text">Status</th>
-                        <th class="normal-text">User Role Name</th>
-                        <th class="normal-text">Last Visit</th>
+                        <th class="th-normal-text sortable" data-column="username">Username</th>
+                        <th class="th-normal-text">Email Address</th>
+                        <th class="th-normal-text">Status</th>
+                        <th class="th-normal-text">User Role Name</th>
+                        <th class="th-normal-text">Last Visit</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -226,23 +228,88 @@
 <!-- Javascript for User Page Popup -->
 <script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Javascript to handle status change (Start)
-    $('.status-toggle').on('click', function(e) {
-        e.preventDefault();
-        var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
-        
-        // Send a POST request to update the user's status without expecting a response
-        $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
-    });
-    // Javascript to handle status change (End)
+    $(document).ready(function() {
+        // let sortByName = getUrlParameter("sortbyName");
+        // console.log(sortByName);
+        if (!getUrlParameter("sortbyName")) {
+            $("#sortbyName").val("asc");
+        } else {
+            $("#sortbyName").val(getUrlParameter("sortbyName"));
+        }
 
-    // Javascript to call function immediately when filter change (Start)
-    $('.input-field, .dropdown').on('change', function () {
-        $('form#filter-form').submit();
+        if (getUrlParameter("sortbyName") !== false) {
+            $("#sortbyName").val("asc");
+        }
+
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        console.log(_token);
+
+        // Javascript to handle status change (Start)
+        $('.status-toggle').on('click', function(e) {
+            e.preventDefault();
+            var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
+            
+            // Send a POST request to update the user's status without expecting a response
+            // $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
+            let anchorEl = $(this);
+
+            var formData = {
+                "id": userId,
+                _token: _token,
+            };
+            var type = "POST";
+            var ajaxurl = '/admin/usersDashboardStatus/';
+            $.ajax({
+                type: type,
+                url: ajaxurl,
+                data: formData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.data.result) {
+                        if (anchorEl.find("span.statusBlocked").length > 0) {
+                            anchorEl.html(`<span class="statusActive">Active</span>`);
+                        } else {
+                            anchorEl.html(`<span class="statusBlocked">Blocked</span>`);
+                        }
+                    } else {
+                        console.log("Status change was fail.");
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+        // Javascript to handle status change (End)
+
+        // Javascript to call function immediately when filter change (Start)
+        $('.dropdown').on('change', function () {
+            $('form#filter-form').submit();
+        });
+
+        $('.input-field').on('keydown', function () {
+            $('form#filter-form').submit();
+        });
+
+        $('.input-field').on('keyup', function () {
+            $('form#filter-form').submit();
+        });
+
+        $(document).on("click", ".sortable", function(e) {
+            e.preventDefault();
+            if ($(this).attr("data-column") == "username") {
+                if($("#sortbyName").val() == "asc") {
+                    $("#sortbyName").val("desc");
+                } else {
+                    $("#sortbyName").val("asc");
+                }
+            }
+
+            $('form#filter-form').submit();
+        });
+        // Javascript to call function immediately when filter change (Start)
     });
-    // Javascript to call function immediately when filter change (Start)
 </script>
 
 @endsection

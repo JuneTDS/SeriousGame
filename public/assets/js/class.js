@@ -24,29 +24,30 @@ class Class {
             this.graphSection.css('display', 'flex');
             this.form.css('display', 'block');
 
-            let categories = [];
-            let seriesSpace = [];
-            let seriesData = [];
+            let categories = ['Score'];
+            let seriesData = 0;
             let maxValue = 0;
+            let totalLength = data.calculation.length;
 
             (data.calculation).forEach((value, key) => {
                 if (maxValue < value.score) {
                     maxValue = value.score;
                 }
+                seriesData = seriesData + value.score;
             });
             
-            (data.calculation).forEach((value, key) => {
-                categories[key] = value.subtopic_name;
-                seriesSpace[key] = 0;
-                seriesData[key] = value.score;
-            });
+            // (data.calculation).forEach((value, key) => {
+            //     categories[key] = value.subtopic_name;
+            //     seriesSpace[key] = 0;
+            //     seriesData[key] = value.score;
+            // });
 
             Highcharts.chart('bar', {
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'Average score of each topic for all classes',
+                    text: 'Average score of class',
                     align: 'center'
                 },
                 xAxis: {
@@ -78,8 +79,8 @@ class Class {
                 },
                 series: [
                     {
-                        name: 'Average Time',
-                        data: seriesData,
+                        name: 'Average Score',
+                        data: [seriesData / totalLength],
                         color: "#16E7CF"
                     }
                 ]
@@ -88,7 +89,7 @@ class Class {
             Highcharts.chart('line', {
 
                 title: {
-                    text: 'Average time taken to clear each topic',
+                    text: 'Average time taken of class',
                     align: 'center'
                 },
                 yAxis: {
@@ -113,7 +114,7 @@ class Class {
                 },
                 series: [{
                     name: 'Average Time',
-                    data: seriesData
+                    data: [seriesData / totalLength]
                 }],
                 responsive: {
                     rules: [{
@@ -136,7 +137,7 @@ class Class {
     renderLeaderboard(data) {
         let loop = 1;
         (data).forEach((value, key) => {
-            this.leadershipTable.append(`<tr class="${loop / 2 == 0 ? "even": "odd"}">
+            this.leadershipTable.append(`<tr class="${loop % 2 == 0 ? "even": "odd"}">
                 <td>${key + 1}</td>
                 <td>${ value.username }</td>
                 <td>${ value.score }</td>

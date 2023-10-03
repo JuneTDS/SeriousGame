@@ -82,9 +82,11 @@ document.getElementById('create-btn').addEventListener('click', function() {
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
     var status = document.getElementById('status').value;
-
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    
     // Create a data object to send to the server
     var data = {
+        _token: _token,
         username: username,
         email: email,
         password: password,
@@ -127,7 +129,7 @@ document.querySelectorAll('.delete-user-btn').forEach(function(deleteButton) {
 });
 
 // Function to show the delete user popup and overlay
-function showDeleteUserPopup() {
+function showDeleteUserPopup(userId) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('delete-popup-form').style.display = 'block';
 
@@ -149,13 +151,18 @@ document.getElementById('delete-btn').addEventListener('click', function() {
 
 // Function to handle user deletion and send data to the server
 function deleteUser(userId) {
+    let _token = $('meta[name="csrf-token"]').attr('content');
     // Send a DELETE request to the server to delete the user
     $.ajax({
         url: '/admin/deleteUser/' + userId,
         type: 'DELETE',
+        data: {
+            _token: _token,
+        },
         success: function(response) {
             if (response.success) {
                 hideDeleteUserPopup();
+                window.location.reload();
                 // Optionally, you can refresh the page or update the user list here
             } else {
                 // Handle errors or display error messages
