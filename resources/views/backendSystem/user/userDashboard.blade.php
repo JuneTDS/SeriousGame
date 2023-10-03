@@ -234,13 +234,15 @@
     $(document).ready(function() {
         // let sortByName = getUrlParameter("sortbyName");
         // console.log(sortByName);
-        if (!getUrlParameter("sortbyName")) {
-            $("#sortbyName").val("asc");
-        } else {
-            $("#sortbyName").val(getUrlParameter("sortbyName"));
-        }
+        // if (!getUrlParameter("sortbyName") && getUrlParameter("sortbyName") == "desc") {
+        //     $("#sortbyName").val("asc");
+        // } else {
+        //     $("#sortbyName").val("desc");
+        // }
 
         if (getUrlParameter("sortbyName") !== false) {
+            $("#sortbyName").val(getUrlParameter("sortbyName"));
+        } else {
             $("#sortbyName").val("asc");
         }
 
