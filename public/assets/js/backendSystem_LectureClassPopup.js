@@ -1,19 +1,11 @@
-// Get the CSRF token
-// var _token = $("input[name=_token]").val();
-
-// // Set up the CSRF token in AJAX headers
-// $.ajaxSetup({
-//     headers: {
-//         'X-CSRF-TOKEN': _token
-//     }
-// });
-
 // Close the popups when clicking outside
 document.getElementById('overlay').addEventListener('click', function(event) {
     if (event.target === document.getElementById('overlay')) {
         hideCreatePopup();
         hideDeletePopup();
+        hideEditPopup();
         document.getElementById('success-popup').style.display = 'none';
+        document.getElementById('update-success-popup').style.display = 'none';
     }
 });
 
@@ -84,6 +76,36 @@ document.getElementById('create-btn').addEventListener('click', function() {
     });
 });
 
+
+
+
+// Open the edit popup when the button is clicked
+document.getElementById('edit-popup-btn').addEventListener('click', showCreatePopup);
+
+// Function to show the create popup and overlay
+function showEditPopup() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('edit-popup-form').style.display = 'block';
+}
+
+// Function to hide the create popup and overlay
+function hideEditPopup() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('edit-popup-form').style.display = 'none';
+}
+
+// Function to show the success popup and overlay
+function showEditSuccessPopup() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('update-success-popup').style.display = 'block';
+
+    // Hide the success popup and overlay after 2 seconds
+    setTimeout(function() {
+        document.getElementById('update-success-popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }, 2000);
+}
+
 document.getElementById('update-btn').addEventListener('click', function() {
     // Get the form data
     var userId = document.getElementById('userId').value;
@@ -118,7 +140,7 @@ document.getElementById('update-btn').addEventListener('click', function() {
         contentType: 'application/json',
         success: function(response) {
             if (response.success) {
-                showSuccessPopup();
+                showEditSuccessPopup();
             } else {
                 // Handle errors or display error messages
                 console.error(response.message);
@@ -136,20 +158,20 @@ document.getElementById('update-btn').addEventListener('click', function() {
 
 
 // Open the delete popup when the button is clicked
-document.querySelectorAll('.delete-permission-btn').forEach(function(deleteButton) {
+document.querySelectorAll('.delete-popup-btn').forEach(function(deleteButton) {
     deleteButton.addEventListener('click', function() {
-        var permissionName = this.getAttribute('data-id');
-        showDeletePopup(permissionName);
+        var assignRight = this.getAttribute('data-id');
+        showDeletePopup(assignRight);
     });
 });
 
 // Function to show the delete popup and overlay
-function showDeletePopup(permissionName) {
+function showDeletePopup(assignRight) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('delete-popup-form').style.display = 'block';
 
     // Store the permission name in a data attribute of the "Delete" button
-    document.getElementById('delete-btn').setAttribute('data-id', permissionName);
+    document.getElementById('delete-btn').setAttribute('data-id', assignRight);
 }
 
 // Function to hide the delete popup and overlay
@@ -160,16 +182,16 @@ function hideDeletePopup() {
 
 // Call delete function when the "Delete" button is clicked
 document.getElementById('delete-btn').addEventListener('click', function() {
-    var permissionName = this.getAttribute('data-id');
-    deletePermission(permissionName);
+    var assignRight = this.getAttribute('data-id');
+    deleteLectureClass(assignRight);
 });
 
 // Function to handle permission deletion and send data to the server
-function deletePermission(permissionName) {
+function deleteLectureClass(assignRight) {
     let _token = $('meta[name="csrf-token"]').attr('content');
     // Send a DELETE request to the server to delete the permission
     $.ajax({
-        url: '/admin/deletePermission/' + permissionName,
+        url: '/admin/deleteLectureClass/' + assignRight,
         type: 'DELETE',
         data: {
             _token: _token,

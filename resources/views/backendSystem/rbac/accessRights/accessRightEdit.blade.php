@@ -11,7 +11,7 @@
     <div class="header-row">
         <div class="left"><h3>Access Rights</h3></div>
         <div class="right" style="display: flex; justify-content: space-between;">
-            <button type="button" id="open-popup-btn" class="btn btn-dark" style="width:200px">Save</button>
+            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px">Save</button>
             <a href="/admin/assignRightInfo/{{ $assignData->id }}">
                 <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
             </a>
@@ -22,7 +22,7 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Popup Form -->
-    <div id="popup-form" class="popup-form">
+    <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
             <div class="warning-icon col-1 ">
                 <i class="fa fa-check"></i>
@@ -39,10 +39,11 @@
             <div class="row justify-content-center" style="padding-left:20px">
                 <div class="col-md-6">
                     <table class="table" style="border: none;">
+                        <input type="hidden" id="userId" value="{{ $assignData->id }}">
                         <tr>
                             <td style="font-weight:bold;padding-top:10px;padding-right:30px">Role</td>
                             <td>
-                                <select class="form-select form-control form-select" style="width:400px">
+                                <select class="form-select form-control form-select" style="width:400px" id="roleDescription">
                                     @foreach ($roleDescriptions as $roleDescription)
                                         <option value="{{ $roleDescription }}" {{ $roleDescription == $assignData->description ? 'selected' : '' }}>
                                             {{ $roleDescription }}

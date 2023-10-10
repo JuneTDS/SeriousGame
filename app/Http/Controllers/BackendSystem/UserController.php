@@ -24,7 +24,8 @@ class UserController extends Controller
         $selectedStatus = $request->input('statusDropdown');
         $selectedRoleName = $request->input('roleName');
         $selectedDate = $request->input('lastVisit');
-        $sortbyName = $request->input('sortbyName');
+        $sortBy = $request->input('sortBy');
+        $sortColumn = $request->input('sortColumn');
 
         // Query the user data based on the search keyword, status, and date
         $query = DB::table('tbl_user')
@@ -57,8 +58,19 @@ class UserController extends Controller
                 $query->whereBetween('tbl_user_profile.last_visit', [$startOfDay, $endOfDay]);
             }
 
-            if ($sortbyName !== '' && $sortbyName !== null) {
-                $query->orderBy('username', $sortbyName);
+            // Check if $sortBy and $sortColumn are not empty and not null
+            if (!empty($sortBy) && !empty($sortColumn)) {
+                // Validate $sortBy as a valid sorting direction
+                if ($sortBy === 'asc' || $sortBy === 'desc') {
+                    // Use $sortBy and $sortColumn in the orderBy clause
+                    $query->orderBy($sortColumn, $sortBy);
+                } else {
+                    // Default to ascending sorting if $sortBy is not valid
+                    $query->orderBy($sortColumn, 'asc');
+                }
+            } else {
+                // Default sorting if $sortBy or $sortColumn are empty or null
+                $query->orderBy('id', 'asc');
             }
         }
 
@@ -91,12 +103,6 @@ class UserController extends Controller
             'password' => 'required',
             'status' => 'required|in:0,1,2,3',
         ]);
-
-        // Create a new user record
-        // $username = $request->input('username');
-        // $email = $request->input('email');
-        // $password_hash = bcrypt($request->input('password')); // Hash the password
-        // $status = $request->input('status');
 
         // Extract data from the JSON request
         $username = $data['username'];
@@ -194,6 +200,57 @@ class UserController extends Controller
             ->first();
     
         return view('backendSystem.user.userEdit', ['userData' => $userData]);
+    }
+
+    // Function to save user edit
+    public function UserEditSave(Request $request)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Perform server-side validation
+        $validatedData = $request->validate([
+            'username' => 'required|unique:tbl_user,username',
+            'email' => 'required|email|unique:tbl_user,email',
+            'emailGravatar' => 'required|email|unique:tbl_user,email',
+            'password' => 'required',
+            'status' => 'required|in:0,1,2,3',
+        ]);
+
+        // Extract data from the JSON request
+        $userId = $data['userId'];
+        $username = $data['username'];
+        $firstName = $data['firstName'];
+        $lastName = $data['lastName'];
+        $email = $data['email'];
+        $emailGravatar = $data['emailGravatar'];
+        $password_hash = Hash::make($data['password']); // Hash the password
+        $status = $data['status'];
+        $updatedAt      = Carbon::now()->timestamp;
+
+        $userDataSql = "
+        UPDATE tbl_user
+        SET username = '$username',
+            email = '$email',
+            password_hash = '$password_hash',
+            status = $status,
+            updated_at = $updatedAt
+        WHERE id = $userId
+        ";
+
+        $userProfileSql = "
+        UPDATE tbl_user_profile
+        SET full_name = '$username',
+            email_gravatar = '$emailGravatar',
+            updated_at = $updatedAt
+        WHERE user_id = $userId
+        ";
+
+        // Execute the raw SQL query to update the record
+        $userData = DB::update($userDataSql);
+        $userProfile = DB::update($userProfileSql);
+
+        return response()->json(['success' => true]);
     }
     
     // Function to display userProfile page

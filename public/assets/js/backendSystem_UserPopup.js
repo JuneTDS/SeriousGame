@@ -48,34 +48,6 @@ function showSuccessPopup() {
     }, 2000);
 }
 
-// Function to handle form submission and send data to the server
-// function createUser() {
-//     // Get the form data
-//     var username = document.getElementById('username').value;
-//     var email = document.getElementById('email').value;
-//     var password = document.getElementById('password').value;
-//     var status = document.getElementById('status').value;
-
-//     // Create a data object to send to the server
-//     var data = {
-//         username: username,
-//         email: email,
-//         password: password,
-//         status: status
-//     };
-
-//     // Send a POST request to the server to save the data
-//     $.post('/admin/createUser', data, function(response) {
-//         if (response.success) { //Data Saved successfully
-//             hideCreateUserPopup();
-//             showSuccessPopup();
-//         } else {
-//             // Handle errors or display error messages
-//             console.error(response.message);
-//         }
-//     });
-// }
-
 document.getElementById('create-btn').addEventListener('click', function() {
     // Get the form data
     var username = document.getElementById('username').value;
@@ -103,6 +75,53 @@ document.getElementById('create-btn').addEventListener('click', function() {
         success: function(response) {
             if (response.success) {
                 hideCreateUserPopup();
+                showSuccessPopup();
+            } else {
+                // Handle errors or display error messages
+                console.error(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX errors here
+            console.error(error);
+        }
+    });
+});
+
+document.getElementById('update-btn').addEventListener('click', function() {
+    // Get the form data
+    var userId = document.getElementById('userId').value;
+    var username = document.getElementById('username').value;
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var email = document.getElementById('email').value;
+    var emailGravatar = document.getElementById('emailGravatar').value;
+    var password = document.getElementById('password').value;
+    var status = document.getElementById('status').value;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    
+    // Create a data object to send to the server
+    var data = {
+        _token: _token,
+        userId: userId,
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        emailGravatar: emailGravatar,
+        password: password,
+        status: status
+    };
+    
+
+    // Send a POST request to the server to save the data
+    $.ajax({
+        url: '/admin/userEditSave',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
                 showSuccessPopup();
             } else {
                 // Handle errors or display error messages
