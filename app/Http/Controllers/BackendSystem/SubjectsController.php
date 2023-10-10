@@ -18,12 +18,48 @@ class SubjectsController extends Controller
                 'tbl_user.username as updated_by_username'
             )
             ->leftJoin('tbl_user', 'tbl_subject.updated_by', '=', 'tbl_user.id');
+        
+        $subjectname = $request->input('subjectname');
+        $publish = $request->input('publish');
+        $updated_by = $request->input('updated_by');
+        $updated_on = $request->input('updated_on');
+        $name_sort = $request->input('name_sort');
+
+        if ($subjectname !== "" && $subjectname !== null){
+            $query->where('tbl_subject.subject_name', 'like', '%' . $subjectname . '%');
+        }
+        
+        if ($publish !== 'All' && $publish !== '' && $publish !== null) {   // Filter by status if 'All' is not selected
+            $query->where('tbl_subject.published', $publish);
+        }
+
+        if ($updated_by !== 'All' && $updated_by !== '' && $updated_by !== null) {   // Filter by roleName if 'All' is not selected
+            $query->where('tbl_subject.updated_by', $updated_by);
+        }
+
+        if ($updated_on !== '' && $updated_on !== null) {   // Filter by roleName if 'All' is not selected
+            $query->where('tbl_subject.updated_at', '>=', $updated_on);
+        }
+
+        if ($name_sort !== '' && $name_sort !== null) {   // Filter by roleName if 'All' is not selected
+            // $query->where('tbl_subject.updated_at', '>=', $updated_on);
+            $query->orderBy("tbl_subject.subject_name", $name_sort);
+        }
 
         $subjects = $query
             ->get();
 
+        $users = DB::table('tbl_user')
+            ->where('status', true)->get();
+
         return view('backendSystem.subjects.subjectsDashboard',[
             'subjects' => $subjects,
+            'users' => $users,
+            'subjectname' => $subjectname,
+            'publish' => $publish,
+            'updated_by' => $updated_by,
+            'updated_on' => $updated_on,
+            'name_sort' => $name_sort
         ]);
     }
 

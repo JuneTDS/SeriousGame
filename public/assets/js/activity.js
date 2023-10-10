@@ -10,12 +10,11 @@ class Activity {
     }
 
     init(data){
-        console.log(data);
 
         if (data.is_exist) {
             this.initialMessage.hide();
 
-            this.title.text(`Activity Tracking for ${$("#class option:selected").text()}`);
+            this.title.find("h3").text(`Activity Tracking for ${$("#class option:selected").text()}`);
             this.title.show();
             
             this.form.css("display", "block");

@@ -71,41 +71,51 @@
         </div>
     </div> -->
 
-    <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
-        <div class="col-4" style="float: left;padding-top:41px">
-            <input type="text" class="form-control input-field" id="subjectname" name="username" placeholder="Search by subject name">
+    <form href="/admin/usersDashboard" id="filter-form">
+        <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
+            <div class="col-4" style="float: left;padding-top:41px">
+                <input type="text" class="form-control input-field" id="subjectname" name="subjectname" placeholder="Search by subject name" value="{{ $subjectname }}">
+            </div>
+            <div class="col-2" style="text-align: right; padding-top: 42px;">
+                <p>Filter By</p>
+            </div>
+            <div class="col-2">
+                <p>Published</p>
+                <select class="form-select dropdown" id="dropdown1" name="publish">
+                    <option value="">All</option>
+                    <option value="0" {{ $publish === "0" ? 'selected' : '' }}>False</option>
+                    <option value="1" {{ $publish === "1" ? 'selected' : '' }}>True</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <p>Updated By</p>
+                <select class="form-select dropdown" id="dropdown2" name="updated_by">
+                    <option value="">All</option>
+                    @if (count($users) > 0)
+                        @foreach ($users as $key => $user)
+                            @php
+                            $userId = $user->id;
+                            $updated_by = (int) $updated_by;
+                            @endphp
+                            <option value="{{ $userId }}" {{ $userId === $updated_by ? 'selected' : '' }}>{{ $user->username }}</option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="col-2">
+                <p>Updated On</p>
+                <input type="date" class="form-control input-field" id="datePicker" name="updated_on" value="{{ $updated_on }}">
+            </div>
         </div>
-        <div class="col-2" style="text-align: right; padding-top: 42px;">
-            <p>Filter By</p>
-        </div>
-        <div class="col-2">
-            <p>Published</p>
-            <select class="form-select dropdown" id="dropdown1" name="dropdown1">
-                <option value="option1">All</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-        </div>
-        <div class="col-2">
-            <p>Updated By</p>
-            <select class="form-select dropdown" id="dropdown2" name="dropdown2">
-                <option value="option1">All</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-        </div>
-        <div class="col-2">
-            <p>Updated On</p>
-            <input type="date" class="form-control input-field" id="datePicker" name="datePicker">
-        </div>
-    </div>
+        <input type="hidden" name="name_sort" id="name_sort" value="{{ $name_sort }}" />
+    </form>
 
     <div class="table-container">
         <table class="table">
             <thead style="background-color: #CFDDE4;color:#45494C">
                 <tr>
                     <th>S/N</th>
-                    <th>Subject Name</th>
+                    <th class="sortable" data-column="name">Subject Name</th>
                     <th>Published</th>
                     <th>Updated On</th>
                     <th>Updated By</th>
@@ -197,7 +207,7 @@
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
-<script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>
+<!-- <script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script> -->
 <script src="{{ asset('assets/js/backend_subject.js') }}"></script>
 
 @endsection

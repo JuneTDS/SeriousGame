@@ -46,9 +46,9 @@ Route::group(['middleware' => ['guest']], function() {
 
 Route::group(['middleware' => ['auth']], function() {
 
-    Route::get('/', [DashboardController::class, 'show']);
+    Route::get('/', [ClassController::class, 'index'])->name("search.class");
 
-    Route::get('/home', [DashboardController::class, 'show']);
+    // Route::get('/home', [DashboardController::class, 'show']);
 
     Route::get('/frontend/classes', [ClassController::class, 'index'])->name("search.class");
 
