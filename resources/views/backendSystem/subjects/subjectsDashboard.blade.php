@@ -22,29 +22,45 @@
             <input type="text" class="form-control" id="subject" required>
         </div>
         <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create Subject</button>
+        <button type="button" class="btn btn-cancel" id="close" style="width:526px; margin-top: 10px;">Close</button>
     </div>
 
     <!-- Create_Success_popup -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
             <div class="warning-icon">
-                <i class="fa fa-check" ></i>
+                <img src="/assets/images/check_circle.svg" />
             </div>
-            <p class="text-center" style="padding-top:50px">A new subject has been created.</p>
+            <p class="text-center message" style="padding-top:50px">A new subject has been created.</p>
         </div>
+        <button type="button" class="btn btn-cancel" id="close_reload" style="width:100%; margin-top: 10px;">Close Window</button>
     </div>
 
     <div id="popup-form-update" class="popup-form">
         <h3 class="mb-4">Edit Subject</h3>
         <div class="mb-4">
             <label for="subject-update" class="form-label">Subject Name*</label>
-            <input type="text" class="form-control" id="subject-update" required>
+            <input type="text" class="form-control update-name" id="subject-update" required>
+            <input type="hidden" class="form-control update-id">
         </div>
         <button type="button" class="btn btn-dark" id="update-btn" style="width: 526px">Save Changes</button>
     </div>
 
+    <!-- delete_popup -->
+    <div id="delete-popup" class="popup-form">
+        <div class="row justify-content-center align-items-center ">
+            <div class="warning-icon text-center">
+                <img src="/assets/images/error.svg" />
+            </div>
+            <p class="text-center message" style="padding-top:50px">Are you sure want to delete.</p>
+        </div>
+        <input type="hidden" class="form-control delete-id">
+        <button type="button" class="btn btn-dark" id="delete-btn" style="width: 526px">Delete</button>
+        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button>
+    </div>
+
     <!-- Popup Form -->
-    <div id="update-success" class="popup-form">
+    <!-- <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
             <div class="warning-icon col-1 ">
                 <i class="fa fa-check"></i>
@@ -53,7 +69,7 @@
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <p class="text-center">Changes have been saved successfully.</p>
         </div>
-    </div>
+    </div> -->
 
     <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
         <div class="col-4" style="float: left;padding-top:41px">
@@ -100,6 +116,7 @@
             <tbody style="background-color: #Neutral/50;">
                 @foreach ($subjects as $index => $subjectData)
                 <tr style="color:#737B7F" data-subject-id="1">
+                    <input type="hidden" name="" id="subject-id-{{$subjectData->subject_id}}" value="{{$subjectData->subject_name}}">
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $subjectData->subject_name }}</td>
                     <td style="font-weight: bold">
@@ -131,8 +148,8 @@
                             <a href="{{ url('/admin/subjectInfo/' . $subjectData->subject_id) }}">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            <i class="fa fa-pen edit-icon" onclick="showUpdateSubjectPopup(${subjectId})"></i>
-                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-pen edit-icon" onclick="showUpdateSubjectPopup({{$subjectData->subject_id}})" style="cursor:pointer;"></i>
+                            <i class="fa fa-trash" onclick="confirmDelete({{$subjectData->subject_id}})" style="cursor:pointer;"></i>
                         </div>
                     </td>
                     <td>
@@ -181,24 +198,6 @@
 
 <!-- Javascript for User Page Popup -->
 <script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    // Javascript to handle published change (Start)
-    $('.status-toggle').on('click', function(e) {
-        e.preventDefault();
-        var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
-        
-        // Send a POST request to update the user's status without expecting a response
-        $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
-    });
-    // Javascript to handle status change (End)
-
-    // Javascript to call function immediately when filter change (Start)
-    $('.input-field, .dropdown').on('change', function () {
-        $('form#filter-form').submit();
-    });
-    // Javascript to call function immediately when filter change (Start)
-</script>
+<script src="{{ asset('assets/js/backend_subject.js') }}"></script>
 
 @endsection

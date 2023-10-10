@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" href="/assets/css/common.css">
+    <link href="/assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
     <script src="/assets/js/jquery-3.7.1.min.js"></script>
