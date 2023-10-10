@@ -63,7 +63,7 @@
             <div class="row" style="padding-left:20px">
                 <!-- First sub-column -->
                 <div class="col-md-9">
-                    <table class="table" style=" border: none;" id="leftTable">
+                    <table class="table leftTable" style="border: none;">
                         <tr>
                             <td style="font-weight:bold">User ID</td>
                             <td>{{ $userData->id }}</td>
@@ -123,7 +123,7 @@
                                 </a>
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td style="font-weight:bold">Authorization Key</td>
                             <td>
                                 <div class="row">
@@ -131,11 +131,13 @@
                                         {{ $userData->auth_key }}
                                     </div>
                                     <div class="col-3">
-                                        <button class="btn btn-outline-dark">Generate New key</button>
+                                        <a href="#" class="generate-key" data-user-id="{{ $userData->id }}" data-status="{{ $userData->status }}">
+                                            <button class="btn btn-outline-dark">Generate New key</button>
+                                        </a>
                                     </div>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td style="font-weight:bold">Created On</td>
                             <td>{{ date('M d, Y, h:i:s A', $userData->created_at) }}</td>

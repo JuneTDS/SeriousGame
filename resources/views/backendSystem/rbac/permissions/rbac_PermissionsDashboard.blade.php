@@ -10,25 +10,47 @@
                 <div class="header-row">
                     <div class="left"><h3>Row Based Access Control</h3></div>
                     <div class="right" >
-                        <button type="button" id="open-popup-btn" class="btn btn-outline-dark">Create New Permission</button>
+                        <button type="button" id="create-popup-btn" class="btn btn-outline-dark">Create New Permission</button>
                     </div>
                 </div>
 
                 <!-- Overlay -->
                 <div class="overlay" id="overlay"></div>
 
-                <!-- Popup Form -->
-                <div id="popup-form" class="popup-form">
-                    <h3 class="mb-4">Create New Permission</h3>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name*</label>
-                        <input type="text" class="form-control" id="name" required placeholder="Example: updatePost">
+                <!-- Create Popup Form -->
+                <form action="/admin/createPermission" method="post">
+                    @csrf
+                    <div id="create-popup-form" class="popup-form">
+                        <h3 class="mb-4">Create New Permission</h3>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name*</label>
+                            <input type="text" class="form-control" id="permissionName" required placeholder="Example: updatePost">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" required placeholder="Enter description">
+                        </div>
+                        <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
                     </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" required placeholder="Enter description">
+                </form>
+
+                <!-- Delete Popup Form -->
+                <div id="delete-popup-form" class="popup-form">
+                    <div class="row justify-content-center align-items-center ">
+                        <div class="delete-warning-icon col-1 ">
+                            <i class="fa fa-exclamation"></i>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
+                    <div class="row justify-content-center align-items-center " style="padding-top:42px">
+                        <p class="text-center">Are you sure you want to delete this permission?</p>
+                    </div>
+                    <div class="row justify-content-center align-items-center " style="padding-top:24px">
+                        <p class="text-center"><b>This action cannot be undone.</b></p>
+                    </div>
+                    <div class="row justify-content-center align-items-center " style="padding-top:42px">
+                        <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+                        <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Permission</button>
+                    </div>
                 </div>
 
                 <!-- Success Popup -->
@@ -50,15 +72,22 @@
                 </div>
                 <!-- //row end -->
 
+                <!-- Sortation start-->
+                <form href="/admin/rbac_PermissionsDashboard" id="filter-form">
+                    <input type="hidden" id="sortBy" name="sortBy" value="">
+                    <input type="hidden" id="sortColumn" name="sortColumn" value="">
+                </form>
+                <!-- Sortation end-->
+
                 <!-- start table -->
                 <div class="table-container">
-                    <table class="table">
+                    <table class="table leftTable">
                         <thead style="background-color: #CFDDE4;color:#45494C">
                             <tr>
                                 <th>S/N</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Rule Name</th>
+                                <th class="sortable" data-column="name">Name</th>
+                                <th class="sortable" data-column="description">Description</th>
+                                <th class="sortable" data-column="rule_name">Rule Name</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -84,7 +113,7 @@
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <!-- <i class="fa fa-trash" id="delete-popup-btn"></i> -->
-                                        <i class="fa fa-trash delete-user-btn" data-user-id="{{ $permissionsData->name }}"></i>
+                                        <i class="fa fa-trash delete-permission-btn" data-id="{{ $permissionsData->name }}"></i>
                                     </div>
                                 </td>
                             </tr>
@@ -126,9 +155,38 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
+<link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
-<!-- Javascript for User Page Popup -->
+<!-- Javascript for Popup -->
 <script src="{{ asset('assets/js/backendSystem_RBACPermissionPopup.js') }}"></script>
 
+<script>
+    $(document).ready(function() {
+        if (getUrlParameter("sortBy") !== false) {
+            $("#sortBy").val(getUrlParameter("sortBy"));
+        } else {
+            $("#sortBy").val("asc");
+        }
+
+        // Javascript to call function immediately when filter change (Start)
+        $(document).on("click", ".sortable", function(e) {
+            e.preventDefault();
+            var attrSort = $(this).attr("data-column");
+            
+            if ($("#sortBy").val() === "asc") {
+                $("#sortBy").val("desc");
+            } else {
+                $("#sortBy").val("asc");
+            }
+
+            // Set sortColumn to the clicked column
+            $("#sortColumn").val(attrSort);
+
+            $('form#filter-form').submit();
+        });
+        // Javascript to call function immediately when filter change (End)
+    });
+
+</script>
 @endsection

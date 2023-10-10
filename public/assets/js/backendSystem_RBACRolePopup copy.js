@@ -11,8 +11,8 @@
 // Close the popups when clicking outside
 document.getElementById('overlay').addEventListener('click', function(event) {
     if (event.target === document.getElementById('overlay')) {
-        hideCreateUserPopup();
-        hideDeleteUserPopup();
+        hideCreatePopup();
+        hideDeletePopup();
         document.getElementById('success-popup').style.display = 'none';
     }
 });
@@ -21,17 +21,17 @@ document.getElementById('overlay').addEventListener('click', function(event) {
 
 
 
-// Open the create user popup when the button is clicked
-document.getElementById('create-popup-btn').addEventListener('click', showCreateUserPopup);
+// Open the create popup when the button is clicked
+document.getElementById('create-popup-btn').addEventListener('click', showCreatePopup);
 
-// Function to show the create user popup and overlay
-function showCreateUserPopup() {
+// Function to show the create popup and overlay
+function showCreatePopup() {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('create-popup-form').style.display = 'block';
 }
 
-// Function to hide the create user popup and overlay
-function hideCreateUserPopup() {
+// Function to hide the create popup and overlay
+function hideCreatePopup() {
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('create-popup-form').style.display = 'none';
 }
@@ -48,45 +48,63 @@ function showSuccessPopup() {
     }, 2000);
 }
 
-// Function to handle form submission and send data to the server
-// function createUser() {
-//     // Get the form data
-//     var username = document.getElementById('username').value;
-//     var email = document.getElementById('email').value;
-//     var password = document.getElementById('password').value;
-//     var status = document.getElementById('status').value;
-
-//     // Create a data object to send to the server
-//     var data = {
-//         username: username,
-//         email: email,
-//         password: password,
-//         status: status
-//     };
-
-//     // Send a POST request to the server to save the data
-//     $.post('/admin/createUser', data, function(response) {
-//         if (response.success) { //Data Saved successfully
-//             hideCreateUserPopup();
-//             showSuccessPopup();
-//         } else {
-//             // Handle errors or display error messages
-//             console.error(response.message);
-//         }
-//     });
-// }
-
 document.getElementById('create-btn').addEventListener('click', function() {
     // Get the form data
-    var username = document.getElementById('username').value;
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-    var status = document.getElementById('status').value;
-
+    var roleName = document.getElementById('roleName').value;
+    var description = document.getElementById('description').value;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    
     // Create a data object to send to the server
     var data = {
+        _token: _token,
+        roleName: roleName,
+        description: description
+    };
+    
+
+    // Send a POST request to the server to save the data
+    $.ajax({
+        url: '/admin/createRole',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
+                hideCreatePopup();
+                showSuccessPopup();
+            } else {
+                // Handle errors or display error messages
+                console.error(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX errors here
+            console.error(error);
+        }
+    });
+});
+
+document.getElementById('update-btn').addEventListener('click', function() {
+    // Get the form data
+    var userId = document.getElementById('userId').value;
+    var username = document.getElementById('username').value;
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var email = document.getElementById('email').value;
+    var emailGravatar = document.getElementById('emailGravatar').value;
+    var password = document.getElementById('password').value;
+    var status = document.getElementById('status').value;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    
+    // Create a data object to send to the server
+    var data = {
+        _token: _token,
+        userId: userId,
         username: username,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
+        emailGravatar: emailGravatar,
         password: password,
         status: status
     };
@@ -94,13 +112,12 @@ document.getElementById('create-btn').addEventListener('click', function() {
 
     // Send a POST request to the server to save the data
     $.ajax({
-        url: '/admin/createUser',
+        url: '/admin/userEditSave',
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
         success: function(response) {
             if (response.success) {
-                hideCreateUserPopup();
                 showSuccessPopup();
             } else {
                 // Handle errors or display error messages
@@ -118,45 +135,50 @@ document.getElementById('create-btn').addEventListener('click', function() {
 
 
 
-// Open the delete user popup when the button is clicked
-document.querySelectorAll('.delete-user-btn').forEach(function(deleteButton) {
+// Open the delete popup when the button is clicked
+document.querySelectorAll('.delete-role-btn').forEach(function(deleteButton) {
     deleteButton.addEventListener('click', function() {
-        var userId = this.getAttribute('data-user-id');
-        showDeleteUserPopup(userId);
+        var roleName = this.getAttribute('data-id');
+        showDeletePopup(roleName);
     });
 });
 
-// Function to show the delete user popup and overlay
-function showDeleteUserPopup() {
+// Function to show the delete popup and overlay
+function showDeletePopup(roleName) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('delete-popup-form').style.display = 'block';
 
-    // Store the user ID in a data attribute of the "Delete" button
-    document.getElementById('delete-btn').setAttribute('data-user-id', userId);
+    // Store the role name in a data attribute of the "Delete" button
+    document.getElementById('delete-btn').setAttribute('data-id', roleName);
 }
 
-// Function to hide the delete user popup and overlay
-function hideDeleteUserPopup() {
+// Function to hide the delete popup and overlay
+function hideDeletePopup() {
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('delete-popup-form').style.display = 'none';
 }
 
-// Close the delete user popup when the "Delete" button is clicked
+// Call delete function when the "Delete" button is clicked
 document.getElementById('delete-btn').addEventListener('click', function() {
-    var userId = this.getAttribute('data-user-id');
-    deleteUser(userId);
+    var roleName = this.getAttribute('data-id');
+    deleteRole(roleName);
 });
 
-// Function to handle user deletion and send data to the server
-function deleteUser(userId) {
-    // Send a DELETE request to the server to delete the user
+// Function to handle role deletion and send data to the server
+function deleteRole(roleName) {
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    // Send a DELETE request to the server to delete the role
     $.ajax({
-        url: '/admin/deleteUser/' + userId,
+        url: '/admin/deleteRole/' + roleName,
         type: 'DELETE',
+        data: {
+            _token: _token,
+        },
         success: function(response) {
             if (response.success) {
-                hideDeleteUserPopup();
-                // Optionally, you can refresh the page or update the user list here
+                hideDeletePopup();
+                window.location.reload();
+                // Optionally, you can refresh the page or update the role list here
             } else {
                 // Handle errors or display error messages
                 console.error(response.message);
@@ -171,5 +193,12 @@ function deleteUser(userId) {
 
 // Close the delete user popup when the "Cancel" button is clicked
 document.getElementById('cancel-btn').addEventListener('click', function() {
-    hideDeleteUserPopup();
+    hideDeletePopup();
 });
+
+
+
+
+// //To switch permission between table (Start)
+    // Need to be confirm
+// //To switch permission between table (End)

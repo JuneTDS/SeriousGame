@@ -19,9 +19,9 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Popup Form -->
-    <div id="popup-form" class="popup-form">
+    <div id="delete-popup-form" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="delete-warning-icon col-1 ">
                 <i class="fa fa-exclamation"></i>
             </div>
         </div>
@@ -32,8 +32,8 @@
             <p class="text-center"><b>This action cannot be undone.</b></p>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <button type="button" class="btn btn-outline-dark" id="create-btn" style="width:200px;margin-right:20px">Don't Delete</button>
-            <button type="button" class="btn btn-danger" id="create-btn" style="width:200px">Delete Role</button>
+            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Role</button>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
             <div class="row" style="padding-left:20px">
                 <!-- First sub-column -->
                 <div class="col-md-10">
-                    <table class="table" style=" border: none;">
+                    <table class="table leftTable" style=" border: none;">
                         <tr>
                             <td style="font-weight:bold">Name</td>
                             <td>{{ $roleData->name }}</td>
@@ -88,7 +88,9 @@
                             <td>
                                 <ul class="custom-bullet-list">
                                     @foreach($roleByPermission as $child)
-                                        <li>{{ $child->child }} ({{ $child->description }})</li>
+                                        @if(isset($roleDescriptions[$child->child]))
+                                            <li>{{ $child->child }} ({{ $roleDescriptions[$child->child] }})</li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </td>

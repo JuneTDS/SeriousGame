@@ -40,7 +40,6 @@
                     </select>
                 </div>
                 <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
-                <!-- <button type="submit" class="btn btn-dark" id="create-btn" style="width:526px">Create</button> -->
             </div>
         </form>
 
@@ -110,7 +109,8 @@
                         <input type="date" class="form-control input-field" id="lastVisit" name="lastVisit">
                     </div>
 
-                    <input type="hidden" id="sortbyName" name="sortbyName" value="">
+                    <input type="hidden" id="sortBy" name="sortBy" value="">
+                    <input type="hidden" id="sortColumn" name="sortColumn" value="">
                 </div>
             </form>
         </div>
@@ -118,15 +118,15 @@
 
         <!-- start table -->
         <div class="table-container">
-            <table class="table" id="middleTable">
+            <table class="table middleTable">
                 <thead style="background-color: #CFDDE4;color:#45494C">
                     <tr>                        
                         <th>S/N</th>
-                        <th class="th-normal-text sortable" data-column="username">Username</th>
-                        <th class="th-normal-text">Email Address</th>
-                        <th class="th-normal-text">Status</th>
-                        <th class="th-normal-text">User Role Name</th>
-                        <th class="th-normal-text">Last Visit</th>
+                        <th class="sortable" data-column="username">Username</th>
+                        <th class="sortable" data-column="email">Email Address</th>
+                        <th class="sortable" data-column="status">Status</th>
+                        <th class="sortable" data-column="description">User Role Name</th>
+                        <th class="sortable" data-column="last_visit">Last Visit</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -232,18 +232,11 @@
 
 <script>
     $(document).ready(function() {
-        // let sortByName = getUrlParameter("sortbyName");
-        // console.log(sortByName);
-        // if (!getUrlParameter("sortbyName") && getUrlParameter("sortbyName") == "desc") {
-        //     $("#sortbyName").val("asc");
-        // } else {
-        //     $("#sortbyName").val("desc");
-        // }
 
-        if (getUrlParameter("sortbyName") !== false) {
-            $("#sortbyName").val(getUrlParameter("sortbyName"));
+        if (getUrlParameter("sortBy") !== false) {
+            $("#sortBy").val(getUrlParameter("sortBy"));
         } else {
-            $("#sortbyName").val("asc");
+            $("#sortBy").val("asc");
         }
 
         let _token = $('meta[name="csrf-token"]').attr('content');
@@ -310,10 +303,10 @@
         $(document).on("click", ".sortable", function(e) {
             e.preventDefault();
             if ($(this).attr("data-column") == "username") {
-                if($("#sortbyName").val() == "asc") {
-                    $("#sortbyName").val("desc");
+                if($("#sortBy").val() == "asc") {
+                    $("#sortBy").val("desc");
                 } else {
-                    $("#sortbyName").val("asc");
+                    $("#sortBy").val("asc");
                 }
             }
 

@@ -5,37 +5,29 @@
 <div class="container custom-container">
     <div class="header-row">
         <div class="left"><h3>Row Based Access Control</h3></div>
-            <div class="right" >
-                <button type="button" id="open-popup-btn" class="btn btn-outline-dark">Create New Role</button>
-            </div>
+            <div class="right" ></div>
         </div>
 
         <!-- Overlay -->
         <div class="overlay" id="overlay"></div>
 
-        <!-- Popup Form -->
-        <div id="popup-form" class="popup-form">
-            <h3 class="mb-4">Create New Role</h3>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name*</label>
-                <input type="text" class="form-control" id="name" required placeholder="Example: updatePost">
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" required placeholder="Enter description">
-            </div>
-            <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
-        </div>
-
-        <!-- Success Popup -->
-        <div id="success-popup" class="popup-form">
-            <!-- #1de9b6 -->
+        <!-- Delete Popup Form -->
+        <div id="delete-popup-form" class="popup-form">
             <div class="row justify-content-center align-items-center ">
-                <div class="warning-icon">
-                    <i class="fa fa-check" ></i>
+                <div class="delete-warning-icon col-1 ">
+                    <i class="fa fa-exclamation"></i>
                 </div>
             </div>
-            <p class="text-center" style="padding-top:50px">A new role has been created.</p>
+            <div class="row justify-content-center align-items-center " style="padding-top:42px">
+                <p class="text-center">Are you sure you want to revoke this access?</p>
+            </div>
+            <div class="row justify-content-center align-items-center " style="padding-top:24px">
+                <p class="text-center"><b>This action cannot be undone.</b></p>
+            </div>
+            <div class="row justify-content-center align-items-center " style="padding-top:42px">
+                <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+                <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Revoke Access</button>
+            </div>
         </div>
 
         <!--  //row star -->
@@ -46,14 +38,21 @@
         </div>
         <!-- //row end -->
 
+        <!-- Sortation start-->
+        <form href="/admin/rbac_AccessRightsDashboard" id="filter-form">
+            <input type="hidden" id="sortBy" name="sortBy" value="">
+            <input type="hidden" id="sortColumn" name="sortColumn" value="">
+        </form>
+        <!-- Sortation end-->
+
         <!-- start table -->
         <div class="table-container">
-            <table class="table">
+            <table class="table tableLeft">
                 <thead style="background-color: #CFDDE4;color:#45494C">
                     <tr>
                         <th>S/N</th>
-                        <th>User</th>
-                        <th>Role</th>
+                        <th class="sortable" data-column="username">User</th>
+                        <th class="sortable" data-column="description">Role</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -71,7 +70,7 @@
                                 <a href="{{ url('/admin/assignRightEdit/' . $assignData->id) }}">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <i class="fa fa-trash delete-popup-btn" data-user-id="{{ $assignData->id }}"></i>
+                                <i class="fa fa-trash delete-popup-btn" data-id="{{ $assignData->id }}"></i>
                             </div>
                         </td>
                     </tr>
@@ -112,9 +111,39 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
+<link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
 <script src="{{ asset('assets/js/backendSystem_RBACAccessRightPopup.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        if (getUrlParameter("sortBy") !== false) {
+            $("#sortBy").val(getUrlParameter("sortBy"));
+        } else {
+            $("#sortBy").val("asc");
+        }
+
+        // Javascript to call function immediately when filter change (Start)
+        $(document).on("click", ".sortable", function(e) {
+            e.preventDefault();
+            var attrSort = $(this).attr("data-column");
+            
+            if ($("#sortBy").val() === "asc") {
+                $("#sortBy").val("desc");
+            } else {
+                $("#sortBy").val("asc");
+            }
+
+            // Set sortColumn to the clicked column
+            $("#sortColumn").val(attrSort);
+
+            $('form#filter-form').submit();
+        });
+        // Javascript to call function immediately when filter change (End)
+    });
+
+</script>
 
 @endsection

@@ -10,30 +10,39 @@
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
         <div class="right" >
-            <button type="button"  class="btn btn-outline-dark" style="width:200px">Update</button>
-            <button type="button" id="open-popup-btn" class="btn btn-outline-danger" style="width:200px">Delete</button>
+            <div class="row">
+                <div class="col-6">
+                    <form method="GET" action="/admin/permissionEdit/{{ $permissionData->name }}">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-dark" style="width:200px">Update</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btn btn-outline-danger delete-permission-btn" style="width:200px" data-id="{{ $permissionData->name }}">Delete</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- Popup Form -->
-    <div id="popup-form" class="popup-form">
+    <!-- Delete Popup Form -->
+    <div id="delete-popup-form" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="delete-warning-icon col-1 ">
                 <i class="fa fa-exclamation"></i>
             </div>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <p class="text-center">Are you sure you want to delete this permission?</p>
+            <p class="text-center">Are you sure you want to delete permission?</p>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:24px">
             <p class="text-center"><b>This action cannot be undone.</b></p>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <button type="button" class="btn btn-outline-dark" id="create-btn" style="width:200px;margin-right:20px">Don't Delete</button>
-            <button type="button" class="btn btn-danger" id="create-btn" style="width:200px">Delete Permission</button>
+            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Permission</button>
         </div>
     </div>
 
@@ -46,7 +55,7 @@
             <div class="row" style="padding-left:20px">
                 <!-- First sub-column -->
                 <div class="col-md-9">
-                    <table class="table" style=" border: none;">
+                    <table class="table leftTable" style=" border: none;">
                         <tr>
                             <td style="font-weight:bold">Name</td>
                             <td>{{ $permissionData->name }}</td>
@@ -82,6 +91,18 @@
                         <tr>
                             <td style="font-weight:bold">Updated On</td>
                             <td>{{ date('M d, Y, h:i:s A', $permissionData->updated_at) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold">Permission By Role</td>
+                            <td>
+                                <ul class="custom-bullet-list">
+                                    @foreach($roleByPermission as $child)
+                                        @if(isset($roleDescriptions[$child->child]))
+                                            <li>{{ $child->child }} ({{ $roleDescriptions[$child->child] }})</li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </td>
                         </tr>
                     </table>
                 </div>

@@ -33,7 +33,7 @@
                             </li>
                             <li class="nav-item position-relative">
                                 <a href="#" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">RABC</span>
+                                    <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">RBAC</span>
                                     <span class="dropdown-icon"></span>
                                 </a>
                                 <!-- Sub-menu under RABC -->
