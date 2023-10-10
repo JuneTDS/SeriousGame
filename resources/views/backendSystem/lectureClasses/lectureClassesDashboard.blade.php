@@ -18,36 +18,39 @@
         <h3 class="mb-4">Create Class Management</h3>
         <div class="mb-4">
             <label for="class" class="form-label">Class Name*</label>
-            <input type="text" class="form-control" id="class" required placeholder="Enter class name">
+            <input type="text" class="form-control" id="className" required placeholder="Enter class name">
         </div>
         <div class="mb-4">
             <label for="year" class="form-label">Academic Year*</label>
-            <select class="form-select dropdown" id="year" name="year">
-                <option value="option1">2023</option>
-                <option value="option2">2024</option>
+            <select class="form-select dropdown" id="academicYear" name="academicYear">
+                @foreach($yearList as $year)
+                    <option value="{{ $year }}">{{ $year }}</option>
+                @endforeach
             </select>
         </div>
         <div class="mb-4">
             <label for="sem" class="form-label">Academic Semester*</label>
-            <select class="form-select dropdown" id="sem" name="sem">
-                <option value="option1">1</option>
-                <option value="option2">2</option>
+            <select class="form-select dropdown" id="academicSemester" name="academicSemester">
+                <option value="1">1</option>
+                <option value="2">2</option>
             </select>
         </div>
         <div class="mb-4">
             <label for="lecturer" class="form-label">Lecturer*</label>
-            <select class="form-select dropdown" id="lecturer" name="lecturer">
+            <select class="form-select dropdown" id="lecturerId" name="lecturerId">
                 <option value="" disabled selected>Select Lecturer Name</option>
-                <option value="option1">Lecturer 1</option>
-                <option value="option2">Lecturer 2</option>
+                @foreach($lecturersData as $lecturerData)
+                    <option value="{{ $lecturerData->user_id }}">{{ $lecturerData->username }}</option>
+                @endforeach
             </select>
         </div>
         <div class="mb-4">
             <label for="subject" class="form-label">Subject*</label>
-            <select class="form-select dropdown" id="subject" name="subject">
+            <select class="form-select dropdown" id="subjectId" name="subjectId">
                 <option value="" disabled selected>Select Subject Name</option>
-                <option value="option1">Subject 1</option>
-                <option value="option2">Subject 2</option>
+                @foreach($subjectsList as $subject)
+                    <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
+                @endforeach
             </select>
         </div>
         <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create Class Management</button>
@@ -73,31 +76,34 @@
         <div class="mb-4">
             <label for="year-update" class="form-label">Academic Year*</label>
             <select class="form-select dropdown" id="year-update" name="year-update">
-                <option value="option1">2023</option>
-                <option value="option2">2024</option>
+                @foreach($yearList as $year)
+                    <option value="{{ $year }}">{{ $year }}</option>
+                @endforeach
             </select>
         </div>
         <div class="mb-4">
             <label for="sem-update" class="form-label">Academic Semester*</label>
             <select class="form-select dropdown" id="sem-update" name="sem-update">
-                <option value="option1">1</option>
-                <option value="option2">2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
             </select>
         </div>
         <div class="mb-4">
             <label for="lecturer-update" class="form-label">Lecturer*</label>
             <select class="form-select dropdown" id="lecturer-update" name="lecturer-update">
                 <option value="" disabled selected>Select Lecturer Name</option>
-                <option value="option1">Lecturer 1</option>
-                <option value="option2">Lecturer 2</option>
+                @foreach($lecturersData as $lecturerData)
+                    <option value="{{ $lecturerData->user_id }}">{{ $lecturerData->username }}</option>
+                @endforeach
             </select>
         </div>
         <div class="mb-4">
             <label for="subject-update" class="form-label">Subject*</label>
             <select class="form-select dropdown" id="subject-update" name="subject-update">
                 <option value="" disabled selected>Select Subject Name</option>
-                <option value="option1">Subject 1</option>
-                <option value="option2">Subject 2</option>
+                @foreach($subjectsList as $subject)
+                    <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
+                @endforeach
             </select>
         </div>
         <button type="button" class="btn btn-dark" id="update-btn" style="width:526px">Save Changes</button>
@@ -171,8 +177,8 @@
                 <input type="hidden" id="sortBy" name="sortBy" value="">
                 <input type="hidden" id="sortColumn" name="sortColumn" value="">
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <!-- //row end -->
 
     <!-- start table -->
@@ -204,7 +210,14 @@
                             <a href="{{ url('/admin/lectureClassInfo/' . $lectureClass->subject_class_id) }}">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            <i class="fa fa-edit"></i>
+                            <!-- <i class="fa fa-edit edit-popup-btn"></i> -->
+                            <i class="fa fa-edit edit-popup-btn"
+                                data-class-name="{{ $lectureClass->class_name }}"
+                                data-academic-year="{{ $lectureClass->academic_year }}"
+                                data-academic-semester="{{ $lectureClass->academic_semester }}"
+                                data-lecture-name="{{ $lectureClass->username }}"
+                                data-subject-name="{{ $lectureClass->subject_name }}">
+                            </i>
                             <i class="fa fa-trash delete-popup-btn" data-id="{{ $lectureClass->subject_class_id }}"></i>
                         </div>
                     </td>
@@ -246,13 +259,14 @@
             </div>
         </div>
     </div>
+</div>
 
 <!-- CSS for all backendSystem page -->
 <link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
-<script src="{{ asset('assets/js/backendSystem_LectureClassPopup .js') }}"></script>
+<script src="{{ asset('assets/js/backendSystem_LectureClassPopup.js') }}"></script>
 
 <script>
     $(document).ready(function() {

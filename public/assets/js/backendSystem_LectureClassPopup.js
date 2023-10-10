@@ -42,21 +42,27 @@ function showSuccessPopup() {
 
 document.getElementById('create-btn').addEventListener('click', function() {
     // Get the form data
-    var permissionName = document.getElementById('permissionName').value;
-    var description = document.getElementById('description').value;
+    var className = document.getElementById('className').value;
+    var academicYear = document.getElementById('academicYear').value;
+    var academicSemester = document.getElementById('academicSemester').value;
+    var lecturerId = document.getElementById('lecturerId').value;
+    var subjectId = document.getElementById('subjectId').value;
     let _token = $('meta[name="csrf-token"]').attr('content');
     
     // Create a data object to send to the server
     var data = {
         _token: _token,
-        permissionName: permissionName,
-        description: description
+        className: className,
+        academicYear: academicYear,
+        academicSemester: academicSemester,
+        lecturerId: lecturerId,
+        subjectId: subjectId
     };
     
 
     // Send a POST request to the server to save the data
     $.ajax({
-        url: '/admin/createPermission',
+        url: '/admin/createLectureClass',
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
@@ -80,7 +86,7 @@ document.getElementById('create-btn').addEventListener('click', function() {
 
 
 // Open the edit popup when the button is clicked
-document.getElementById('edit-popup-btn').addEventListener('click', showCreatePopup);
+document.getElementById('edit-popup-btn').addEventListener('click', showEditPopup);
 
 // Function to show the create popup and overlay
 function showEditPopup() {
@@ -160,18 +166,18 @@ document.getElementById('update-btn').addEventListener('click', function() {
 // Open the delete popup when the button is clicked
 document.querySelectorAll('.delete-popup-btn').forEach(function(deleteButton) {
     deleteButton.addEventListener('click', function() {
-        var assignRight = this.getAttribute('data-id');
-        showDeletePopup(assignRight);
+        var lectureClass = this.getAttribute('data-id');
+        showDeletePopup(lectureClass);
     });
 });
 
 // Function to show the delete popup and overlay
-function showDeletePopup(assignRight) {
+function showDeletePopup(lectureClass) {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('delete-popup-form').style.display = 'block';
 
     // Store the permission name in a data attribute of the "Delete" button
-    document.getElementById('delete-btn').setAttribute('data-id', assignRight);
+    document.getElementById('delete-btn').setAttribute('data-id', lectureClass);
 }
 
 // Function to hide the delete popup and overlay
@@ -182,16 +188,16 @@ function hideDeletePopup() {
 
 // Call delete function when the "Delete" button is clicked
 document.getElementById('delete-btn').addEventListener('click', function() {
-    var assignRight = this.getAttribute('data-id');
-    deleteLectureClass(assignRight);
+    var lectureClass = this.getAttribute('data-id');
+    deleteLectureClass(lectureClass);
 });
 
 // Function to handle permission deletion and send data to the server
-function deleteLectureClass(assignRight) {
+function deleteLectureClass(lectureClass) {
     let _token = $('meta[name="csrf-token"]').attr('content');
     // Send a DELETE request to the server to delete the permission
     $.ajax({
-        url: '/admin/deleteLectureClass/' + assignRight,
+        url: '/admin/deleteLectureClass/' + lectureClass,
         type: 'DELETE',
         data: {
             _token: _token,
@@ -217,61 +223,3 @@ function deleteLectureClass(assignRight) {
 document.getElementById('cancel-btn').addEventListener('click', function() {
     hideDeletePopup();
 });
-
-
-
-
-// //To switch permission between table (Start)
-// document.addEventListener('DOMContentLoaded', function() {
-//     const itemPermissionsTable = document.getElementById('itemPermissionsTable');
-//     const permissionByRolesTable = document.getElementById('permissionByRolesTable');
-//     const upBtn = document.getElementById('upBtn');
-//     const downBtn = document.getElementById('downBtn');
-//     let selectedRow;
-
-//     // Function to move selected row from itemPermissionsTable to permissionByRolesTable
-//     function moveRowUp() {
-//         if (selectedRow && !selectedRow.parentElement.isSameNode(permissionByRolesTable)) {
-//             itemPermissionsTable.querySelector('tbody').removeChild(selectedRow);
-//             permissionByRolesTable.querySelector('tbody').appendChild(selectedRow);
-//             selectedRow.classList.remove('selected');
-//             selectedRow = null;
-//         }
-//     }
-
-//     // Function to move selected row from permissionByRolesTable to itemPermissionsTable
-//     function moveRowDown() {
-//         if (selectedRow && !selectedRow.parentElement.isSameNode(itemPermissionsTable)) {
-//             permissionByRolesTable.querySelector('tbody').removeChild(selectedRow);
-//             itemPermissionsTable.querySelector('tbody').appendChild(selectedRow);
-//             selectedRow.classList.remove('selected');
-//             selectedRow = null;
-//         }
-//     }
-
-//     // Attach click event listeners to move the rows
-//     upBtn.addEventListener('click', moveRowUp);
-//     downBtn.addEventListener('click', moveRowDown);
-
-//     // Add click event listeners to rows for selecting them
-//     itemPermissionsTable.querySelectorAll('tr').forEach(row => {
-//         row.addEventListener('click', () => {
-//             if (selectedRow) {
-//                 selectedRow.classList.remove('selected');
-//             }
-//             row.classList.add('selected');
-//             selectedRow = row;
-//         });
-//     });
-
-//     permissionByRolesTable.querySelectorAll('tr').forEach(row => {
-//         row.addEventListener('click', () => {
-//             if (selectedRow) {
-//                 selectedRow.classList.remove('selected');
-//             }
-//             row.classList.add('selected');
-//             selectedRow = row;
-//         });
-//     });
-// });
-// //To switch permission between table (End)

@@ -12,6 +12,27 @@ class LectureClassesController extends Controller
 {
     public function showLectureClassesDashboard(Request $request)
     {
+        //To have a list of year for acedemic year dropdown in create form and edit form
+        $yearList = [];
+        $currentYear = date('Y'); // Get the current year
+        $numberOfYearsToShow = 5; // Number of years to show in the dropdown
+
+        for ($i = 0; $i < $numberOfYearsToShow; $i++) {
+            $year = $currentYear + $i;
+            $yearList[$year] = $year;
+        }
+
+        //To get all the user under 'Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager' role
+        $lecturersData = DB::table('tbl_auth_assignment')
+            ->whereIn('item_name', ['Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager'])
+            ->join('tbl_user', 'tbl_auth_assignment.user_id', '=', 'tbl_user.id')
+            ->select('tbl_auth_assignment.user_id', 'tbl_user.username')
+            ->get();
+
+        //To have a list of subject for subject dropdown in create form and edit form
+        $subjectsList = DB::table('tbl_subject')
+            ->select('subject_id', 'subject_name')
+            ->get();
 
         // Fetch unique academic years from tbl_subject_class
         $academicYears = DB::table('tbl_subject_class')
@@ -72,13 +93,47 @@ class LectureClassesController extends Controller
         $lectureClasses = $query->get();
 
         return view('backendSystem.lectureClasses.lectureClassesDashboard', [
+            'yearList' => $yearList,
             'lectureClasses' => $lectureClasses,
+            'lecturersData' => $lecturersData,
+            'subjectsList' => $subjectsList,
             'academicYears' => $academicYears,
             'selectedAcademicYear' => $selectedAcademicYear,
             'academicSemesters' => $academicSemesters,
             'selectedAcademicSemester' => $selectedAcademicSemester,
             'searchKeyword' => $searchKeyword,
         ]);
+    }
+
+    // Function to create a new user
+    public function createLectureClass(Request $request)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Perform server-side validation
+        $validatedData = $request->validate([
+            'className' => 'required|unique:tbl_subject_class,className',
+            'academicYear' => 'required',
+            'academicSemester' => 'required|in:1,2',
+            'lecturerId' => 'required',
+            'subjectId' => 'required',
+        ]);
+
+        // Extract data from the JSON request
+        $className = $data['className'];
+        $academicYear = $data['emaacademicYearil'];
+        $academicSemester = $data['academicSemester'];
+        $lecturerId = $data['lecturerId'];
+        $subjectId = $data['subjectId'];
+
+        $updatedAt = Carbon::now()->timestamp;
+        $createdAt = Carbon::now()->timestamp;
+        $userId = Auth::user()->id;
+
+        $subjectClassData       = DB::select( DB::raw("INSERT INTO `tbl_subject_class`(`class_name`, `academic_year`, `academic_semester`, `subject_id_fk`, `lecturer_in_charge_id_fk`, `active_flag`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES ('$className','$academicYear','$academicSemester','$subjectId', $lecturerId, '0', $updatedAt, $userId, $createdAt, $userId )") );
+
+        return response()->json(['success' => true]);
     }
 
     public function showLectureClassInfo($id)
@@ -211,5 +266,26 @@ class LectureClassesController extends Controller
 
         // Handle the case where no file was uploaded
         return redirect()->back()->with('error', 'No file uploaded.');
+    }
+
+    public function deleteLectureClass($id)
+    {
+        // Start a database transaction
+        DB::beginTransaction();
+
+        try {
+            // Delete the user and related records
+            DB::table('tbl_subject_class')->where('subject_class_id', $id)->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // If an error occurs during deletion, roll back the transaction
+            DB::rollback();
+
+            return response()->json(['success' => false]);
+        }
     }
 }

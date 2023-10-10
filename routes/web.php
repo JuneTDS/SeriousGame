@@ -164,10 +164,12 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Lecture Classes Dashboard
     Route::get('/admin/lectureClassesDashboard', [LectureClassesController::class, 'showLectureClassesDashboard']);
+    //lecture Class create
+    Route::post('/admin/createLectureClass', [LectureClassesController::class, 'createLectureClass']);
     //View Lecture Class Action Button
     Route::get('/admin/lectureClassInfo/{id}', [LectureClassesController::class, 'showLectureClassInfo']);
     //Delete function
-    Route::delete('/admin/deleteLectureClass', [LectureClassesController::class, 'deleteLectureClass']);
+    Route::delete('/admin/deleteLectureClass/{id}', [LectureClassesController::class, 'deleteLectureClass']);
     //manage student function
     Route::get('/admin/manageStudentDashboard/{id}', [LectureClassesController::class, 'showManageStudentDashboard']);
     //Enrol student function
