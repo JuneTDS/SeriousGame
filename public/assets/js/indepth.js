@@ -25,7 +25,7 @@ class Indepth {
 
             this.initialMessage.hide();
 
-            this.title.find("h3").text(`Activity Tracking for ${$("#class option:selected").text()}`);
+            this.title.find("h3").text(`Indepth Dashboard for ${$("#class option:selected").text()}`);
             this.title.show();
 
             let loop = 1;

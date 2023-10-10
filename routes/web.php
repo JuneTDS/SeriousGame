@@ -141,6 +141,15 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Subjects Dashboard
     Route::get('/admin/subjectsDashboard', [SubjectsController::class, 'showSubjectsDashboard']);
+
+    Route::post('/admin/create/subject', [SubjectsController::class, 'createSubject']);
+
+    Route::post('/admin/update/subject', [SubjectsController::class, 'updateSubject']);
+
+    Route::post('/admin/delete/subject', [SubjectsController::class, 'deleteSubject']);
+
+    Route::post('/admin/subject/status', [SubjectsController::class, 'changeSubjectStatus']);
+
     //View subject Action Button
     Route::get('/admin/subjectInfo/{id}', [SubjectsController::class, 'showSubjectInfo']);
     
