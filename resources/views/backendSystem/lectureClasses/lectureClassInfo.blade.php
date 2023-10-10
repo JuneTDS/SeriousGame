@@ -15,7 +15,7 @@
         <div class="left"><h3>View Class Management</h3></div>
         <div class="right" >
             <button type="button" id="edit-popup-btn" class="btn btn-outline-dark" style="width:200px">Update</button>
-            <button type="button" id="delete-popup-btn" class="btn btn-outline-danger" style="width:200px">Revoke</button>
+            <button type="button" id="delete-popup-btn" class="btn btn-outline-danger" style="width:200px" data-id="{{ $lectureClassData->subject_class_id }}">Revoke</button>
         </div>
     </div>
 
