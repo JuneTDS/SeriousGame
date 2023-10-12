@@ -199,7 +199,11 @@
                             <i class="fa fa-trash" onclick="confirmDelete({{$topicData->subtopic_id}})"></i>
                         </div>
                     </td>
-                    <td><button class="btn btn-outline-dark custom-btn-outline-dark">Manage Questions</button></td>
+                    <td>
+                        <a href="{{ url('/admin/questionsDashboard/' . $topicData->subtopic_id) }}">
+                            <button class="btn btn-outline-dark custom-btn-outline-dark">Manage Questions</button>
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

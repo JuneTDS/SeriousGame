@@ -240,7 +240,12 @@ th {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     width: 614px;
-    /* height: 551px; */
+    max-height: 90vh;
+    overflow-x: auto;
+}
+
+.popup-form::-webkit-scrollbar{
+    display: none;
 }
 
 #success-popup {
