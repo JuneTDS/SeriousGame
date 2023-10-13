@@ -28,7 +28,7 @@
     <!-- Create_Success_popup -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon">
+            <div class="success-warning-icon">
                 <img src="/assets/images/check_circle.svg" />
             </div>
             <p class="text-center message" style="padding-top:50px">A new subject has been created.</p>
@@ -49,7 +49,7 @@
     <!-- delete_popup -->
     <div id="delete-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon text-center">
+            <div class="delete-warning-icon text-center">
                 <img src="/assets/images/error.svg" />
             </div>
             <p class="text-center message" style="padding-top:50px">Are you sure want to delete.</p>
@@ -62,7 +62,7 @@
     <!-- Popup Form -->
     <!-- <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
             </div>
         </div>

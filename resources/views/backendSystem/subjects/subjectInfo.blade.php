@@ -19,7 +19,7 @@
     <!-- Create_Success_popup -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon">
+            <div class="success-warning-icon">
                 <img src="/assets/images/check_circle.svg" />
             </div>
             <p class="text-center message" style="padding-top:50px">A new subject has been created.</p>
@@ -30,7 +30,7 @@
     <!-- Popup Form -->
     <!-- <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
             </div>
         </div>

@@ -135,6 +135,87 @@ document.getElementById('update-btn').addEventListener('click', function() {
     });
 });
 
+document.getElementById('update-profile-btn').addEventListener('click', function() {
+    // Get the form data
+    var userId = document.getElementById('userId').value;
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var email = document.getElementById('email').value;
+    var emailGravatar = document.getElementById('emailGravatar').value;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    
+    // Create a data object to send to the server
+    var data = {
+        _token: _token,
+        userId: userId,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        emailGravatar: emailGravatar
+    };
+    
+
+    // Send a POST request to the server to save the data
+    $.ajax({
+        url: '/admin/userProfileEditSave',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
+                showSuccessPopup();
+            } else {
+                // Handle errors or display error messages
+                console.error(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX errors here
+            console.error(error);
+        }
+    });
+});
+
+document.getElementById('update_psw_btn').addEventListener('click', function() {
+    // Get the form data
+    var userId = document.getElementById('userId').value;
+    var current_Password = document.getElementById('current_Password').value;
+    var new_Password = document.getElementById('new_Password').value;
+    var confirm_Password = document.getElementById('confirm_Password').value;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    
+    // Create a data object to send to the server
+    var data = {
+        _token: _token,
+        userId: userId,
+        current_Password: current_Password,
+        new_Password: new_Password,
+        confirm_Password: confirm_Password
+    };
+    
+
+    // Send a POST request to the server to save the data
+    $.ajax({
+        url: '/admin/userProfilePasswordSave',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
+                showSuccessPopup();
+            } else {
+                // Handle errors or display error messages
+                console.error(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX errors here
+            console.error(error);
+            alert("New password must match with the confirmation password.");
+        }        
+    });
+});
+
 
 
 

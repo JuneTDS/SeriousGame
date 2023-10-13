@@ -14,7 +14,14 @@
     <div class="header-row">
         <div class="left"><h3>View Class Management</h3></div>
         <div class="right" >
-            <button type="button" id="edit-popup-btn" class="btn btn-outline-dark" style="width:200px">Update</button>
+            <button type="button" class="btn btn-outline-dark edit-popup-btn" style="width:200px"
+                data-class-name="{{ $lectureClassData->class_name }}"
+                data-academic-year="{{ $lectureClassData->academic_year }}"
+                data-academic-semester="{{ $lectureClassData->academic_semester }}"
+                data-lecture-name="{{ $lectureClassData->lecturer_username }}"
+                data-subject-name="{{ $lectureClassData->subject_name }}">
+                Update
+            </button>
             <button type="button" id="delete-popup-btn" class="btn btn-outline-danger" style="width:200px" data-id="{{ $lectureClassData->subject_class_id }}">Revoke</button>
         </div>
     </div>
@@ -27,36 +34,39 @@
         <h3 class="mb-4">Create Class Management</h3>
         <div class="mb-4">
             <label for="class-update" class="form-label">Class Name*</label>
-            <input type="text" class="form-control" id="class-update" required placeholder="Enter class name">
+            <input type="text" class="form-control" id="class_Update" required placeholder="Enter class name">
         </div>
         <div class="mb-4">
             <label for="year-update" class="form-label">Academic Year*</label>
-            <select class="form-select dropdown" id="year-update" name="year-update">
-                <option value="option1">2023</option>
-                <option value="option2">2024</option>
+            <select class="form-select dropdown" id="year_Update" name="year_Update">
+                @foreach($yearList as $year)
+                    <option value="{{ $year }}">{{ $year }}</option>
+                @endforeach
             </select>
         </div>
         <div class="mb-4">
             <label for="sem-update" class="form-label">Academic Semester*</label>
-            <select class="form-select dropdown" id="sem-update" name="sem-update">
-                <option value="option1">1</option>
-                <option value="option2">2</option>
+            <select class="form-select dropdown" id="sem_Update" name="sem_Update">
+                <option value="1">1</option>
+                <option value="2">2</option>
             </select>
         </div>
         <div class="mb-4">
             <label for="lecturer-update" class="form-label">Lecturer*</label>
-            <select class="form-select dropdown" id="lecturer-update" name="lecturer-update">
+            <select class="form-select dropdown" id="lecturer_Update" name="lecturer_Update">
                 <option value="" disabled selected>Select Lecturer Name</option>
-                <option value="option1">Lecturer 1</option>
-                <option value="option2">Lecturer 2</option>
+                @foreach($lecturersData as $lecturerData)
+                    <option value="{{ $lecturerData->user_id }}">{{ $lecturerData->username }}</option>
+                @endforeach
             </select>
         </div>
         <div class="mb-4">
             <label for="subject-update" class="form-label">Subject*</label>
-            <select class="form-select dropdown" id="subject-update" name="subject-update">
+            <select class="form-select dropdown" id="subject_Update" name="subject_Update">
                 <option value="" disabled selected>Select Subject Name</option>
-                <option value="option1">Subject 1</option>
-                <option value="option2">Subject 2</option>
+                @foreach($subjectsList as $subject)
+                    <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
+                @endforeach
             </select>
         </div>
         <button type="button" class="btn btn-dark" id="update-btn" style="width:526px">Save Changes</button>
@@ -65,7 +75,7 @@
     <!-- Popup Form -->
     <div id="update-success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
             </div>
         </div>
@@ -153,6 +163,6 @@
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
-<script src="{{ asset('assets/js/backendSystem_LectureClassPopup .js') }}"></script>
+<script src="{{ asset('assets/js/backendSystem_LectureClassPopup.js') }}"></script>
 
 @endsection

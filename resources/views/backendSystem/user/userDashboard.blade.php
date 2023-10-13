@@ -64,7 +64,7 @@
 
         <div id="success-popup" class="popup-form">
             <div class="row justify-content-center align-items-center ">
-                <div class="create-warning-icon">
+                <div class="success-warning-icon">
                     <i class="fa fa-check" ></i>
                 </div>
             </div>

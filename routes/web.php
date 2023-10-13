@@ -81,7 +81,13 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Backend System Routing
     //User Profile Page
-    Route::get('/admin/usersProfile', [UserController::class, 'showUsersProfile']);
+    Route::get('/admin/usersProfile/{id}', [UserController::class, 'showUsersProfile']);
+    //Edit User Profile
+    Route::get('/admin/userProfileEdit/{id}', [UserController::class, 'showUserProfileEdit']);
+    //Save User Profile Edit
+    Route::post('/admin/userProfileEditSave', [UserController::class, 'userProfileEditSave']);
+    //Save User Profile Password Edit
+    Route::post('/admin/userProfilePasswordSave', [UserController::class, 'userProfilePasswordSave']);
     // Logout
     Route::get('/auth/logout', [LoginController::class, 'logout']);
 
@@ -198,16 +204,20 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/admin/createLectureClass', [LectureClassesController::class, 'createLectureClass']);
     //View Lecture Class Action Button
     Route::get('/admin/lectureClassInfo/{id}', [LectureClassesController::class, 'showLectureClassInfo']);
+    //Save User Edit
+    Route::post('/admin/lectureClassEditSave', [LectureClassesController::class, 'lectureClassEditSave']);
     //Delete function
     Route::delete('/admin/deleteLectureClass/{id}', [LectureClassesController::class, 'deleteLectureClass']);
     //manage student function
     Route::get('/admin/manageStudentDashboard/{id}', [LectureClassesController::class, 'showManageStudentDashboard']);
     //Enrol student function
-    Route::get('/admin/enrolStudentDashboard', [LectureClassesController::class, 'showEnrolStudentDashboard']);
+    Route::get('/admin/enrolStudentDashboard/{id}', [LectureClassesController::class, 'showEnrolStudentDashboard']);
     //Download Enrol Student Template file
     Route::get('/admin/enrolStudentTemplate', [LectureClassesController::class, 'downloadEnrolStudentTemplate']);
     //Upload Enrol Student file
+    Route::get('/admin/uploadEnrolStudentFile', [LectureClassesController::class, 'showUploadForm']);
     Route::post('/admin/uploadEnrolStudentFile', [LectureClassesController::class, 'uploadEnrolStudentFile']);
+
 
 
 

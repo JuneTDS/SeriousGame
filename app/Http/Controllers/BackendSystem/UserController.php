@@ -252,11 +252,120 @@ class UserController extends Controller
 
         return response()->json(['success' => true]);
     }
-    
+
     // Function to display userProfile page
-    public function showUsersProfile()
+    public function showUsersProfile($id)
     {
-        return view('backendSystem.user.userProfile');
+        $userData = DB::table('tbl_user')
+            ->select(
+                'tbl_user.*',
+                'tbl_user_profile.last_visit',
+                'tbl_auth_item.description',
+                'tbl_user_profile.first_name',
+                'tbl_user_profile.last_name',
+                'tbl_user_profile.email_gravatar'
+            )
+            ->leftJoin('tbl_user_profile', 'tbl_user.id', '=', 'tbl_user_profile.user_id')
+            ->leftJoin('tbl_auth_assignment', 'tbl_user.id', '=', 'tbl_auth_assignment.user_id')
+            ->leftJoin('tbl_auth_item', 'tbl_auth_assignment.item_name', '=', 'tbl_auth_item.name')
+            ->where('tbl_user.id', '=', $id)    // Retrieve the specific user's data based on the ID
+            ->first();
+    
+        return view('backendSystem.user.userProfile', ['userData' => $userData]);
+    }
+
+    // Function to display userProfileEdit page
+    public function showUserProfileEdit($id)
+    {
+        $userData = DB::table('tbl_user')
+            ->select(
+                'tbl_user.*',
+                'tbl_user_profile.first_name',
+                'tbl_user_profile.last_name',
+                'tbl_user_profile.email_gravatar'
+            )
+            ->leftJoin('tbl_user_profile', 'tbl_user.id', '=', 'tbl_user_profile.user_id')
+            ->where('tbl_user.id', '=', $id)    // Retrieve the specific user's data based on the ID
+            ->first();
+    
+        return view('backendSystem.user.userProfileEdit', ['userData' => $userData]);
+    }
+
+    // Function to save user profile edit
+    public function userProfileEditSave(Request $request)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Perform server-side validation
+        $validatedData = $request->validate([
+            'email' => 'required|email|unique:tbl_user,email',
+            'emailGravatar' => 'required|email|unique:tbl_user,email',
+        ]);
+
+        // Extract data from the JSON request
+        $userId = $data['userId'];
+        $firstName = $data['firstName'];
+        $lastName = $data['lastName'];
+        $email = $data['email'];
+        $emailGravatar = $data['emailGravatar'];
+        $updatedAt      = Carbon::now()->timestamp;
+
+        $userDataSql = "
+        UPDATE tbl_user
+        SET email = '$email',
+            first_login = 'No',
+            updated_at = $updatedAt
+        WHERE id = $userId
+        ";
+
+        $userProfileSql = "
+        UPDATE tbl_user_profile
+        SET first_name = '$firstName',
+            last_name = '$lastName',
+            email_gravatar = '$emailGravatar',
+            updated_at = $updatedAt
+        WHERE user_id = $userId
+        ";
+
+        // Execute the raw SQL query to update the record
+        $userData = DB::update($userDataSql);
+        $userProfile = DB::update($userProfileSql);
+
+        return response()->json(['success' => true]);
+    }
+
+    // Function to save user profile edit
+    public function userProfilePasswordSave(Request $request)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Extract data from the JSON request
+        $userId = $data['userId'];
+        $current_Password = $data['current_Password'];
+        $new_Password = $data['new_Password'];
+        $confirm_Password = $data['confirm_Password'];
+        $updatedAt      = Carbon::now()->timestamp;
+
+        if ($new_Password !== $confirm_Password){
+            return response()->json(['success' => false]);
+        }
+        else{
+            $password_hash = Hash::make($confirm_Password); // Hash the password
+
+            $userDataSql = "
+            UPDATE tbl_user
+            SET password_hash = '$password_hash',
+                updated_at = $updatedAt
+            WHERE id = $userId
+            ";
+    
+            // Execute the raw SQL query to update the record
+            $userData = DB::update($userDataSql);
+    
+            return response()->json(['success' => true]);
+        }
     }
 
     public function deleteUser($id)

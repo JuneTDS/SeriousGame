@@ -32,7 +32,7 @@
     <!-- Popup Form -->
     <div id="delete-popup-form" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="delete-warning-icon col-1 ">
                 <i class="fa fa-exclamation"></i>
             </div>
         </div>

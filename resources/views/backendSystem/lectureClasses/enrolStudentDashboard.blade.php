@@ -2,7 +2,7 @@
 
 @section('content')
 
-<a href="/admin/lectureClassesDashboard" style="margin-left: 5%;">
+<a href="{{ url('/admin/manageStudentDashboard/' . $lectureClassId) }}" style="margin-left: 5%;">
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
 </a>
 
@@ -32,7 +32,7 @@
                             Upload File
                         </label>
                     </div>
-                    <button type="submit">Upload and Process CSV</button>
+                    <button type="submit" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px;width:200px;text-align:center">Upload and Process CSV</button>
                 </form>
             </div>
         </div>
@@ -70,6 +70,6 @@
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
-<script src="{{ asset('assets/js/backendSystem_LectureClassPopup .js') }}"></script>
+<script src="{{ asset('assets/js/backendSystem_LectureClassPopup.js') }}"></script>
 
 @endsection

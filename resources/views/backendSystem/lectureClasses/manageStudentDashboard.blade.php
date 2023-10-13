@@ -10,16 +10,15 @@
     <div class="header-row">
         <div class="left"><h3>Manage Students</h3></div>
         <div class="right" >
-            <button type="button" id="open-popup-btn" class="btn btn-outline-dark">Enrol Student</button>
-            <a href="/admin/enrolStudentDashboard">
-                <button type="button" class="btn btn-outline-dark">Temp Enrol Student Button</button>
+            <a href="{{ url('/admin/enrolStudentDashboard/' . $lectureClassId) }}">
+                <button type="button" class="btn btn-outline-dark">Enrol Student</button>
             </a>
         </div>
     </div>
 
     <!-- Filter (Start) -->
     <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
-        <form href="{{ url('/admin/manageStudentDashboard?subject_class_id=' . $manageStudentsData->subject_class_id) }}" id="filter-form">
+        <form href="{{ url('/admin/manageStudentDashboard/' . $lectureClassId) }}" id="filter-form">
             <div class="row">
                 <div class="col-4" style="float: left;padding-top:41px">
                     <input type="text" class="form-control input-field" id="studentName" name="studentName" placeholder="Search by student name" value="{{ $searchKeyword }}">
@@ -100,7 +99,7 @@
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
-<script src="{{ asset('assets/js/backendSystem_LectureClassPopup .js') }}"></script>
+<script src="{{ asset('assets/js/backendSystem_LectureClassPopup.js') }}"></script>
 
 <script>
     $(document).ready(function() {

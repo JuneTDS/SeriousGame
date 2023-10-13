@@ -85,8 +85,36 @@ document.getElementById('create-btn').addEventListener('click', function() {
 
 
 
+// Function to populate the edit popup with lecture class details
+function populateEditPopup(classData) {
+    document.getElementById('class-update').value = classData.className;
+    document.getElementById('year-update').value = classData.academicYear;
+    document.getElementById('sem-update').value = classData.academicSemester;
+    document.getElementById('lecturer-update').value = classData.lectureName;
+    document.getElementById('subject-update').value = classData.subjectName;
+}
+
 // Open the edit popup when the button is clicked
-document.getElementById('edit-popup-btn').addEventListener('click', showEditPopup);
+// Attach click event listener to edit button
+document.querySelectorAll('.edit-popup-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+        // Get lecture class data from data attributes
+        var classData = {
+            className: this.getAttribute('data-class-name'),
+            academicYear: this.getAttribute('data-academic-year'),
+            academicSemester: this.getAttribute('data-academic-semester'),
+            lectureName: this.getAttribute('data-lecture-name'),
+            subjectName: this.getAttribute('data-subject-name')
+        };
+
+        // Populate the edit popup with the lecture class details
+        populateEditPopup(classData);
+
+        // Show the edit popup
+        showEditPopup();
+    });
+});
+
 
 // Function to show the create popup and overlay
 function showEditPopup() {
@@ -114,33 +142,27 @@ function showEditSuccessPopup() {
 
 document.getElementById('update-btn').addEventListener('click', function() {
     // Get the form data
-    var userId = document.getElementById('userId').value;
-    var username = document.getElementById('username').value;
-    var firstName = document.getElementById('firstName').value;
-    var lastName = document.getElementById('lastName').value;
-    var email = document.getElementById('email').value;
-    var emailGravatar = document.getElementById('emailGravatar').value;
-    var password = document.getElementById('password').value;
-    var status = document.getElementById('status').value;
+    var class_Update = document.getElementById('class_Update').value;
+    var year_Update = document.getElementById('year_Update').value;
+    var sem_Update = document.getElementById('sem_Update').value;
+    var lecturer_Update = document.getElementById('lecturer_Update').value;
+    var subject_Update = document.getElementById('subject_Update').value;
     let _token = $('meta[name="csrf-token"]').attr('content');
     
     // Create a data object to send to the server
     var data = {
         _token: _token,
-        userId: userId,
-        username: username,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        emailGravatar: emailGravatar,
-        password: password,
-        status: status
+        class_Update: class_Update,
+        year_Update: year_Update,
+        sem_Update: sem_Update,
+        lecturer_Update: lecturer_Update,
+        subject_Update: subject_Update
     };
     
 
     // Send a POST request to the server to save the data
     $.ajax({
-        url: '/admin/userEditSave',
+        url: '/admin/lectureClassEditSave',
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
