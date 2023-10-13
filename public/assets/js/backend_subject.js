@@ -136,6 +136,37 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.dropdown').on('change', function () {
+        $('form#filter-form').submit();
+    });
+
+    // $('.input-field').on('keydown', function () {
+    //     $('form#filter-form').submit();
+    // });
+
+    $('.input-field').on('keyup', function (e) {
+        if (e.key == "Enter") {
+            $('form#filter-form').submit();
+        }
+    });
+
+    $('.input-field').on('change', function () {
+        $('form#filter-form').submit();
+    });
+
+    $(document).on("click", ".sortable", function(e) {
+        e.preventDefault();
+        if ($(this).attr("data-column") == "name") {
+            if($("#name_sort").val() == "asc") {
+                $("#name_sort").val("desc");
+            } else {
+                $("#name_sort").val("asc");
+            }
+        }
+
+        $('form#filter-form').submit();
+    });
 });
 
 function showUpdateSubjectPopup(subjectId) {

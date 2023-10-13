@@ -306,3 +306,11 @@ tr.child {
     color: #45494C;
     border-bottom: 1px solid transparent;
 }
+
+.items-per-page-dropdown {
+    display: none;
+}
+
+.sortable {
+    cursor: pointer;
+}

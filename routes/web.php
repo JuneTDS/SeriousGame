@@ -46,9 +46,9 @@ Route::group(['middleware' => ['guest']], function() {
 
 Route::group(['middleware' => ['auth']], function() {
 
-    Route::get('/', [DashboardController::class, 'show']);
+    Route::get('/', [ClassController::class, 'index'])->name("search.class");
 
-    Route::get('/home', [DashboardController::class, 'show']);
+    // Route::get('/home', [DashboardController::class, 'show']);
 
     Route::get('/frontend/classes', [ClassController::class, 'index'])->name("search.class");
 
@@ -162,6 +162,22 @@ Route::group(['middleware' => ['auth']], function() {
     
     //Topics Dashboard
     Route::get('/admin/topicsDashboard/{id}', [SubjectsController::class, 'showTopicsDashboard']);
+
+    Route::post('/admin/topic/create', [SubjectsController::class, 'createTopic']);
+
+    Route::post('/admin/topic/update', [SubjectsController::class, 'updateTopic']);
+
+    Route::post('/admin/topic/delete', [SubjectsController::class, 'deleteTopic']);
+
+
+    //Topics Dashboard
+    Route::get('/admin/subtopicsDashboard/{id}', [SubjectsController::class, 'showSubTopicsDashboard']);
+
+    Route::post('/admin/subtopic/create', [SubjectsController::class, 'createSubTopic']);
+
+    Route::post('/admin/subtopic/update', [SubjectsController::class, 'updateSubTopic']);
+
+    Route::post('/admin/subtopic/delete', [SubjectsController::class, 'deleteSubTopic']);
 
 
     //Subject Enrollments Dashboard

@@ -240,7 +240,7 @@ th {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     width: 614px;
-    height: 551px;
+    /* height: 551px; */
 }
 
 #success-popup {

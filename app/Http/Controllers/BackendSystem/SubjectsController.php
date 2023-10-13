@@ -18,12 +18,48 @@ class SubjectsController extends Controller
                 'tbl_user.username as updated_by_username'
             )
             ->leftJoin('tbl_user', 'tbl_subject.updated_by', '=', 'tbl_user.id');
+        
+        $subjectname = $request->input('subjectname');
+        $publish = $request->input('publish');
+        $updated_by = $request->input('updated_by');
+        $updated_on = $request->input('updated_on');
+        $name_sort = $request->input('name_sort');
+
+        if ($subjectname !== "" && $subjectname !== null){
+            $query->where('tbl_subject.subject_name', 'like', '%' . $subjectname . '%');
+        }
+        
+        if ($publish !== 'All' && $publish !== '' && $publish !== null) {   // Filter by status if 'All' is not selected
+            $query->where('tbl_subject.published', $publish);
+        }
+
+        if ($updated_by !== 'All' && $updated_by !== '' && $updated_by !== null) {   // Filter by roleName if 'All' is not selected
+            $query->where('tbl_subject.updated_by', $updated_by);
+        }
+
+        if ($updated_on !== '' && $updated_on !== null) {   // Filter by roleName if 'All' is not selected
+            $query->where('tbl_subject.updated_at', '>=', $updated_on);
+        }
+
+        if ($name_sort !== '' && $name_sort !== null) {   // Filter by roleName if 'All' is not selected
+            // $query->where('tbl_subject.updated_at', '>=', $updated_on);
+            $query->orderBy("tbl_subject.subject_name", $name_sort);
+        }
 
         $subjects = $query
             ->get();
 
+        $users = DB::table('tbl_user')
+            ->where('status', true)->get();
+
         return view('backendSystem.subjects.subjectsDashboard',[
             'subjects' => $subjects,
+            'users' => $users,
+            'subjectname' => $subjectname,
+            'publish' => $publish,
+            'updated_by' => $updated_by,
+            'updated_on' => $updated_on,
+            'name_sort' => $name_sort
         ]);
     }
 
@@ -74,9 +110,16 @@ class SubjectsController extends Controller
         ]);
     }
 
-    public function showTopicsDashboard($id)
+    public function showTopicsDashboard($id, Request $request)
     {
-        $topics = DB::table('tbl_topic')
+
+        $subject = $request->input("subject");
+        $name = $request->input("name");
+        $updated_by = $request->input("updated_by");
+        $updated_at = $request->input("updated_at");
+        $name_sort = $request->input("name_sort");
+
+        $query = DB::table('tbl_topic')
             ->select(
                 'tbl_topic.*',
                 'tbl_subject.subject_name',
@@ -84,11 +127,44 @@ class SubjectsController extends Controller
             )
             ->leftJoin('tbl_subject', 'tbl_topic.subject_id_fk', '=', 'tbl_subject.subject_id')
             ->leftJoin('tbl_user', 'tbl_topic.updated_by', '=', 'tbl_user.id')
-            ->where('subject_id_fk', $id)
-            ->get();
+            ->where('subject_id_fk', $id);
+        
+        if ($subject !== "" && $subject !== null){
+            $query->where('tbl_subject.subject_id', $subject);
+        }
+
+        if ($name !== "" && $name !== null){
+            $query->where('tbl_topic.topic_name', 'like', '%' . $name . '%');
+        }
+
+        if ($updated_by !== "" && $updated_by !== null){
+            $query->where('tbl_topic.updated_by', $updated_by);
+        }
+
+        if ($updated_at !== "" && $updated_at !== null){
+            $query->where('tbl_topic.updated_at', '>=', $updated_at);
+        }
+
+        if ($name_sort !== "" && $name_sort !== null){
+            $query->orderBy("tbl_topic.topic_name", $name_sort);
+        }
+
+        // echo $query->toSql();
+        $topics = $query->get();
+
+        $subjects = DB::table('tbl_subject')->where("subject_id", $id)->get();
+        $users = DB::table('tbl_user')->where("status", 1)->get();
 
         return view('backendSystem.topics.topicsDashboard', [
             'topics' => $topics,
+            'subjects' => $subjects,
+            'users' => $users,
+            'urlId' => $id,
+            'subject' => $subject,
+            'name' => $name,
+            'updated_by' => $updated_by,
+            'updated_at' => $updated_at,
+            'name_sort' => $name_sort,
         ]);
     }
 
@@ -129,4 +205,143 @@ class SubjectsController extends Controller
 
         return response()->json(array('data'=> $result), 200);
     }
+
+    public function createTopic(Request $request) {
+        $topic = $request->input("topic");
+        $subject = $request->input("subject");
+        $hour_dropdown = $request->input("hour_dropdown");
+        $minute_dropdown = $request->input("minute_dropdown");
+
+        $createdAt = Carbon::now();
+
+        $result = DB::insert(DB::raw("INSERT INTO `tbl_topic` (`subject_id_fk`, `topic_name`, `ordering`, `time_expected`, `active_from`, `active_to`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES (".$subject.", '".$topic."', 0, '".$hour_dropdown.":".$minute_dropdown.":00', null, null, '".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function updateTopic(Request $request) {
+        $topicId = $request->input("topic_id");
+        $topic = $request->input("topic");
+        $hour_dropdown = $request->input("hour_dropdown");
+        $minute_dropdown = $request->input("minute_dropdown");
+        
+        $result = DB::table('tbl_topic')->where('topic_id', $topicId)
+            ->update([
+                'topic_name' => $topic,
+                'time_expected' => $hour_dropdown.":".$minute_dropdown.":00"
+            ]);
+
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function deleteTopic(Request $request) {
+        $topic = $request->input("topic");
+        
+        $result = DB::table('tbl_topic')->where('topic_id', $topic)->delete();
+
+        return response()->json(array('data'=> $result), 200);
+    }
+
+
+
+    // subtopic started
+    public function showSubTopicsDashboard($id, Request $request)
+    {
+
+        $topic = $request->input("topic");
+        $name = $request->input("name");
+        $updated_by = $request->input("updated_by");
+        $updated_at = $request->input("updated_at");
+        $name_sort = $request->input("name_sort");
+
+        $query = DB::table('tbl_subtopic')
+            ->select(
+                'tbl_subtopic.*',
+                'tbl_topic.topic_name',
+                'tbl_user.username as updated_by_username'
+            )
+            ->leftJoin('tbl_topic', 'tbl_topic.topic_id', '=', 'tbl_subtopic.topic_id_fk')
+            ->leftJoin('tbl_user', 'tbl_subtopic.updated_by', '=', 'tbl_user.id')
+            ->where('tbl_subtopic.topic_id_fk', $id);
+        
+        if ($topic !== "" && $topic !== null){
+            $query->where('tbl_subtopic.topic_id_fk', $topic);
+        }
+
+        if ($name !== "" && $name !== null){
+            $query->where('tbl_subtopic.subtopic_name', 'like', '%' . $name . '%');
+        }
+
+        if ($updated_by !== "" && $updated_by !== null){
+            $query->where('tbl_subtopic.updated_by', $updated_by);
+        }
+
+        if ($updated_at !== "" && $updated_at !== null){
+            $query->where('tbl_subtopic.updated_at', '>=', $updated_at);
+        }
+
+        if ($name_sort !== "" && $name_sort !== null){
+            $query->orderBy("tbl_subtopic.subtopic_name", $name_sort);
+        }
+
+        // echo $query->toSql();
+        $subtopics = $query->get();
+
+        $topic = DB::table('tbl_topic')->where("topic_id", $id)->get();
+        $users = DB::table('tbl_user')->where("status", 1)->get();
+
+        return view('backendSystem.subtopics.subtopicsDashboard', [
+            'subtopics' => $subtopics,
+            'topic' => $topic,
+            'users' => $users,
+            'urlId' => $id,
+            'name' => $name,
+            'updated_by' => $updated_by,
+            'updated_at' => $updated_at,
+            'name_sort' => $name_sort,
+        ]);
+    }
+
+    public function createSubTopic(Request $request) {
+        $topic = $request->input("topic");
+        $subtopic = $request->input("subtopic");
+        $url = $request->input("url");
+        $easy = $request->input("easy");
+        $difficult = $request->input("difficult");
+        $score = $request->input("score");
+
+        $createdAt = Carbon::now();
+
+        $result = DB::insert(DB::raw("INSERT INTO `tbl_subtopic` (`subtopic_name`, `ordering`, `subtopic_video_url`, `no_of_easy_questions`, `no_of_difficult_questions`, `full_score`, `boss_level_flag`, `active_from`, `active_to`, `topic_id_fk`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES ('".$subtopic."',0,'".$url."',".$easy.",".$difficult.",".$score.",0,null,null,".$topic.",'".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function updateSubTopic(Request $request) {
+        $subtopicId = $request->input("subtopicId");
+        $subtopic   = $request->input("subtopic");
+        $url        = $request->input("url");
+        $easy       = $request->input("easy");
+        $difficult  = $request->input("difficult");
+        $score      = $request->input("score");
+        
+        $result = DB::table('tbl_subtopic')
+            ->where('subtopic_id', $subtopicId)
+            ->update([
+                'subtopic_name' => $subtopic,
+                'subtopic_video_url' => $url,
+                'no_of_easy_questions' => $easy,
+                'no_of_difficult_questions' => $difficult,
+                'full_score' => $score,
+            ]);
+
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function deleteSubTopic(Request $request) {
+        $subtopic = $request->input("subtopic");
+        
+        $result = DB::table('tbl_subtopic')->where('subtopic_id', $subtopic)->delete();
+
+        return response()->json(array('data'=> $result), 200);
+    }
+    // end subtopic
 }

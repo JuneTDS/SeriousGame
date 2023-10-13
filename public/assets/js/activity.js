@@ -10,7 +10,6 @@ class Activity {
     }
 
     init(data){
-        console.log(data);
 
         if (data.is_exist) {
             this.initialMessage.hide();
