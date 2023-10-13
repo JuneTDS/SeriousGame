@@ -1,6 +1,13 @@
 $(document).ready(function() {
     let _token = $('meta[name="csrf-token"]').attr('content');
     
+    $(document).on("click", "#overlay", function(event) {
+        if (event.target === document.getElementById('overlay')) {
+            $(".popup-form").hide();
+            $("#overlay").hide();
+        }
+    });
+    
     $('.input-field, .dropdown').on('change', function () {
         $('form#filter-form').submit();
     });
@@ -43,6 +50,10 @@ $(document).ready(function() {
         let difficulty = $("#difficulty").val();
         let type = $("#type").val();
         let name = $("#name").val();
+        let mcq_a = $("#mcq_a").val();
+        let mcq_b = $("#mcq_b").val();
+        let mcq_c = $("#mcq_c").val();
+        let mcq_d = $("#mcq_d").val();
         let answer = $("#answer").val();
         let hint = $("#hint").val();
         let score = $("#score").val();
@@ -53,6 +64,10 @@ $(document).ready(function() {
             subtopic: subtopic,
             type: type,
             name: name,
+            mcq_a: mcq_a,
+            mcq_b: mcq_b,
+            mcq_c: mcq_c,
+            mcq_d: mcq_d,
             answer: answer,
             hint: hint,
             score: score

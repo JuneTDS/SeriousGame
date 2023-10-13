@@ -407,13 +407,17 @@ class SubjectsController extends Controller
         $subtopic = $request->input("subtopic");
         $type = $request->input("type");
         $name = $request->input("name");
+        $mcq_a = $request->input("mcq_a");
+        $mcq_b = $request->input("mcq_b");
+        $mcq_c = $request->input("mcq_c");
+        $mcq_d = $request->input("mcq_d");
         $answer = $request->input("answer");
         $hint = $request->input("hint");
         $score = $request->input("score");
 
         $createdAt = Carbon::now();
 
-        $result = DB::insert(DB::raw("INSERT INTO `tbl_questions` (`subtopic_id_fk`, `question_difficulty`, `question_type`, `question_name`, `mcq_a`, `mcq_b`, `mcq_c`, `mcq_d`, `question_answer`, `score`, `hints`, `boss_level_id_fk`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES (".$subtopic.",'".$difficulty."','".$type."','".$name."',null,null,null,null,'".$answer."',".$score.",'".$hint."',0,'".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));
+        $result = DB::insert(DB::raw("INSERT INTO `tbl_questions` (`subtopic_id_fk`, `question_difficulty`, `question_type`, `question_name`, `mcq_a`, `mcq_b`, `mcq_c`, `mcq_d`, `question_answer`, `score`, `hints`, `boss_level_id_fk`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES (".$subtopic.",'".$difficulty."','".$type."','".$name."','".$mcq_a."','".$mcq_b."','".$mcq_c."','".$mcq_d."','".$answer."',".$score.",'".$hint."',0,'".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));
         return response()->json(array('data'=> $result), 200);
     }
 

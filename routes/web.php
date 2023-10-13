@@ -187,6 +187,10 @@ Route::group(['middleware' => ['auth']], function() {
     //Subject Enrollments Dashboard
     Route::get('/admin/subjectEnrollmentsDashboard', [SubjectEnrollmentsController::class, 'showSubjectEnrollmentsDashboard']);
 
+    Route::post('/admin/enrollment/create', [SubjectEnrollmentsController::class, 'createEnrollment']);
+
+    Route::post('/admin/enrollment/delete', [SubjectEnrollmentsController::class, 'deleteEnrollment']);
+
 
     //Lecture Classes Dashboard
     Route::get('/admin/lectureClassesDashboard', [LectureClassesController::class, 'showLectureClassesDashboard']);

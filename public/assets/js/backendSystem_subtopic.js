@@ -1,6 +1,13 @@
 $(document).ready(function() {
     let _token = $('meta[name="csrf-token"]').attr('content');
     
+    $(document).on("click", "#overlay", function(event) {
+        if (event.target === document.getElementById('overlay')) {
+            $(".popup-form").hide();
+            $("#overlay").hide();
+        }
+    });
+    
     $('.input-field, .dropdown').on('change', function () {
         $('form#filter-form').submit();
     });

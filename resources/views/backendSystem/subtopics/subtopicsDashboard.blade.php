@@ -2,7 +2,7 @@
 
 @section('content')
 
-<a href="/admin/subjectsDashboard" style="margin-left: 5%;">
+<a href="/admin/topicsDashboard/{{ $topic[0]->subject_id_fk }}" style="margin-left: 5%;">
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Topics</p>
 </a>
 

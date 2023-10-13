@@ -2,7 +2,7 @@
 
 @section('content')
 
-<a href="/admin/subjectsDashboard" style="margin-left: 5%;">
+<a href="/admin/subtopicsDashboard/{{ $subtopics[0]->topic_id_fk }}" style="margin-left: 5%;">
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Subtopics</p>
 </a>
 
@@ -46,6 +46,22 @@
             <label for="name" class="form-label">Question Name*</label>
             <!-- <input type="text" class="form-control" id="url" placeholder="Enter URL" /> -->
             <textarea class="form-control" name="" id="name" cols="30" rows="4" placeholder="Enter question"></textarea>
+        </div>
+        <div class="mb-4">
+            <label for="mcq_a" class="form-label">MCQ A</label>
+            <input type="text" class="form-control" id="mcq_a" />
+        </div>
+        <div class="mb-4">
+            <label for="mcq_b" class="form-label">MCQ B</label>
+            <input type="text" class="form-control" id="mcq_b" />
+        </div>
+        <div class="mb-4">
+            <label for="mcq_c" class="form-label">MCQ C</label>
+            <input type="text" class="form-control" id="mcq_c" />
+        </div>
+        <div class="mb-4">
+            <label for="mcq_d" class="form-label">MCQ D</label>
+            <input type="text" class="form-control" id="mcq_d" />
         </div>
         <div class="mb-4">
             <label for="answer" class="form-label">Question Answer*</label>
