@@ -53,7 +53,7 @@
     <!-- Create_Success_popup -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon">
+            <div class="success-warning-icon">
                 <i class="fa fa-check" ></i>
             </div>
             <p class="text-center" style="padding-top:50px">A new topic has been created.</p>
@@ -95,7 +95,7 @@
     <!-- Popup Form -->
     <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
             </div>
         </div>

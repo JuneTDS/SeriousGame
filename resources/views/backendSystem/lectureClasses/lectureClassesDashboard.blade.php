@@ -71,11 +71,11 @@
         <h3 class="mb-4">Create Class Management</h3>
         <div class="mb-4">
             <label for="class-update" class="form-label">Class Name*</label>
-            <input type="text" class="form-control" id="class-update" required placeholder="Enter class name">
+            <input type="text" class="form-control" id="class_Update" required placeholder="Enter class name">
         </div>
         <div class="mb-4">
             <label for="year-update" class="form-label">Academic Year*</label>
-            <select class="form-select dropdown" id="year-update" name="year-update">
+            <select class="form-select dropdown" id="year_Update" name="year_Update">
                 @foreach($yearList as $year)
                     <option value="{{ $year }}">{{ $year }}</option>
                 @endforeach
@@ -83,14 +83,14 @@
         </div>
         <div class="mb-4">
             <label for="sem-update" class="form-label">Academic Semester*</label>
-            <select class="form-select dropdown" id="sem-update" name="sem-update">
+            <select class="form-select dropdown" id="sem_Update" name="sem_Update">
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
         </div>
         <div class="mb-4">
             <label for="lecturer-update" class="form-label">Lecturer*</label>
-            <select class="form-select dropdown" id="lecturer-update" name="lecturer-update">
+            <select class="form-select dropdown" id="lecturer_Update" name="lecturer_Update">
                 <option value="" disabled selected>Select Lecturer Name</option>
                 @foreach($lecturersData as $lecturerData)
                     <option value="{{ $lecturerData->user_id }}">{{ $lecturerData->username }}</option>
@@ -99,7 +99,7 @@
         </div>
         <div class="mb-4">
             <label for="subject-update" class="form-label">Subject*</label>
-            <select class="form-select dropdown" id="subject-update" name="subject-update">
+            <select class="form-select dropdown" id="subject_Update" name="subject_Update">
                 <option value="" disabled selected>Select Subject Name</option>
                 @foreach($subjectsList as $subject)
                     <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
@@ -112,7 +112,7 @@
     <!-- Popup Form -->
     <div id="update-success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
             </div>
         </div>

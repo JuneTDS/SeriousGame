@@ -17,7 +17,7 @@ class LectureClassesController extends Controller
         $currentYear = date('Y'); // Get the current year
         $numberOfYearsToShow = 5; // Number of years to show in the dropdown
 
-        for ($i = 0; $i < $numberOfYearsToShow; $i++) {
+        for ($i = -5; $i < $numberOfYearsToShow; $i++) {
             $year = $currentYear + $i;
             $yearList[$year] = $year;
         }
@@ -93,8 +93,8 @@ class LectureClassesController extends Controller
         $lectureClasses = $query->get();
 
         return view('backendSystem.lectureClasses.lectureClassesDashboard', [
-            'yearList' => $yearList,
             'lectureClasses' => $lectureClasses,
+            'yearList' => $yearList,
             'lecturersData' => $lecturersData,
             'subjectsList' => $subjectsList,
             'academicYears' => $academicYears,
@@ -138,6 +138,28 @@ class LectureClassesController extends Controller
 
     public function showLectureClassInfo($id)
     {
+        //To have a list of year for acedemic year dropdown in create form and edit form
+        $yearList = [];
+        $currentYear = date('Y'); // Get the current year
+        $numberOfYearsToShow = 5; // Number of years to show in the dropdown
+
+        for ($i = -5; $i < $numberOfYearsToShow; $i++) {
+            $year = $currentYear + $i;
+            $yearList[$year] = $year;
+        }
+
+        //To get all the user under 'Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager' role
+        $lecturersData = DB::table('tbl_auth_assignment')
+            ->whereIn('item_name', ['Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager'])
+            ->join('tbl_user', 'tbl_auth_assignment.user_id', '=', 'tbl_user.id')
+            ->select('tbl_auth_assignment.user_id', 'tbl_user.username')
+            ->get();
+
+        //To have a list of subject for subject dropdown in create form and edit form
+        $subjectsList = DB::table('tbl_subject')
+            ->select('subject_id', 'subject_name')
+            ->get();
+
         $lectureClassData = DB::table('tbl_subject_class')
             ->select('tbl_subject_class.*', 'tbl_subject.subject_name', 'tbl_user.username AS lecturer_username', 'tbl_user1.username AS updated_by_username', 'tbl_user2.username AS created_by_username')
             ->join('tbl_subject', 'tbl_subject_class.subject_id_fk', '=', 'tbl_subject.subject_id')
@@ -148,8 +170,52 @@ class LectureClassesController extends Controller
             ->first();
 
         return view('backendSystem.lectureClasses.lectureClassInfo',[
+            'yearList' => $yearList,
+            'lecturersData' => $lecturersData,
+            'subjectsList' => $subjectsList,
             'lectureClassData' => $lectureClassData
         ]);
+    }
+
+    public function lectureClassEditSave(Request $request)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Perform server-side validation
+        $validatedData = $request->validate([
+            'class_Update' => 'required|unique:tbl_subject_class,className',
+            'year_Update' => 'required',
+            'sem_Update' => 'required|in:1,2',
+            'lecturer_Update' => 'required',
+            'subject_Update' => 'required',
+        ]);
+
+        // Extract data from the JSON request
+        $class_Update = $data['class_Update'];
+        $year_Update = $data['year_Update'];
+        $sem_Update = $data['sem_Update'];
+        $lecturer_Update = $data['lecturer_Update'];
+        $subject_Update = $data['subject_Update'];
+
+        $updatedAt = Carbon::now()->timestamp;
+        $userId = Auth::user()->id;
+
+        $lectureClassSql = "
+        UPDATE tbl_subject_class
+        SET class_name = '$class_Update',
+            academic_year = '$year_Update',
+            academic_semester = '$sem_Update',
+            subject_id_fk = '$subject_Update',
+            lecturer_in_charge_id_fk = '$lecturer_Update',
+            updated_at = '$updatedAt',
+            updated_by = '$userId'
+        ";
+
+        // Execute the raw SQL query to update the record
+        $lectureClassData = DB::update($lectureClassSql);
+
+        return response()->json(['success' => true]);
     }
 
     public function showManageStudentDashboard(Request $request, $id)
@@ -191,16 +257,27 @@ class LectureClassesController extends Controller
         $manageStudentsData = $query
         ->get();
 
+        // Modify the query to retrieve a single record based on the provided ID
+        $lectureClassId = $id;
+
         return view('backendSystem.lectureClasses.manageStudentDashboard', [
-            'manageStudentsData' => $manageStudentsData
+            'manageStudentsData' => $manageStudentsData,
+            'lectureClassId' => $lectureClassId,
+            'searchKeyword' => $searchKeyword,
+            'selectedDate' => $selectedDate,
         ]);
     }
 
-    public function showEnrolStudentDashboard()
+    public function showEnrolStudentDashboard($id)
     {
+        $lectureClassId = $id;
+
         $enrolStudentsResult = [];
 
-        return view('backendSystem.lectureClasses.enrolStudentDashboard', ['enrolStudentsResult' => $enrolStudentsResult]);
+        return view('backendSystem.lectureClasses.enrolStudentDashboard', [
+            'enrolStudentsResult' => $enrolStudentsResult,
+            'lectureClassId' => $lectureClassId,
+        ]);
     }
 
     public function downloadEnrolStudentTemplate()
@@ -225,6 +302,11 @@ class LectureClassesController extends Controller
             // Handle the case where the file does not exist
             abort(404, 'File not found');
         }
+    }
+
+    public function showUploadForm()
+    {
+        return view('upload');
     }
 
     public function uploadEnrolStudentFile(Request $request)
@@ -261,7 +343,9 @@ class LectureClassesController extends Controller
             }
 
             // Pass the results to your view
-            return view('backendSystem.lectureClasses.enrolStudentDashboard', ['enrolStudentsResult' => $enrolStudentsResult]);
+            return view('backendSystem.lectureClasses.enrolStudentDashboard',[
+                'enrolStudentsResult' => $enrolStudentsResult,
+            ]);
         }
 
         // Handle the case where no file was uploaded

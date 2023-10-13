@@ -1,7 +1,7 @@
 .sidebar {
     position: fixed;
     /* background-color: var(--primary); */
-    background-color: #45494C;
+    background-color: var(--neutral-800);
     color: var(--shades-white);
     padding-top: 30px;
     padding-bottom: 30px;
@@ -29,7 +29,7 @@
 }
 
 .nav-link:hover {
-    background-color: #1de9b6;
+    background-color: var(--navLink_HoverBackground);
 }
 
 .nav-link{
@@ -80,7 +80,7 @@
 .dropdown-content {
     position: absolute;
     display: none;
-    background-color: white;
+    background-color: var(--dropdownContent_Background);
     width: 240px;
     box-shadow: -25px 20px 40px 0px rgba(173, 161, 161, 0.10);
     padding-top: 35px;
@@ -235,7 +235,7 @@ th {
     transform: translate(-50%, -50%);
     z-index: 9999;
     /* background-color: var(--popup_Background); */
-    background-color: white;
+    background-color: var(--popup_Background);
     padding: 67px 44px 66px 44px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
@@ -266,7 +266,7 @@ th {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    background-color: white;
+    background-color: var(--popup_Background);
     padding: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
@@ -313,25 +313,26 @@ th {
     border-radius: 100%;
 }
 
-.warning-icon i {
+.delete-warning-icon i,
+.success-warning-icon i {
     font-size: 22px;
     color: var(--warningIcon);
 }
 
 .statusBlocked {
-    color: red;
+    color: var(--statusBlocked);
 }
 
 .statusActive {
-    color: #208D33;
+    color: var(--statusActive);
 }
 
 .notPublished {
-    color: red;
+    color: var(--statusBlocked);
 }
 
 .Published {
-    color: #208D33;
+    color: var(--statusActive);
 }
 
 .normal-text a {
@@ -365,8 +366,8 @@ ul.custom-bullet-list li::before {
 #upBtn, #downBtn {
     width: 32px;
     height: 32px;
-    color: #737B7F;
-    border: 2px solid #737B7F;
+    color: var(--upDownBtn_Color);
+    border: 2px solid var(--upDownBtn_Border);
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -377,15 +378,15 @@ ul.custom-bullet-list li::before {
 
 /* Style for the selected buttons */
 #upBtn.selected, #downBtn.selected {
-    color: white;
-    background-color: #737B7F;
+    color: var(--upDownBtn_SelectedColor);
+    background-color: var(--upDownBtn_SelectedBackground);
 }
 
 #permissionByRolesTable, #itemPermissionsTable {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid var(--permissionTable_Border);
     border-radius: 6px;
 }
 
@@ -406,12 +407,12 @@ ul.custom-bullet-list li::before {
 }
 
 .custom-btn-outline-dark {
-    border-color: #45494C;
-    color: #45494C;
+    border-color: var(--customBtnOutlineDark_Border);
+    color: var(--customBtnOutlineDark_Color);
     }
 
 .custom-btn-outline-dark:hover {
-    border-color: #45494C;
-    color: #45494C;
+    border-color: var(--customBtnOutlineDark_HoverBorder);
+    color: var(--customBtnOutlineDark_HoverColor);
     background-color: transparent;
 }

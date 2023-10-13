@@ -33,6 +33,15 @@
     --statusBlocked: red;       /*Hardcode in backend.css*/
     --statusActive: #208D33;    /*Hardcode in backend.css*/
     --accountIconView_Background: #CFDDE4;
+    --upDownBtn_Color: #737B7F;
+    --upDownBtn_Border: #737B7F;
+    --upDownBtn_SelectedColor: white;
+    --upDownBtn_SelectedBackground: #737B7F;
+    --permissionTable_Border: #ccc;
+    --customBtnOutlineDark_Border: #45494C;
+    --customBtnOutlineDark_Color: #45494C;
+    --customBtnOutlineDark_HoverBorder: #45494C;
+    --customBtnOutlineDark_HoverColor: #45494C;
 
     --designWidth: 1920;
     --designHeight: 1080;

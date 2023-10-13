@@ -70,11 +70,6 @@
                                     <i class="fas fa-chalkboard-teacher"></i> <span class="ms-1 d-none d-sm-inline">Manage Lecture Class</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="/admin/modeSiteDashboard" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-globe"></i> <span class="ms-1 d-none d-sm-inline">Mode Site</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -97,7 +92,7 @@
                 <div class="row">
                     <div class="dropdown-container">
                         <div class="dropdown-content" id="myDropdown">
-                            <a href="/admin/usersProfile">User Profile</a>
+                            <a href="{{ url('/admin/usersProfile', ['id' => auth()->user()->id]) }}">User Profile</a>
                             <a href="/auth/logout">Logout</a>
                         </div>
                     </div>
