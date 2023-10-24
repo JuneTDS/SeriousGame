@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="row justify-content-center align-items-center " style="padding-top:42px">
-                <p class="text-center">Are you sure you want to delete [username]’s record?</p>
+                <p class="text-center">Are you sure you want to delete [username]'s record?</p>
             </div>
             <div class="row justify-content-center align-items-center " style="padding-top:24px">
                 <p class="text-center"><b>This action cannot be undone.</b></p>
@@ -106,7 +106,7 @@
 
                     <div class="col-2">
                         <p>Last Visit</p>
-                        <input type="date" class="form-control input-field" id="lastVisit" name="lastVisit">
+                        <input type="date" class="form-control input-field" id="lastVisit" name="lastVisit" value="{{ $selectedDate }}">
                     </div>
 
                     <input type="hidden" id="sortBy" name="sortBy" value="">
@@ -181,8 +181,9 @@
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 <!-- <i class="fa fa-trash" id="delete-popup-btn"></i> -->
-                                <i class="fa fa-trash delete-user-btn" data-user-id="{{ $userData->id }}"></i>
-
+                                <a class="delete-user-btn" data-user-id="{{ $userData->id }}">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -292,13 +293,17 @@
             $('form#filter-form').submit();
         });
 
-        $('.input-field').on('keydown', function () {
+        $('.input-field').on('change', function () {
             $('form#filter-form').submit();
         });
 
-        $('.input-field').on('keyup', function () {
-            $('form#filter-form').submit();
-        });
+        // $('.input-field').on('keydown', function () {
+        //     $('form#filter-form').submit();
+        // });
+
+        // $('.input-field').on('keyup', function () {
+        //     $('form#filter-form').submit();
+        // });
 
         $(document).on("click", ".sortable", function(e) {
             e.preventDefault();
@@ -311,6 +316,21 @@
             }
 
             $('form#filter-form').submit();
+        });
+
+        $('.delete-user-btn').on('click', function(e) {
+            var userId = $(this).attr('data-user-id');
+            showDeleteUserPopup(userId);
+        });
+
+        $('#delete-btn').on('click', function(e) {
+            var userId = $(this).attr('data-user-id');
+            deleteUser(userId);
+        });
+        
+        $('#cancel-btn').on('click', function(e) {
+            $('#overlay').hide();
+            $('.popup-form').hide();
         });
         // Javascript to call function immediately when filter change (Start)
     });

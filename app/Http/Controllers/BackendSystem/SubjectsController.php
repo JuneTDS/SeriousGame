@@ -244,8 +244,7 @@ class SubjectsController extends Controller
 
 
     // subtopic started
-    public function showSubTopicsDashboard($id, Request $request)
-    {
+    public function showSubTopicsDashboard($id, Request $request) {
 
         $topic = $request->input("topic");
         $name = $request->input("name");
@@ -344,4 +343,121 @@ class SubjectsController extends Controller
         return response()->json(array('data'=> $result), 200);
     }
     // end subtopic
+
+
+    // question started
+    public function showQuestionsDashboard($id, Request $request) {
+
+        $subtopic = $request->input("subtopic");
+        $name = $request->input("name");
+        $updated_by = $request->input("updated_by");
+        $updated_at = $request->input("updated_at");
+        $name_sort = $request->input("name_sort");
+
+        $query = DB::table('tbl_questions')
+            ->select(
+                'tbl_questions.*',
+                'tbl_subtopic.subtopic_name',
+                'tbl_user.username as updated_by_username'
+            )
+            ->leftJoin('tbl_subtopic', 'tbl_subtopic.subtopic_id', '=', 'tbl_questions.subtopic_id_fk')
+            ->leftJoin('tbl_user', 'tbl_subtopic.updated_by', '=', 'tbl_user.id')
+            ->where('tbl_questions.subtopic_id_fk', $id);
+        
+        if ($subtopic !== "" && $subtopic !== null){
+            $query->where('tbl_questions.subtopic_id_fk', $subtopic);
+        }
+
+        if ($name !== "" && $name !== null){
+            $query->where('tbl_questions.question_name', 'like', '%' . $name . '%');
+        }
+
+        if ($updated_by !== "" && $updated_by !== null){
+            $query->where('tbl_questions.updated_by', $updated_by);
+        }
+
+        if ($updated_at !== "" && $updated_at !== null){
+            $query->where('tbl_questions.updated_at', '>=', $updated_at);
+        }
+
+        if ($name_sort !== "" && $name_sort !== null){
+            $query->orderBy("tbl_questions.question_name", $name_sort);
+        }
+
+        // echo $query->toSql();
+        $questions = $query->get();
+
+        $subtopics = DB::table('tbl_subtopic')->where("subtopic_id", $id)->get();
+        $users = DB::table('tbl_user')->where("status", 1)->get();
+
+        return view('backendSystem.questions.questionsDashboard', [
+            'questions' => $questions,
+            'subtopics' => $subtopics,
+            'users' => $users,
+            'urlId' => $id,
+            'name' => $name,
+            'updated_by' => $updated_by,
+            'updated_at' => $updated_at,
+            'name_sort' => $name_sort,
+        ]);
+    }
+
+    public function createQuestion(Request $request) {
+        $difficulty = $request->input("difficulty");
+        $subtopic = $request->input("subtopic");
+        $type = $request->input("type");
+        $name = $request->input("name");
+        $mcq_a = $request->input("mcq_a");
+        $mcq_b = $request->input("mcq_b");
+        $mcq_c = $request->input("mcq_c");
+        $mcq_d = $request->input("mcq_d");
+        $answer = $request->input("answer");
+        $hint = $request->input("hint");
+        $score = $request->input("score");
+
+        $createdAt = Carbon::now();
+
+        $result = DB::insert(DB::raw("INSERT INTO `tbl_questions` (`subtopic_id_fk`, `question_difficulty`, `question_type`, `question_name`, `mcq_a`, `mcq_b`, `mcq_c`, `mcq_d`, `question_answer`, `score`, `hints`, `boss_level_id_fk`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES (".$subtopic.",'".$difficulty."','".$type."','".$name."','".$mcq_a."','".$mcq_b."','".$mcq_c."','".$mcq_d."','".$answer."',".$score.",'".$hint."',0,'".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function updateQuestion(Request $request) {
+        $questionId = $request->input("questionId");
+        $difficulty = $request->input("difficulty");
+        $type       = $request->input("type");
+        $name       = $request->input("name");
+        $mcq_a      = $request->input("mcq_a");
+        $mcq_b      = $request->input("mcq_b");
+        $mcq_c      = $request->input("mcq_c");
+        $mcq_d      = $request->input("mcq_d");
+        $answer     = $request->input("answer");
+        $hint       = $request->input("hint");
+        $score      = $request->input("score");
+        
+        $result = DB::table('tbl_questions')
+            ->where('question_id', $questionId)
+            ->update([
+                'question_difficulty' => $difficulty,
+                'question_type' => $type,
+                'question_name' => $name,
+                'mcq_a' => $mcq_a,
+                'mcq_b' => $mcq_b,
+                'mcq_c' => $mcq_c,
+                'mcq_d' => $mcq_d,
+                'question_answer' => $answer,
+                'hints' => $hint,
+                'score' => $score,
+            ]);
+
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function deleteQuestion(Request $request) {
+        $question = $request->input("question");
+        
+        $result = DB::table('tbl_questions')->where('question_id', $question)->delete();
+
+        return response()->json(array('data'=> $result), 200);
+    }
+    // end question
 }

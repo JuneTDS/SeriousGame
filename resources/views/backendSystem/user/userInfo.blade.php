@@ -94,8 +94,8 @@
                         </tr>
                         <tr>
                             <td style="font-weight:bold">Status</td>
-                            <td style="font-weight: bold">
-                                <a href="#" class="status-toggle" data-user-id="{{ $userData->id }}" data-status="{{ $userData->status }}" style="text-decoration: none;">
+                            <td class="text-center" style="font-weight: bold">
+                                <label class="status-toggle" data-user-id="{{ $userData->id }}" data-status="{{ $userData->status }}" style="text-decoration: none;">
                                     @php
                                         $statusText = '';
                                         $statusClass = ''; // Provide a default value
@@ -120,7 +120,7 @@
                                         }
                                     @endphp
                                     <span class="{{ $statusClass }}">{{ $statusText }}</span>
-                                </a>
+                                </label>
                             </td>
                         </tr>
                         <!-- <tr>
@@ -168,13 +168,66 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Javascript to handle status change (Start)
-    $('.status-toggle').on('click', function(e) {
-        e.preventDefault();
-        var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
-        
-        // Send a POST request to update the user's status without expecting a response
-        $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
-    });
+    $(document).ready(function () {
+
+        let _token = $('meta[name="csrf-token"]').attr('content');
+
+        $(document).on("click", "#overlay", function(event) {
+            if (event.target === document.getElementById('overlay')) {
+                $(".popup-form").hide();
+                $("#overlay").hide();
+            }
+        });
+
+        $('.status-toggle').on('click', function(e) {
+            e.preventDefault();
+            var userId = $(this).data('user-id');   //Get the value of 'user-id' under 'status-toggle' class
+            
+            // Send a POST request to update the user's status without expecting a response
+            // $.post('/admin/usersDashboardStatus/' + userId, { }, function() {});
+            let anchorEl = $(this);
+
+            var formData = {
+                "id": userId,
+                _token: _token,
+            };
+            var type = "POST";
+            var ajaxurl = '/admin/usersDashboardStatus/';
+            $.ajax({
+                type: type,
+                url: ajaxurl,
+                data: formData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.data.result) {
+                        window.location.reload();
+                    } else {
+                        console.log("Status change was fail.");
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        $('.delete-user-btn').on('click', function(e) {
+            console.log('delete-user-btn')
+            var userId = $(this).attr('data-user-id');
+            console.log(userId)
+            showDeleteUserPopup(userId);
+        });
+
+        $('#delete-btn').on('click', function(e) {
+            var userId = $(this).attr('data-user-id');
+            deleteUser(userId);
+        });
+
+        $('#cancel-btn').on('click', function(e) {
+            $('#overlay').hide();
+            $('.popup-form').hide();
+        });
+    })
     // Javascript to handle status change (End)
 </script>
 

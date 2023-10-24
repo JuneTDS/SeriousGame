@@ -4,38 +4,60 @@ namespace App\Http\Controllers\BackendSystem;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SubjectEnrollmentsController extends Controller
 {
-    public function showSubjectEnrollmentsDashboard()
+    public function showSubjectEnrollmentsDashboard(Request $request)
     {
-        // Retrieve data where subject_id_fk and lecturer_in_charge_id_fk pair is unique
-        $uniquePairs = SubjectClass::select('subject_id_fk', 'lecturer_in_charge_id_fk')
-            ->distinct()
-            ->get();
+        $name = $request->input('name');
 
-        // Create an array to store the subjectEnrollments
-        $subjectEnrollments = [];
+        $query = DB::table('tbl_lecturer_subject_enrolment')
+            ->select(
+                'tbl_lecturer_subject_enrolment.lecturer_subject_enrolment_id',
+                'tbl_user.id',
+                'tbl_user.username',
+                'tbl_subject.subject_id',
+                'tbl_subject.subject_name'
+            )
+            ->leftJoin('tbl_user', 'tbl_lecturer_subject_enrolment.user_id_fk', '=', 'tbl_user.id')
+            ->leftJoin('tbl_subject', 'tbl_subject.subject_id', '=', 'tbl_lecturer_subject_enrolment.subject_id_fk');
 
-        // Loop through unique pairs
-        foreach ($uniquePairs as $pair) {
-            // Find the subject_id that matches with subject_id_fk in tbl_subject
-            $subject = Subject::where('subject_id', $pair->subject_id_fk)->first();
-
-            // Find the lecturer_in_charge_id_fk that matches with the id in tbl_user
-            $user = User::where('id', $pair->lecturer_in_charge_id_fk)->first();
-
-            // If both subject and user are found, add the data to subjectEnrollments
-            if ($subject && $user) {
-                $subjectEnrollments[] = [
-                    'subject_name' => $subject->subject_name,
-                    'username' => $user->username,
-                ];
-            }
+        if (!empty($name)){
+            $query->where(function ($query) use ($name) {
+                $query->where('tbl_user.username', 'like', '%' . $name . '%')
+                    ->orWhere('tbl_subject.subject_name', 'like', '%' . $name . '%');
+            });
         }
+
+        $subjectEnrollments = $query->get();
+
+        $users = DB::table('tbl_user')->where('status', true)->get();
+        $subjects = DB::table('tbl_subject')->where('published', true)->get();
 
         return view('backendSystem.subjectEnrollments.subjectEnrollmentsDashboard',[
             'subjectEnrollments' => $subjectEnrollments,
+            'users' => $users,
+            'subjects' => $subjects,
+            'name' => $name
         ]);
+    }
+
+    public function createEnrollment(Request $request) {
+        $userId = $request->input("userId");
+        $subjectId = $request->input("subjectId");
+        $createdAt = Carbon::now();
+        $result = DB::insert(DB::raw("INSERT INTO `tbl_lecturer_subject_enrolment` (`subject_id_fk`, `user_id_fk`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES (".$subjectId.", ".$userId.", '".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));
+        return response()->json(array('data'=> $result), 200);
+    }
+
+    public function deleteEnrollment(Request $request) {
+        $enrollId = $request->input("enrollId");
+        
+        $result = DB::table('tbl_lecturer_subject_enrolment')->where('lecturer_subject_enrolment_id', $enrollId)->delete();
+
+        return response()->json(array('data'=> $result), 200);
     }
 }

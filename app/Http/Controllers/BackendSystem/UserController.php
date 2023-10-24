@@ -51,11 +51,13 @@ class UserController extends Controller
             }
 
             if (!empty($selectedDate)) {
-                // Calculate the Unix timestamps for the start and end of the day
+                // // Calculate the Unix timestamps for the start and end of the day
                 $startOfDay = strtotime($selectedDate . ' 00:00:00'); // First second of the day
-                $endOfDay = strtotime($selectedDate . ' 23:59:59');   // Last second of the day
-                // Query the user data based on the range of timestamps
-                $query->whereBetween('tbl_user_profile.last_visit', [$startOfDay, $endOfDay]);
+                // $endOfDay = strtotime($selectedDate . ' 23:59:59');   // Last second of the day
+                // // Query the user data based on the range of timestamps
+                // $query->whereBetween('tbl_user_profile.last_visit', [$startOfDay, $endOfDay]);
+
+                $query->where('tbl_user_profile.last_visit', '>=', $startOfDay);
             }
 
             // Check if $sortBy and $sortColumn are not empty and not null
@@ -210,10 +212,9 @@ class UserController extends Controller
 
         // Perform server-side validation
         $validatedData = $request->validate([
-            'username' => 'required|unique:tbl_user,username',
-            'email' => 'required|email|unique:tbl_user,email',
-            'emailGravatar' => 'required|email|unique:tbl_user,email',
-            'password' => 'required',
+            'username' => 'required',
+            'email' => 'required|email',
+            'emailGravatar' => 'required|email',
             'status' => 'required|in:0,1,2,3',
         ]);
 
@@ -228,15 +229,26 @@ class UserController extends Controller
         $status = $data['status'];
         $updatedAt      = Carbon::now()->timestamp;
 
-        $userDataSql = "
-        UPDATE tbl_user
-        SET username = '$username',
-            email = '$email',
-            password_hash = '$password_hash',
-            status = $status,
-            updated_at = $updatedAt
-        WHERE id = $userId
-        ";
+        if ($data['password'] != "") {
+            $userDataSql = "
+            UPDATE tbl_user
+            SET username = '$username',
+                email = '$email',
+                password_hash = '$password_hash',
+                status = $status,
+                updated_at = $updatedAt
+            WHERE id = $userId
+            ";
+        } else {
+            $userDataSql = "
+            UPDATE tbl_user
+            SET username = '$username',
+                email = '$email',
+                status = $status,
+                updated_at = $updatedAt
+            WHERE id = $userId
+            ";
+        }
 
         $userProfileSql = "
         UPDATE tbl_user_profile
@@ -374,10 +386,17 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $result = DB::table('tbl_user')
+            ->where('id', $id)
+            ->update([
+                'status' => 3
+            ]);
+
             // Delete the user and related records
-            User::where('id', $id)->delete();   //Deleet user in the user table
-            DB::table('tbl_user_profile')->where('user_id', $id)->delete();
-            DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table
+            // User::where('id', $id)->delete();   //Deleet user in the user table
+            // DB::table('tbl_user_profile')->where('user_id', $id)->delete();
+            // DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table
 
             // Commit the transaction
             DB::commit();

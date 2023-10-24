@@ -162,7 +162,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin/subjectInfo/{id}', [SubjectsController::class, 'showSubjectInfo']);
     
     
-    //Topics Dashboard
+    // Topics Dashboard
     Route::get('/admin/topicsDashboard/{id}', [SubjectsController::class, 'showTopicsDashboard']);
 
     Route::post('/admin/topic/create', [SubjectsController::class, 'createTopic']);
@@ -172,7 +172,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/admin/topic/delete', [SubjectsController::class, 'deleteTopic']);
 
 
-    //Topics Dashboard
+    // SubTopics Dashboard
     Route::get('/admin/subtopicsDashboard/{id}', [SubjectsController::class, 'showSubTopicsDashboard']);
 
     Route::post('/admin/subtopic/create', [SubjectsController::class, 'createSubTopic']);
@@ -182,8 +182,22 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/admin/subtopic/delete', [SubjectsController::class, 'deleteSubTopic']);
 
 
+    // Question Dashboard
+    Route::get('/admin/questionsDashboard/{id}', [SubjectsController::class, 'showQuestionsDashboard']);
+
+    Route::post('/admin/question/create', [SubjectsController::class, 'createQuestion']);
+
+    Route::post('/admin/question/update', [SubjectsController::class, 'updateQuestion']);
+
+    Route::post('/admin/question/delete', [SubjectsController::class, 'deleteQuestion']);
+
+
     //Subject Enrollments Dashboard
     Route::get('/admin/subjectEnrollmentsDashboard', [SubjectEnrollmentsController::class, 'showSubjectEnrollmentsDashboard']);
+
+    Route::post('/admin/enrollment/create', [SubjectEnrollmentsController::class, 'createEnrollment']);
+
+    Route::post('/admin/enrollment/delete', [SubjectEnrollmentsController::class, 'deleteEnrollment']);
 
 
     //Lecture Classes Dashboard

@@ -46,23 +46,36 @@ $(document).ready(function() {
     $(document).on("click", "#create-btn", function(e) {
         e.preventDefault();
 
-        let topic = $("#topic").val();
-        let subject = $("#subject").val();
-        let hour_dropdown = $("#hour-dropdown").val();
-        let minute_dropdown = $("#minute-dropdown").val();
+        let subtopic = $("#subtopic").val();
+        let difficulty = $("#difficulty").val();
+        let type = $("#type").val();
+        let name = $("#name").val();
+        let mcq_a = $("#mcq_a").val();
+        let mcq_b = $("#mcq_b").val();
+        let mcq_c = $("#mcq_c").val();
+        let mcq_d = $("#mcq_d").val();
+        let answer = $("#answer").val();
+        let hint = $("#hint").val();
+        let score = $("#score").val();
 
         var formData = {
             _token: _token,
-            topic: topic,
-            subject: subject,
-            hour_dropdown: hour_dropdown,
-            minute_dropdown: minute_dropdown
+            difficulty: difficulty,
+            subtopic: subtopic,
+            type: type,
+            name: name,
+            mcq_a: mcq_a,
+            mcq_b: mcq_b,
+            mcq_c: mcq_c,
+            mcq_d: mcq_d,
+            answer: answer,
+            hint: hint,
+            score: score
         };
 
-        var type = "POST";
-        var ajaxurl = '/admin/topic/create';
+        var ajaxurl = '/admin/question/create';
         $.ajax({
-            type: type,
+            type: "POST",
             url: ajaxurl,
             data: formData,
             dataType: 'json',
@@ -82,23 +95,36 @@ $(document).ready(function() {
     $(document).on("click", "#update-btn", function(e) {
         e.preventDefault();
 
-        let topicId = $(".update-id").val();
-        let topic = $(".update-name").val();
-        let hour_dropdown = $(".hour-dropdown-update").val();
-        let minute_dropdown = $(".minute-dropdown-update").val();
+        let difficulty = $(`#update_difficulty`).val();
+        let type = $(`#update_type`).val();
+        let name = $("#update_name").val();
+        let mcq_a = $("#update_mcq_a").val();
+        let mcq_b = $("#update_mcq_b").val();
+        let mcq_c = $("#update_mcq_c").val();
+        let mcq_d = $("#update_mcq_d").val();
+        let answer = $("#update_answer").val();
+        let hint = $("#update_hint").val();
+        let score = $("#update_score").val();
+        let questionId = $(".update-id").val();
 
         var formData = {
             _token: _token,
-            topic: topic,
-            topic_id: topicId,
-            hour_dropdown: hour_dropdown,
-            minute_dropdown: minute_dropdown
+            difficulty: difficulty,
+            type: type,
+            name: name,
+            mcq_a: mcq_a,
+            mcq_b: mcq_b,
+            mcq_c: mcq_c,
+            mcq_d: mcq_d,
+            answer: answer,
+            hint: hint,
+            score: score,
+            questionId: questionId
         };
 
-        var type = "POST";
-        var ajaxurl = '/admin/topic/update';
+        var ajaxurl = '/admin/question/update';
         $.ajax({
-            type: type,
+            type: "POST",
             url: ajaxurl,
             data: formData,
             dataType: 'json',
@@ -119,15 +145,15 @@ $(document).ready(function() {
     $(document).on("click", "#delete-btn", function(e) {
         e.preventDefault();
 
-        let topic = $(".delete-id").val();
+        let question = $(".delete-id").val();
 
         var formData = {
             _token: _token,
-            topic: topic
+            question: question
         };
 
         var type = "POST";
-        var ajaxurl = '/admin/topic/delete';
+        var ajaxurl = '/admin/question/delete';
         $.ajax({
             type: type,
             url: ajaxurl,
@@ -137,7 +163,7 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.data) {
                     $(".popup-form").hide();
-                    $("#success-popup .message").text("Topic has been deleted.");
+                    $("#success-popup .message").text("Subtopic has been deleted.");
                     $("#success-popup").show();
                 }
             },
@@ -148,20 +174,26 @@ $(document).ready(function() {
     });
 });
 
-function showUpdateTopicPopup(topicId) {
+function showUpdateSubtopicPopup(questionId) {
     $("#overlay").show();
     $("#popup-form-update").show();
 
-    let time = ($(".row-time-"+topicId).val()).split(":");
-    $(`.hour-dropdown-update option[value=${time[0]}]`).attr('selected', 'selected');
-    $(`.minute-dropdown-update option[value=${time[1]}]`).attr('selected', 'selected');
+    $(`#update_difficulty option[value=${$(".row-difficulty-"+questionId).val()}]`).attr('selected', 'selected');
+    $(`#update_type option[value=${$(".row-type-"+questionId).val()}]`).attr('selected', 'selected');
+    $("#update_name").val($(".row-name-"+questionId).val());
+    $("#update_mcq_a").val($(".row-mcq-a-"+questionId).val());
+    $("#update_mcq_b").val($(".row-mcq-b-"+questionId).val());
+    $("#update_mcq_c").val($(".row-mcq-c-"+questionId).val());
+    $("#update_mcq_d").val($(".row-mcq-d-"+questionId).val());
+    $("#update_answer").val($(".row-answer-"+questionId).val());
+    $("#update_hint").val($(".row-hint-"+questionId).val());
+    $("#update_score").val($(".row-score-"+questionId).val());
 
-    $(".update-name").val($(".row-name-"+topicId).val());
-    $(".update-id").val(topicId);
+    $(".update-id").val(questionId);
 }
 
-function confirmDelete(topicId) {
+function confirmDelete(questionId) {
     $("#overlay").show();
     $("#delete-popup").show();
-    $(".delete-id").val(topicId);
+    $(".delete-id").val(questionId);
 }

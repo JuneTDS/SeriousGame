@@ -2,7 +2,7 @@
 
 @section('content')
 
-<a href="/admin/subjectsDashboard" style="margin-left: 5%;">
+<a href="/admin/topicsDashboard/{{ $topic[0]->subject_id_fk }}" style="margin-left: 5%;">
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Topics</p>
 </a>
 
@@ -199,7 +199,11 @@
                             <i class="fa fa-trash" onclick="confirmDelete({{$topicData->subtopic_id}})"></i>
                         </div>
                     </td>
-                    <td><button class="btn btn-outline-dark custom-btn-outline-dark">Manage Questions</button></td>
+                    <td>
+                        <a href="{{ url('/admin/questionsDashboard/' . $topicData->subtopic_id) }}">
+                            <button class="btn btn-outline-dark custom-btn-outline-dark">Manage Questions</button>
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

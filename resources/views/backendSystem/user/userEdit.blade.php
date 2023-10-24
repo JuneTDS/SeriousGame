@@ -12,7 +12,7 @@
         <div class="left"><h3>{{ $userData->username }}’s Profile</h3></div>
         <div class="right" >
             <div class="d-flex">
-                <button type="button" id="update-btn" class="btn btn-dark" style="width:200px">Save</button>
+                <button type="button" id="update-btn" class="btn btn-dark" style="width:200px; margin-right: 20px;">Save</button>
                 <a href="/admin/userInfo/{{ $userData->id }}">
                     <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
                 </a>
@@ -32,6 +32,7 @@
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <p class="text-center">Changes have been saved successfully.</p>
         </div>
+        <button type="button" class="btn btn-cancel" id="close_reload" style="width:100%; margin-top: 10px;">Close Window</button>
     </div>
 
     <!--  user info start -->
@@ -110,5 +111,67 @@
 
 <!-- Javascript for Popup -->
 <script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#update-btn').on('click', function() {
+            console.log("here")
+            // Get the form data
+            var userId = document.getElementById('userId').value;
+            var username = document.getElementById('username').value;
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var email = document.getElementById('email').value;
+            var emailGravatar = document.getElementById('emailGravatar').value;
+            var password = document.getElementById('password').value;
+            var status = document.getElementById('status').value;
+            let _token = $('meta[name="csrf-token"]').attr('content');
+            
+            // Create a data object to send to the server
+            var data = {
+                _token: _token,
+                userId: userId,
+                username: username,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                emailGravatar: emailGravatar,
+                password: password,
+                status: status
+            };
+            
 
+            // Send a POST request to the server to save the data
+            $.ajax({
+                url: '/admin/userEditSave',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    if (response.success) {
+                        showSuccessPopup();
+                    } else {
+                        // Handle errors or display error messages
+                        console.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle AJAX errors here
+                    console.error(error);
+                }
+            });
+        });
+
+        $("#close").on("click", function() {
+            $(".popup-form").hide();
+            $("#overlay").hide();
+        });
+
+        
+        $("#close_reload").on("click", function() {
+            $(".popup-form").hide();
+            $("#overlay").hide();
+            window.location.reload();
+        });
+    });
+</script>
 @endsection

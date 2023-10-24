@@ -18,18 +18,24 @@
         <h3 class="mb-4">Create Subject Enrolment</h3>
         <div class="mb-4">
             <label for="subject" class="form-label">Subject Name*</label>
-            <select class="form-select dropdown" id="subjectName" name="subjectName">
+            <select class="form-select dropdown" id="subject" name="subject">
                 <option value="" disabled selected>Select Subject Name</option>
-                <option value="option1">Subject Name 1</option>
-                <option value="option2">Subject Name 2</option>
+                @if (count($subjects))
+                    @foreach ($subjects as $key => $subject)
+                        <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
         <div class="mb-4">
             <label for="user" class="form-label">User Name*</label>
-            <select class="form-select dropdown" id="userName" name="userName">
+            <select class="form-select dropdown" id="user" name="user">
                 <option value="" disabled selected>Select User Name</option>
-                <option value="option1">User 1</option>
-                <option value="option2">User 2</option>
+                @if (count($users))
+                    @foreach ($users as $key => $user)
+                        <option value="{{ $user->id }}">{{ $user->username }}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
         <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Enrol</button>
@@ -38,11 +44,12 @@
     <!-- Create_Success_popup -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon">
-                <i class="fa fa-check" ></i>
+            <div class="warning-icon">
+                <img src="/assets/images/check_circle.svg" />
             </div>
             <p class="text-center" style="padding-top:50px">A new subject enrolment has been created.</p>
         </div>
+        <button type="button" class="btn btn-cancel" id="close_reload" style="width:100%; margin-top: 10px;">Close Window</button>
     </div>
 
     <!-- Delete Popup Form -->
@@ -59,7 +66,8 @@
             <p class="text-center"><b>This action cannot be undone.</b></p>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+            <input type="hidden" class="delete-id" />
+            <button type="button" class="btn btn-outline-dark close" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
             <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Enrolment</button>
         </div>
     </div>
@@ -72,6 +80,16 @@
         <div class="row"><p style="padding-top:10px">Showing 1 - 6 of 6 items</p></div>
     </div> -->
     <!-- Show number of item in this module (End) -->
+
+    <form href="/admin/subjectEnrollmentsDashboard" id="filter-form">
+        <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
+            <div class="col-4" style="float: left;padding-top:41px">
+                <input type="text" class="form-control input-field" id="name" name="name" placeholder="Search by subject or tutor name" value="{{ $name }}">
+            </div>
+        </div>
+    </form>
+
+    <!-- <label>Showing <span class="start">1</span> - <span class="end">6</span> of <span class="total">6</span> items</label> -->
 
     <!-- start table -->
     <div class="table-container">
@@ -92,7 +110,7 @@
                     <td>{{ $subjectEnrollmentData->subject_name }}</td>
                     <td>
                         <div class="icon-container">
-                            <i class="fa fa-trash" id="open-popup-btn-remove"></i>
+                            <i class="fa fa-trash" id="open-popup-btn-remove" onClick="confirmDelete({{$subjectEnrollmentData->lecturer_subject_enrolment_id}})"></i>
                         </div>
                     </td>
                 </tr>

@@ -1,28 +1,214 @@
-// Get the CSRF token
-// var _token = $("input[name=_token]").val();
+$(document).ready(function() {
+    // Get the CSRF token
+    // var _token = $("input[name=_token]").val();
 
-// // Set up the CSRF token in AJAX headers
-// $.ajaxSetup({
-//     headers: {
-//         'X-CSRF-TOKEN': _token
-//     }
-// });
+    // // Set up the CSRF token in AJAX headers
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': _token
+    //     }
+    // });
 
-// Close the popups when clicking outside
-document.getElementById('overlay').addEventListener('click', function(event) {
-    if (event.target === document.getElementById('overlay')) {
-        hideCreateUserPopup();
+    // Close the popups when clicking outside
+    document.getElementById('overlay').addEventListener('click', function(event) {
+        if (event.target === document.getElementById('overlay')) {
+            hideCreateUserPopup();
+            hideDeleteUserPopup();
+            document.getElementById('success-popup').style.display = 'none';
+        }
+    });
+
+    // Open the create user popup when the button is clicked
+    document.getElementById('create-popup-btn').addEventListener('click', showCreateUserPopup);
+
+    document.getElementById('create-btn').addEventListener('click', function() {
+        // Get the form data
+        var username = document.getElementById('username').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var status = document.getElementById('status').value;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        
+        // Create a data object to send to the server
+        var data = {
+            _token: _token,
+            username: username,
+            email: email,
+            password: password,
+            status: status
+        };
+        
+
+        // Send a POST request to the server to save the data
+        $.ajax({
+            url: '/admin/createUser',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                if (response.success) {
+                    hideCreateUserPopup();
+                    showSuccessPopup();
+                } else {
+                    // Handle errors or display error messages
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX errors here
+                console.error(error);
+            }
+        });
+    });
+
+    // document.getElementById('update-btn').addEventListener('click', function() {
+    $('#update-btn').on('click', function() {
+        console.log("here")
+        // Get the form data
+        var userId = document.getElementById('userId').value;
+        var username = document.getElementById('username').value;
+        var firstName = document.getElementById('firstName').value;
+        var lastName = document.getElementById('lastName').value;
+        var email = document.getElementById('email').value;
+        var emailGravatar = document.getElementById('emailGravatar').value;
+        var password = document.getElementById('password').value;
+        var status = document.getElementById('status').value;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        
+        // Create a data object to send to the server
+        var data = {
+            _token: _token,
+            userId: userId,
+            username: username,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            emailGravatar: emailGravatar,
+            password: password,
+            status: status
+        };
+        
+
+        // Send a POST request to the server to save the data
+        $.ajax({
+            url: '/admin/userEditSave',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                if (response.success) {
+                    showSuccessPopup();
+                } else {
+                    // Handle errors or display error messages
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX errors here
+                console.error(error);
+            }
+        });
+    });
+
+    document.getElementById('update-profile-btn').addEventListener('click', function() {
+        // Get the form data
+        var userId = document.getElementById('userId').value;
+        var firstName = document.getElementById('firstName').value;
+        var lastName = document.getElementById('lastName').value;
+        var email = document.getElementById('email').value;
+        var emailGravatar = document.getElementById('emailGravatar').value;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        
+        // Create a data object to send to the server
+        var data = {
+            _token: _token,
+            userId: userId,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            emailGravatar: emailGravatar
+        };
+        
+
+        // Send a POST request to the server to save the data
+        $.ajax({
+            url: '/admin/userProfileEditSave',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                if (response.success) {
+                    showSuccessPopup();
+                } else {
+                    // Handle errors or display error messages
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX errors here
+                console.error(error);
+            }
+        });
+    });
+
+    document.getElementById('update_psw_btn').addEventListener('click', function() {
+        // Get the form data
+        var userId = document.getElementById('userId').value;
+        var current_Password = document.getElementById('current_Password').value;
+        var new_Password = document.getElementById('new_Password').value;
+        var confirm_Password = document.getElementById('confirm_Password').value;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        
+        // Create a data object to send to the server
+        var data = {
+            _token: _token,
+            userId: userId,
+            current_Password: current_Password,
+            new_Password: new_Password,
+            confirm_Password: confirm_Password
+        };
+        
+
+        // Send a POST request to the server to save the data
+        $.ajax({
+            url: '/admin/userProfilePasswordSave',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                if (response.success) {
+                    showSuccessPopup();
+                } else {
+                    // Handle errors or display error messages
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX errors here
+                console.error(error);
+                alert("New password must match with the confirmation password.");
+            }        
+        });
+    });
+
+
+
+
+
+    // // Open the delete user popup when the button is clicked
+    // document.querySelectorAll('.delete-user-btn').forEach(function(deleteButton) {
+    //     deleteButton.addEventListener('click', function() {
+    //         var userId = this.getAttribute('data-user-id');
+    //         showDeleteUserPopup(userId);
+    //     });
+    // });
+
+    // Close the delete user popup when the "Cancel" button is clicked
+    document.getElementById('cancel-btn').addEventListener('click', function() {
         hideDeleteUserPopup();
-        document.getElementById('success-popup').style.display = 'none';
-    }
+    });
 });
 
-
-
-
-
-// Open the create user popup when the button is clicked
-document.getElementById('create-popup-btn').addEventListener('click', showCreateUserPopup);
 
 // Function to show the create user popup and overlay
 function showCreateUserPopup() {
@@ -48,185 +234,6 @@ function showSuccessPopup() {
     }, 2000);
 }
 
-document.getElementById('create-btn').addEventListener('click', function() {
-    // Get the form data
-    var username = document.getElementById('username').value;
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-    var status = document.getElementById('status').value;
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    
-    // Create a data object to send to the server
-    var data = {
-        _token: _token,
-        username: username,
-        email: email,
-        password: password,
-        status: status
-    };
-    
-
-    // Send a POST request to the server to save the data
-    $.ajax({
-        url: '/admin/createUser',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            if (response.success) {
-                hideCreateUserPopup();
-                showSuccessPopup();
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
-        }
-    });
-});
-
-document.getElementById('update-btn').addEventListener('click', function() {
-    // Get the form data
-    var userId = document.getElementById('userId').value;
-    var username = document.getElementById('username').value;
-    var firstName = document.getElementById('firstName').value;
-    var lastName = document.getElementById('lastName').value;
-    var email = document.getElementById('email').value;
-    var emailGravatar = document.getElementById('emailGravatar').value;
-    var password = document.getElementById('password').value;
-    var status = document.getElementById('status').value;
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    
-    // Create a data object to send to the server
-    var data = {
-        _token: _token,
-        userId: userId,
-        username: username,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        emailGravatar: emailGravatar,
-        password: password,
-        status: status
-    };
-    
-
-    // Send a POST request to the server to save the data
-    $.ajax({
-        url: '/admin/userEditSave',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            if (response.success) {
-                showSuccessPopup();
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
-        }
-    });
-});
-
-document.getElementById('update-profile-btn').addEventListener('click', function() {
-    // Get the form data
-    var userId = document.getElementById('userId').value;
-    var firstName = document.getElementById('firstName').value;
-    var lastName = document.getElementById('lastName').value;
-    var email = document.getElementById('email').value;
-    var emailGravatar = document.getElementById('emailGravatar').value;
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    
-    // Create a data object to send to the server
-    var data = {
-        _token: _token,
-        userId: userId,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        emailGravatar: emailGravatar
-    };
-    
-
-    // Send a POST request to the server to save the data
-    $.ajax({
-        url: '/admin/userProfileEditSave',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            if (response.success) {
-                showSuccessPopup();
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
-        }
-    });
-});
-
-document.getElementById('update_psw_btn').addEventListener('click', function() {
-    // Get the form data
-    var userId = document.getElementById('userId').value;
-    var current_Password = document.getElementById('current_Password').value;
-    var new_Password = document.getElementById('new_Password').value;
-    var confirm_Password = document.getElementById('confirm_Password').value;
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    
-    // Create a data object to send to the server
-    var data = {
-        _token: _token,
-        userId: userId,
-        current_Password: current_Password,
-        new_Password: new_Password,
-        confirm_Password: confirm_Password
-    };
-    
-
-    // Send a POST request to the server to save the data
-    $.ajax({
-        url: '/admin/userProfilePasswordSave',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            if (response.success) {
-                showSuccessPopup();
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
-            alert("New password must match with the confirmation password.");
-        }        
-    });
-});
-
-
-
-
-
-// Open the delete user popup when the button is clicked
-document.querySelectorAll('.delete-user-btn').forEach(function(deleteButton) {
-    deleteButton.addEventListener('click', function() {
-        var userId = this.getAttribute('data-user-id');
-        showDeleteUserPopup(userId);
-    });
-});
 
 // Function to show the delete user popup and overlay
 function showDeleteUserPopup(userId) {
@@ -243,11 +250,11 @@ function hideDeleteUserPopup() {
     document.getElementById('delete-popup-form').style.display = 'none';
 }
 
-// Close the delete user popup when the "Delete" button is clicked
-document.getElementById('delete-btn').addEventListener('click', function() {
-    var userId = this.getAttribute('data-user-id');
-    deleteUser(userId);
-});
+// // Close the delete user popup when the "Delete" button is clicked
+// document.getElementById('delete-btn').addEventListener('click', function() {
+//     var userId = this.getAttribute('data-user-id');
+//     deleteUser(userId);
+// });
 
 // Function to handle user deletion and send data to the server
 function deleteUser(userId) {
@@ -275,8 +282,3 @@ function deleteUser(userId) {
         }
     });
 }
-
-// Close the delete user popup when the "Cancel" button is clicked
-document.getElementById('cancel-btn').addEventListener('click', function() {
-    hideDeleteUserPopup();
-});
