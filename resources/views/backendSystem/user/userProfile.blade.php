@@ -94,7 +94,7 @@
                         <tr>
                             <td style="font-weight:bold">Status</td>
                             <td style="font-weight: bold">
-                                <a href="#" class="status-toggle" data-user-id="{{ $userData->id }}" data-status="{{ $userData->status }}" style="text-decoration: none;">
+                                <a href="#" style="text-decoration: none;">
                                     @php
                                         $statusText = '';
                                         $statusClass = ''; // Provide a default value

@@ -11,7 +11,7 @@ use App\Http\Controllers\frontend\ProfileController;
 use App\Http\Controllers\BackendSystem\UserController;
 use App\Http\Controllers\BackendSystem\SubjectsController;
 use App\Http\Controllers\BackendSystem\SubjectEnrollmentsController;
-use App\Http\Controllers\BackendSystem\ModeSiteController;
+use App\Http\Controllers\BackendSystem\classCodeController;
 use App\Http\Controllers\BackendSystem\LectureClassesController;
 use App\Http\Controllers\BackendSystem\RBAC\RBAC_AccessRightsController;
 use App\Http\Controllers\BackendSystem\RBAC\RBAC_PermissionsController;
@@ -76,7 +76,9 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('/user/getFeedbacks', [FeedbackController::class, 'getFeedbacks'])->name("user.getFeedbacks");
     
-
+    
+    
+    Route::get('/frontend/studentSubject', [SubjectController::class, 'showStudentSubject']);
     // Route::post('/classes', [ClassController::class, 'search'])->name("search.class");
 
     //Backend System Routing
@@ -207,7 +209,18 @@ Route::group(['middleware' => ['auth']], function() {
 
 
 
-    //Mode Site Dashboard
-    Route::get('/admin/modeSiteDashboard', [ModeSiteController::class, 'showModeSiteDashboard']);
-
+    //Class Code Dashboard
+    Route::get('/admin/classCodesDashboard', [classCodeController::class, 'showClassCodesDashboard']);
+    //User create
+    Route::post('/admin/createClassCode', [classCodeController::class, 'createClassCode']);
+    //Get Subejct Class based on selected subject dropdown option
+    Route::get('/admin/getSubjectClasses/{id}', [classCodeController::class, 'getSubjectClasses']);
+    //View User Action Button
+    Route::get('/admin/classCodeInfo/{id}', [classCodeController::class, 'showClassCodeInfo']);
+    //Edit User Action Button
+    Route::get('/admin/classCodeEdit/{id}', [classCodeController::class, 'showClassCodeEdit']);
+    //Save User Edit
+    Route::post('/admin/classCodeEditSave', [classCodeController::class, 'classCodeEditSave']);
+    //Delete User Action Button
+    Route::delete('/admin/deleteClassCode/{id}', [classCodeController::class, 'deleteClassCode']);
 });

@@ -18,11 +18,12 @@
                 data-class-name="{{ $lectureClassData->class_name }}"
                 data-academic-year="{{ $lectureClassData->academic_year }}"
                 data-academic-semester="{{ $lectureClassData->academic_semester }}"
-                data-lecture-name="{{ $lectureClassData->lecturer_username }}"
-                data-subject-name="{{ $lectureClassData->subject_name }}">
+                data-lecturer-id="{{ $lectureClassData->lecturer_in_charge_id_fk }}"
+                data-subject-id="{{ $lectureClassData->subject_id_fk }}"
+                data-subject-class-id="{{ $lectureClassData->subject_class_id }}">
                 Update
             </button>
-            <button type="button" id="delete-popup-btn" class="btn btn-outline-danger" style="width:200px" data-id="{{ $lectureClassData->subject_class_id }}">Revoke</button>
+            <button type="button" class="btn btn-outline-danger delete-popup-btn" style="width:200px" data-id="{{ $lectureClassData->subject_class_id }}">Revoke</button>
         </div>
     </div>
 
@@ -31,7 +32,8 @@
 
     <!-- Edit Popup Form -->
     <div id="edit-popup-form" class="popup-form">
-        <h3 class="mb-4">Create Class Management</h3>
+        <h3 class="mb-4">Edit Class Management</h3>
+        <input type="text" id="subjectClass_Update" style="display: none;">
         <div class="mb-4">
             <label for="class-update" class="form-label">Class Name*</label>
             <input type="text" class="form-control" id="class_Update" required placeholder="Enter class name">
@@ -163,6 +165,7 @@
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
 <!-- Javascript for User Page Popup -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('assets/js/backendSystem_LectureClassPopup.js') }}"></script>
 
 @endsection

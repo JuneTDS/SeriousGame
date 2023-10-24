@@ -27,12 +27,12 @@
                 <form action="{{ url('/admin/uploadEnrolStudentFile') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col-5">
-                        <input type="file" id="fileUpload" name="fileUpload" style="display: none;">
-                        <label for="fileUpload" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px;width:200px;text-align:center">
+                        <input type="file" id="fileUpload" name="file" style="display: none;">
+                        <label for="fileUpload" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px; width: 200px; text-align: center;">
                             Upload File
                         </label>
                     </div>
-                    <button type="submit" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px;width:200px;text-align:center">Upload and Process CSV</button>
+                    <button type="submit" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px; width: 200px; text-align: center;">Upload and Process CSV</button>
                 </form>
             </div>
         </div>

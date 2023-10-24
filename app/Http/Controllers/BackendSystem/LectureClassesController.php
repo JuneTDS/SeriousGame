@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use League\Csv\Reader;
 use Illuminate\Support\Facades\DB; // Import the DB facade
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LectureClassesController extends Controller
 {
@@ -55,7 +57,6 @@ class LectureClassesController extends Controller
             ->select('tbl_subject_class.*', 'tbl_subject.subject_name', 'tbl_user.username')
             ->join('tbl_subject', 'tbl_subject_class.subject_id_fk', '=', 'tbl_subject.subject_id')
             ->join('tbl_user', 'tbl_subject_class.lecturer_in_charge_id_fk', '=', 'tbl_user.id');
-
 
         if (!empty($searchKeyword) || !empty($selectedAcademicYear) || !empty($selectedAcademicSemester)){
             if (!empty($searchKeyword)){
@@ -113,25 +114,37 @@ class LectureClassesController extends Controller
 
         // Perform server-side validation
         $validatedData = $request->validate([
-            'className' => 'required|unique:tbl_subject_class,className',
-            'academicYear' => 'required',
-            'academicSemester' => 'required|in:1,2',
-            'lecturerId' => 'required',
-            'subjectId' => 'required',
+            'createClassName' => 'required|unique:tbl_subject_class,class_name',
+            'createAcademicYear' => 'required',
+            'createAcademicSemester' => 'required|in:1,2',
+            'createLecturerId' => 'required',
+            'createSubjectId' => 'required',
         ]);
 
         // Extract data from the JSON request
-        $className = $data['className'];
-        $academicYear = $data['emaacademicYearil'];
-        $academicSemester = $data['academicSemester'];
-        $lecturerId = $data['lecturerId'];
-        $subjectId = $data['subjectId'];
+        $className = $data['createClassName'];
+        $academicYear = $data['createAcademicYear'];
+        $academicSemester = $data['createAcademicSemester'];
+        $lecturerId = $data['createLecturerId'];
+        $subjectId = $data['createSubjectId'];
 
-        $updatedAt = Carbon::now()->timestamp;
-        $createdAt = Carbon::now()->timestamp;
+        $updatedAt = now()->toDateTimeString();
+        $createdAt = now()->toDateTimeString();
         $userId = Auth::user()->id;
 
-        $subjectClassData       = DB::select( DB::raw("INSERT INTO `tbl_subject_class`(`class_name`, `academic_year`, `academic_semester`, `subject_id_fk`, `lecturer_in_charge_id_fk`, `active_flag`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES ('$className','$academicYear','$academicSemester','$subjectId', $lecturerId, '0', $updatedAt, $userId, $createdAt, $userId )") );
+        // $subjectClassData       = DB::select( DB::raw("INSERT INTO `tbl_subject_class`(`class_name`, `academic_year`, `academic_semester`, `subject_id_fk`, `lecturer_in_charge_id_fk`, `active_flag`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES ('$className','$academicYear','$academicSemester','$subjectId', $lecturerId, '0', $updatedAt, $userId, $createdAt, $userId )") );
+        $subjectClassData = DB::table('tbl_subject_class')->insert([
+            'class_name' => $className,
+            'academic_year' => $academicYear,
+            'academic_semester' => $academicSemester,
+            'subject_id_fk' => $subjectId,
+            'lecturer_in_charge_id_fk' => $lecturerId,
+            'active_flag' => 0,
+            'updated_at' => $updatedAt,
+            'updated_by' => $userId,
+            'created_at' => $createdAt,
+            'created_by' => $userId,
+        ]);        
 
         return response()->json(['success' => true]);
     }
@@ -184,7 +197,8 @@ class LectureClassesController extends Controller
 
         // Perform server-side validation
         $validatedData = $request->validate([
-            'class_Update' => 'required|unique:tbl_subject_class,className',
+            // 'class_Update' => 'required|unique:tbl_subject_class,class_name',
+            'class_Update' => 'required',
             'year_Update' => 'required',
             'sem_Update' => 'required|in:1,2',
             'lecturer_Update' => 'required',
@@ -192,13 +206,14 @@ class LectureClassesController extends Controller
         ]);
 
         // Extract data from the JSON request
+        $subjectClass_Update = $data['subjectClass_Update'];
         $class_Update = $data['class_Update'];
         $year_Update = $data['year_Update'];
         $sem_Update = $data['sem_Update'];
         $lecturer_Update = $data['lecturer_Update'];
         $subject_Update = $data['subject_Update'];
 
-        $updatedAt = Carbon::now()->timestamp;
+        $updatedAt = now()->toDateTimeString();
         $userId = Auth::user()->id;
 
         $lectureClassSql = "
@@ -210,6 +225,7 @@ class LectureClassesController extends Controller
             lecturer_in_charge_id_fk = '$lecturer_Update',
             updated_at = '$updatedAt',
             updated_by = '$userId'
+        WHERE subject_class_id = $subjectClass_Update
         ";
 
         // Execute the raw SQL query to update the record
@@ -246,11 +262,16 @@ class LectureClassesController extends Controller
             }
 
             if (!empty($selectedDate)) {
-                // Calculate the Unix timestamps for the start and end of the day
-                $startOfDay = strtotime($selectedDate . ' 00:00:00'); // First second of the day
-                $endOfDay = strtotime($selectedDate . ' 23:59:59');   // Last second of the day
+                // // Calculate the Unix timestamps for the start and end of the day
+                // $startOfDay = strtotime($selectedDate . ' 00:00:00'); // First second of the day
+                // $endOfDay = strtotime($selectedDate . ' 23:59:59');   // Last second of the day
+                // // Query the user data based on the range of timestamps
+                // $query->whereBetween('tbl_subject_class_enrolment.updated_at', [$startOfDay, $endOfDay]);
+
+                // Use the DATE() function to extract the date part from the start_date column
+                $selectedDate = date('Y-m-d', strtotime($selectedDate));
                 // Query the user data based on the range of timestamps
-                $query->whereBetween('tbl_subject_class_enrolment.updated_at', [$startOfDay, $endOfDay]);
+                $query->whereDate('tbl_subject_class_enrolment.updated_at', '=', $selectedDate);
             }
         }
         
@@ -311,41 +332,138 @@ class LectureClassesController extends Controller
 
     public function uploadEnrolStudentFile(Request $request)
     {
-        $uploadedFile = $request->file('fileUpload');
+        $uploadedFile = $request->file('file');
 
-        if ($uploadedFile) {
-            $filePath = $uploadedFile->getRealPath();
+        if ($request->hasFile('file')) {
 
-            // Use the league/csv package to parse the CSV file
-            $csv = Reader::createFromPath($filePath, 'r');
-            $csv->setHeaderOffset(0); // Assuming the first row is the header row
+            $uploadedFile = $request->file('file');
 
-            $data = $csv->getRecords();
+            // Get the path to the uploaded file
+            $filePath = $request->file('file')->getRealPath();
 
-            $enrolStudentsResult = [];
-            foreach ($data as $row) {
-                // Get the class_id_fk value from the CSV
-                $classIdFk = $row['class_id_fk'];
+            // Read the CSV file into an array
+            $csv = array_map('str_getcsv', file($filePath));
 
-                // Look up the class_name based on class_id_fk in your database
-                $className = DB::table('tbl_subject_class')
-                    ->where('subject_class_id', $classIdFk)
-                    ->value('class_name');
+            // Extract the header row
+            $uploadedHeader = $csv[0]; // This is your header row
 
-                // Get the student_full_name from the CSV
-                $studentFullName = $row['student_full_name'];
+            // Calculate the row count, excluding the header row
+            $rowCount = count($csv) - 1;
 
-                // Add the data to the results array
-                $enrolStudentsResult[] = [
-                    'class_name' => $className,
-                    'student_full_name' => $studentFullName,
-                ];
+            for ($i = 1; $i <= $rowCount; $i++) {
+                $classArray = DB::table('tbl_subject_class')
+                ->select('*')
+                ->where('subject_class_id', $csv[$i][0])
+                ->first();
+
+                $newClassFlag = (!$classArray->has('subject_class_id')) ? true : false;
+
+                if($newClassFlag){
+                    $resultArray[$i]['class'] = "Class Id " . $csv[$i][0] . " cannot be found. Kindly create the class before enrolling";
+
+                    $studentArray = DB::table('tbl_user')
+                    ->where('username', $csv[$i][2])
+                    ->first();
+
+                    $studentFlag = isset($studentArray);
+
+                    if (!$studentFlag) {
+                        $resultArray[$i]['student'] = '"' . $csv[$i][1] . '" account is not found in the system. Kindly create the class first and re-attempt to enroll.';
+                    }
+                    else {
+                        $resultArray[$i]['student'] = '"' . $csv[$i][1] . '" account exists in the system. Kindly create the class first and re-attempt to enroll.';
+                    }
+                } 
+                elseif (!$newClassFlag) {
+                    if ($studentArray->status != 1) {
+                        $resultArray[$i]['student'] = $csv[$i][1] . " account is not active. Kindly check with the administrator for student status";
+                    }
+                    elseif ($studentArray->status == 1) {
+                        $studentClassEnrolStatus = DB::table('tbl_subject_class_enrolment')
+                        ->where('user_id_fk', $studentArray->id)
+                        ->where('subject_class_id_fk', $csv[$i][0])
+                        ->first();
+
+                        $classEnrolledFlag = isset($studentClassEnrolStatus);
+
+                        if ($classEnrolledFlag) {
+                            // Student is already enrolled, set an appropriate message
+                            $resultArray[$i]['student'] = $csv[$i][1] . " is already enrolled in " . $classArray->class_name . " thus no action is taken";
+                        }
+                        else {
+                            $uploadClassDetails = DB::table('tbl_subject_class')
+                            ->where('subject_class_id', $csv[$i][0])
+                            ->first();
+
+                            $similarClassList = DB::table('tbl_subject_class')
+                            ->where('subject_id_fk', $uploadClassDetails->subject_id_fk)
+                            ->where('academic_year', $uploadClassDetails->academic_year)
+                            ->where('academic_semester', $uploadClassDetails->academic_semester)
+                            ->get();
+
+                            $similarClassFlag = (count($similarClassList) >= 2);
+
+                            if ($similarClassFlag) {
+                                $classList = [];
+
+                                foreach ($similarClassList as $class) {
+                                    $classList[] = $class->subject_class_id;
+                                }
+
+                                $differentClassEnroled = DB::table('tbl_subject_class_enrolment')
+                                ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
+                                ->whereIn('subject_class_id_fk', $classList)
+                                ->where('user_id_fk', $studentArray->id)
+                                ->get();
+
+                                $differentClassCount = count($differentClassEnroled);
+
+                                if ($differentClassCount >= 1) {
+                                    $differentClassNameList = "";
+                                    
+                                    $resultArray = [];
+
+                                    foreach ($differentClassEnroled as $differentClass) {
+                                        $name = DB::table('tbl_subject_class')
+                                            ->where('subject_class_id', $differentClass->subject_class_id_fk)
+                                            ->first();
+
+                                        $differentClassNameList = $name->class_name . ",";
+                                    }
+
+                                    $differentClassNameList = rtrim($differentClassNameList, ',');
+
+                                    $resultArray[$i]['student'] = $csv[$i][1] . " is already enrolled in " . $differentClassNameList . " thus no action is taken";
+                                }
+                                else{
+                                    DB::table('tbl_subject_class_enrolment')->insert([
+                                        'subject_class_id_fk' => $csv[$i][0],
+                                        'user_id_fk' => $studentArray->id,
+                                        'updated_at' => now(),
+                                        'updated_by' => auth()->user()->id,
+                                        'created_at' => now(),
+                                        'created_by' => auth()->user()->id
+                                    ]);
+
+                                    $resultArray[$i]['student'] =  $csv[$i][1] . " is being enrolled in " . $classArray['class_name'];
+                                }
+                            }
+                            else{
+                                DB::table('tbl_subject_class_enrolment')->insert([
+                                    'subject_class_id_fk' => $csv[$i][0],
+                                    'user_id_fk' => $studentArray->id,
+                                    'updated_at' => now(),
+                                    'updated_by' => auth()->user()->id,
+                                    'created_at' => now(),
+                                    'created_by' => auth()->user()->id
+                                ]);
+
+                                $resultArray[$i]['student'] =  $csv[$i][1] . " is being enrolled in " . $classArray['class_name'];
+                            }
+                        }
+                    }                    
+                }
             }
-
-            // Pass the results to your view
-            return view('backendSystem.lectureClasses.enrolStudentDashboard',[
-                'enrolStudentsResult' => $enrolStudentsResult,
-            ]);
         }
 
         // Handle the case where no file was uploaded
