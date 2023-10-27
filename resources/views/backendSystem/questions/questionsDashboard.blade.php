@@ -193,7 +193,7 @@
             </div>
 
             <div class="col-3" style="float: left;padding-top:41px">
-                <input type="text" class="form-control input-field" id="question_name" name="name" value="{{ $name }}" placeholder="Search by topic name">
+                <input type="text" class="form-control input-field" id="question_name" name="name" value="{{ $name }}" placeholder="Search by question">
             </div>
 
             <div class="col-1" style="text-align: right; padding-top: 42px;">

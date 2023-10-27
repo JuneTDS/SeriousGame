@@ -9,6 +9,8 @@ use League\Csv\Reader;
 use Illuminate\Support\Facades\DB; // Import the DB facade
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LectureClassesController extends Controller
 {
@@ -293,12 +295,239 @@ class LectureClassesController extends Controller
     {
         $lectureClassId = $id;
 
-        $enrolStudentsResult = [];
-
         return view('backendSystem.lectureClasses.enrolStudentDashboard', [
-            'enrolStudentsResult' => $enrolStudentsResult,
             'lectureClassId' => $lectureClassId,
         ]);
+    }
+
+    public function uploadEnrolStudentFile(Request $request)
+    {
+        $lectureClassId = $request->input('lectureClassId');
+
+        $class_name = DB::table('tbl_subject_class')
+        ->where('subject_class_id', $lectureClassId)
+        ->value('class_name');
+        
+        $csvData = []; // Initialize an empty array
+
+        // Check if a file was uploaded
+        if ($request->hasFile('file')) {
+            $uploadedFile = $request->file('file');
+
+            if ($uploadedFile->getClientOriginalExtension() === 'csv') {
+                $csv = Reader::createFromPath($uploadedFile->getRealPath(), 'r');
+                $csv->setHeaderOffset(0); // Skip the first row (header)
+
+                // Check if the class code for the subject class exists in the database
+                $classCodeExists = DB::table('tbl_class_code')
+                ->where('subject_class_id_fk', $lectureClassId)
+                ->exists();
+
+                if ($classCodeExists){
+
+                    //Check start date and end dat of the class (Start)
+                    // Get the start_date and end_date for the specified subject class
+                    $classInfo = DB::table('tbl_class_code')
+                        ->select('start_date', 'end_date')
+                        ->where('subject_class_id_fk', $lectureClassId)
+                        ->first();
+
+                    if ($classInfo) {
+                        $startDate = Carbon::parse($classInfo->start_date);
+                        $endDate = Carbon::parse($classInfo->end_date);
+                        $currentDate = Carbon::now();
+
+                        // Check if the current date is between the start and end date
+                        if ($currentDate->between($startDate, $endDate)) {
+                            //Check the number of user to enrol is less than remaing position of class size(Start)
+                            //Get the number of user in CSV
+                            $userCountCSV = $csv->count(); 
+
+                            //Get the ID of user in CSV that already exist in the database
+                            $userIdsInDatabase = [];
+                            foreach ($csv as $row) {
+                                $email = $row['email'];
+                                $user = DB::table('tbl_user')
+                                    ->select('id')
+                                    ->where('email', $email)
+                                    ->first();
+                            
+                                if ($user) {
+                                    $userIdsInDatabase[] = $user->id;
+                                }
+                            }
+
+                            // Count how many users from the CSV already exist in the database
+                            $userIdsInDatabaseCount = count($userIdsInDatabase);
+
+                            // Calculate the number of users that need to be created
+                            $usersToCreateCount = $userCountCSV - $userIdsInDatabaseCount;
+
+                            //Get all user ID that already enrol
+                            $enrolledUserIds = DB::table('tbl_subject_class_enrolment')
+                            ->select('user_id_fk')
+                            ->where('subject_class_id_fk', $lectureClassId)
+                            ->pluck('user_id_fk')
+                            ->toArray();
+
+                            // Count number of users already enrol
+                            $enrolledUserCount = count($enrolledUserIds);
+
+                            //Get the ID of user in CSV that already exist in the databas and yet to enrol
+                            $newUserIdsToEnroll = array_diff($userIdsInDatabase, $enrolledUserIds);
+                            
+                            // Count the number of new users to enroll
+                            $newUserIdsToEnrollCount = count($newUserIdsToEnroll);
+
+                            //Get the class size of the subject class
+                            $classSize = DB::table('tbl_class_code')
+                            ->where('subject_class_id_fk', $lectureClassId)
+                            ->value('class_size');
+
+                            //Check number of user in the class
+                            $usersInClassCount = DB::table('tbl_class_code')
+                            ->where('subject_class_id_fk', $lectureClassId)
+                            ->count();
+
+                            // Calculate the remaining class size
+                            $remainingClassSize = $classSize - $usersInClassCount;
+
+                            //Calculate total user to create and enrol
+                            $totalUsersToEnroll = $usersToCreateCount + $newUserIdsToEnrollCount;
+                            //Check the number of user to enrol is less than remaing position of class size or not (End)
+                        } else {
+                            // The current date is not within the date range, return an alert message.
+                            return redirect()->back()->with('error', 'Cannot enroll: The current date is not within the specified date range.');
+                        }
+                    } else {
+                        // Handle the case where the specified $lectureClassId is not found.
+                        return redirect()->back()->with('error', 'Class not found with the specified ID.');
+                    }
+                    //Check start date and end date of the class (End)
+                } else {
+                    // Default values for totalUsersToEnroll and remainingClassSize
+                    $totalUsersToEnroll = 0;
+                    $remainingClassSize = 0;
+                }
+
+                if ($totalUsersToEnroll <= $remainingClassSize) {
+                    //Create user in the CSV that is not exist in the database (Start)
+                    foreach ($csv as $row) {
+                        $email = $row['email']; // Email from the CSV
+                        // Check if the email does not exist in the tbl_user table
+                        if (!DB::table('tbl_user')->where('email', $email)->exists()) {
+                            $username = $row['username'];
+                            $password = $row['password'];
+                            $passwordHash = Hash::make($password);
+
+                            // Generate a random auth key
+                            $authKey = Str::random(32);
+
+                            // Set other fields
+                            $status = 1;
+                            $createdAt = Carbon::now()->timestamp;
+
+                            // Insert user data into tbl_user
+                            DB::table('tbl_user')->insert([
+                                'username' => $username,
+                                'email' => $email,
+                                'auth_key' => $authKey,
+                                'password_hash' => $passwordHash,
+                                'status' => $status,
+                                'first_login' => 'Yes',
+                                'created_at' => $createdAt,
+                                'updated_at' => $createdAt,
+                            ]);
+
+                            $user = DB::table('tbl_user')
+                                ->where('email', $email)
+                                ->first();
+
+                            // Insert user profile into tbl_user_profile using the query builder
+                            DB::table('tbl_user_profile')->insert([
+                                'user_id' => $user->id,
+                                'full_name' => $username,
+                                'email_gravatar' => $email,
+                                'admin_no' => ' ',
+                                'created_at' => $createdAt,
+                                'updated_at' => $createdAt,
+                            ]);
+
+                            // Insert user role into tbl_auth_assignment using the query builder
+                            DB::table('tbl_auth_assignment')->insert([
+                                'item_name' => 'user',
+                                'user_id' => $user->id,
+                                'created_at' => $createdAt,
+                            ]);
+
+                            // Add the row to $csvData
+                            $csvData[] = [
+                                'username' => $username,
+                                'email' => $email,
+                                'password' => $password,
+                                'class_name' => $class_name,
+                            ];
+                        }
+                    }
+                    //Create user in the CSV that is not exist in the database (End)
+
+                    //Enrol student (Start)
+                    // Get the ID in tbl_user where the email in the CSV matches the email in tbl_user.
+                    $userIdsToEnroll = [];
+                    foreach ($csv as $row) {
+                        $email = $row['email'];
+                        $user = DB::table('tbl_user')
+                            ->select('id')
+                            ->where('email', $email)
+                            ->first();
+
+                        if ($user) {
+                            $userIdsToEnroll[] = $user->id;
+                        }
+                    }
+
+                    //Find all the user_id_fk in tbl_subject_class_enrolment where the subject_class_id_fk matches $lectureClassId.
+                    $existingUserIds = DB::table('tbl_subject_class_enrolment')
+                    ->select('user_id_fk')
+                    ->where('subject_class_id_fk', $lectureClassId)
+                    ->pluck('user_id_fk')
+                    ->toArray();
+
+                    //  Insert the IDs from userIdsToEnroll that do not exist in existingUserIds into enrolment table.
+                    $currentUserId = auth()->user()->id; // Get the current login user ID
+                    $createUpdated_Time = now()->toDateTimeString();
+
+                    $newUserIdsToEnroll = array_diff($userIdsToEnroll, $existingUserIds);
+
+                    foreach ($newUserIdsToEnroll as $userIdToEnroll) {
+                        DB::table('tbl_subject_class_enrolment')->insert([
+                            'subject_class_id_fk' => $lectureClassId,
+                            'user_id_fk' => $userIdToEnroll,
+                            'updated_at' => $createUpdated_Time,
+                            'created_at' => $createUpdated_Time,
+                            'updated_by' => $currentUserId,
+                            'created_by' => $currentUserId,
+                        ]);
+                    }
+                    //Enrol student (End)
+
+                    // Show result at table
+                    return view('backendSystem.lectureClasses.enrolStudentDashboard', [
+                        'lectureClassId' => $lectureClassId,
+                        'csvData' => $csvData,
+                    ]);
+                } else {
+                    return view('backendSystem.lectureClasses.enrolStudentDashboard', [
+                        'lectureClassId' => $lectureClassId,
+                        'csvData' => $csvData,
+                    ]);
+                }
+            } else {
+                return redirect()->back()->with('error', 'The uploaded file is not a CSV.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'No file was uploaded.');
+        }
     }
 
     public function downloadEnrolStudentTemplate()
@@ -323,151 +552,6 @@ class LectureClassesController extends Controller
             // Handle the case where the file does not exist
             abort(404, 'File not found');
         }
-    }
-
-    public function showUploadForm()
-    {
-        return view('upload');
-    }
-
-    public function uploadEnrolStudentFile(Request $request)
-    {
-        $uploadedFile = $request->file('file');
-
-        if ($request->hasFile('file')) {
-
-            $uploadedFile = $request->file('file');
-
-            // Get the path to the uploaded file
-            $filePath = $request->file('file')->getRealPath();
-
-            // Read the CSV file into an array
-            $csv = array_map('str_getcsv', file($filePath));
-
-            // Extract the header row
-            $uploadedHeader = $csv[0]; // This is your header row
-
-            // Calculate the row count, excluding the header row
-            $rowCount = count($csv) - 1;
-
-            for ($i = 1; $i <= $rowCount; $i++) {
-                $classArray = DB::table('tbl_subject_class')
-                ->select('*')
-                ->where('subject_class_id', $csv[$i][0])
-                ->first();
-
-                $newClassFlag = (!$classArray->has('subject_class_id')) ? true : false;
-
-                if($newClassFlag){
-                    $resultArray[$i]['class'] = "Class Id " . $csv[$i][0] . " cannot be found. Kindly create the class before enrolling";
-
-                    $studentArray = DB::table('tbl_user')
-                    ->where('username', $csv[$i][2])
-                    ->first();
-
-                    $studentFlag = isset($studentArray);
-
-                    if (!$studentFlag) {
-                        $resultArray[$i]['student'] = '"' . $csv[$i][1] . '" account is not found in the system. Kindly create the class first and re-attempt to enroll.';
-                    }
-                    else {
-                        $resultArray[$i]['student'] = '"' . $csv[$i][1] . '" account exists in the system. Kindly create the class first and re-attempt to enroll.';
-                    }
-                } 
-                elseif (!$newClassFlag) {
-                    if ($studentArray->status != 1) {
-                        $resultArray[$i]['student'] = $csv[$i][1] . " account is not active. Kindly check with the administrator for student status";
-                    }
-                    elseif ($studentArray->status == 1) {
-                        $studentClassEnrolStatus = DB::table('tbl_subject_class_enrolment')
-                        ->where('user_id_fk', $studentArray->id)
-                        ->where('subject_class_id_fk', $csv[$i][0])
-                        ->first();
-
-                        $classEnrolledFlag = isset($studentClassEnrolStatus);
-
-                        if ($classEnrolledFlag) {
-                            // Student is already enrolled, set an appropriate message
-                            $resultArray[$i]['student'] = $csv[$i][1] . " is already enrolled in " . $classArray->class_name . " thus no action is taken";
-                        }
-                        else {
-                            $uploadClassDetails = DB::table('tbl_subject_class')
-                            ->where('subject_class_id', $csv[$i][0])
-                            ->first();
-
-                            $similarClassList = DB::table('tbl_subject_class')
-                            ->where('subject_id_fk', $uploadClassDetails->subject_id_fk)
-                            ->where('academic_year', $uploadClassDetails->academic_year)
-                            ->where('academic_semester', $uploadClassDetails->academic_semester)
-                            ->get();
-
-                            $similarClassFlag = (count($similarClassList) >= 2);
-
-                            if ($similarClassFlag) {
-                                $classList = [];
-
-                                foreach ($similarClassList as $class) {
-                                    $classList[] = $class->subject_class_id;
-                                }
-
-                                $differentClassEnroled = DB::table('tbl_subject_class_enrolment')
-                                ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
-                                ->whereIn('subject_class_id_fk', $classList)
-                                ->where('user_id_fk', $studentArray->id)
-                                ->get();
-
-                                $differentClassCount = count($differentClassEnroled);
-
-                                if ($differentClassCount >= 1) {
-                                    $differentClassNameList = "";
-                                    
-                                    $resultArray = [];
-
-                                    foreach ($differentClassEnroled as $differentClass) {
-                                        $name = DB::table('tbl_subject_class')
-                                            ->where('subject_class_id', $differentClass->subject_class_id_fk)
-                                            ->first();
-
-                                        $differentClassNameList = $name->class_name . ",";
-                                    }
-
-                                    $differentClassNameList = rtrim($differentClassNameList, ',');
-
-                                    $resultArray[$i]['student'] = $csv[$i][1] . " is already enrolled in " . $differentClassNameList . " thus no action is taken";
-                                }
-                                else{
-                                    DB::table('tbl_subject_class_enrolment')->insert([
-                                        'subject_class_id_fk' => $csv[$i][0],
-                                        'user_id_fk' => $studentArray->id,
-                                        'updated_at' => now(),
-                                        'updated_by' => auth()->user()->id,
-                                        'created_at' => now(),
-                                        'created_by' => auth()->user()->id
-                                    ]);
-
-                                    $resultArray[$i]['student'] =  $csv[$i][1] . " is being enrolled in " . $classArray['class_name'];
-                                }
-                            }
-                            else{
-                                DB::table('tbl_subject_class_enrolment')->insert([
-                                    'subject_class_id_fk' => $csv[$i][0],
-                                    'user_id_fk' => $studentArray->id,
-                                    'updated_at' => now(),
-                                    'updated_by' => auth()->user()->id,
-                                    'created_at' => now(),
-                                    'created_by' => auth()->user()->id
-                                ]);
-
-                                $resultArray[$i]['student'] =  $csv[$i][1] . " is being enrolled in " . $classArray['class_name'];
-                            }
-                        }
-                    }                    
-                }
-            }
-        }
-
-        // Handle the case where no file was uploaded
-        return redirect()->back()->with('error', 'No file uploaded.');
     }
 
     public function deleteLectureClass($id)

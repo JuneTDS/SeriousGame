@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BackendSystem\RBAC;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;  //To interact with database
+use Carbon\Carbon;
 
 class RBAC_RolesController extends Controller
 {
@@ -102,7 +103,59 @@ class RBAC_RolesController extends Controller
 
     // Function to display permissionEdit page
     public function showRoleEdit($name){
-        return view('backendSystem.rbac.roles.roleEdit');
+        $roleData = DB::table('tbl_auth_item')
+        ->where('type', 1)
+        ->where('tbl_auth_item.name', '=', $name)
+        ->first();
+
+        // To retrieve the permissionByRoles under the current permission (Start)
+        // Query the roles associated with the permission
+        $permissionByRoles = DB::table('tbl_auth_item_child')
+            ->where('parent', $name)
+            ->pluck('child');
+
+        $permissionByRoleDescriptions = DB::table('tbl_auth_item')
+            ->whereIn('name', $permissionByRoles)
+            ->pluck('description', 'name');
+
+        $excludedPermissions = $permissionByRoles->all(); // Convert the collection to an array
+
+        $itemPermissions = DB::table('tbl_auth_item')
+            ->where('type', 2)
+            ->whereNotIn('name', $excludedPermissions)
+            ->select('name', 'description')
+            ->get();
+
+        return view('backendSystem.rbac.roles.roleEdit',[
+            'roleData' => $roleData,
+            'permissionByRoles' => $permissionByRoles,
+            'permissionByRoleDescriptions' => $permissionByRoleDescriptions,
+            'itemPermissions' => $itemPermissions,
+        ]);
+    }
+
+    public function roleEditSave(Request $request, $roleName)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Extract data from the JSON request
+        $permissionsArray = $data['permissionsArray'];
+
+        $existingChildren = DB::table('tbl_auth_item_child')
+        ->where('parent', $roleName)
+        ->pluck('child')
+        ->all();
+
+        $childrenToInsert = array_diff($permissionsArray, $existingChildren);
+
+        foreach ($childrenToInsert as $child) {
+            DB::table('tbl_auth_item_child')->insert([
+                'parent' => $roleName,
+                'child' => $child,
+            ]);
+        }
+        return response()->json(['success' => true]);
     }
 
     // Delete Role

@@ -14,11 +14,11 @@
 
         <!--  //row start -->
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
-            <form href="/admin/studentSubject" id="filter-form">
+            <form href="/frontend/studentSubject" id="filter-form">
                 <div class="search-section">
                     <div class="flex-box flex-column">
                         <label>Subject</label>
-                        <select name="subject" id="subject">
+                        <select name="subjectFilter" id="subjectFilter">
                             <option value="" disabled="disabled" selected="true">Select a subject</option>
                             @foreach($subjects as $subject)
                                 <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
@@ -27,12 +27,12 @@
                     </div>
                     <div class="flex-box flex-column" style="margin-left: 18px;">
                         <label>Topic</label>
-                        <select name="class" id="class">
+                        <select name="class" id="classFilter">
                             <option value="" disabled="disabled" selected="true">Select a topic</option>
                         </select>
                     </div>
                     <div>
-                        <button type="button" class="primary" id="search">Search</button>
+                        <button type="submit" class="primary" id="search">Search</button>
                     </div>
                 </div>
             </form>
@@ -196,29 +196,25 @@
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
+
+    $('#subjectFilter').on('change', function () {
+        var subjectId = $(this).val();
+
+        // Send an AJAX request to retrieve matching classes
+        $.ajax({
+            url: '/admin/getTopic/' + subjectId,
+            type: 'GET',
+            success: function (data) {
+                // Clear the existing options in the Class dropdown
+                $('#classFilter').empty();
+
+                // Populate the Class dropdown with the retrieved data
+                $.each(data.data, function (key, value) {
+                    $('#classFilter').append('<option value="' + value.topic_id + '">' + value.topic_name + '</option>');
+                });                
+            }
+        });
+    });
+    
 </script>
-
-<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['table']});
-    google.charts.setOnLoadCallback(drawTable);
-
-    function drawTable() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Sub-topic');
-        data.addColumn('number', 'Score');
-        data.addColumn('string', 'Time taken (Hr:Min:Sec)');
-        data.addRows([
-            @foreach ($student_statistic as $statistic)
-                ['{{ $statistic['subtopic_name'] }}', {{ intval($statistic['subtopic_score']) }}, '{{ $statistic['time_taken'] }}'],
-            @endforeach
-        ]);
-
-        var table = new google.visualization.Table(document.getElementById('table_div'));
-
-        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
-    }
-</script> -->
-
-
 @endsection

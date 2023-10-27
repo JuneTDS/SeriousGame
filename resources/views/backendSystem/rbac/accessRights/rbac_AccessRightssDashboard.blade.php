@@ -114,7 +114,7 @@
 <link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
 
-<!-- Javascript for User Page Popup -->
+<!-- Javascript for Popup -->
 <script src="{{ asset('assets/js/backendSystem_RBACAccessRightPopup.js') }}"></script>
 
 <script>

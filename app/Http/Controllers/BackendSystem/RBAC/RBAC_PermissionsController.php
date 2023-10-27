@@ -98,75 +98,6 @@ class RBAC_PermissionsController extends Controller
             'roleDescriptions' => $roleDescriptions,
         ]);
     }
-    
-
-    // // Function to display permissionEdit page
-    // public function showPermissionEdit($name){
-    //     // Query the permission data
-    //     $permissionData = DB::table('tbl_auth_item')
-    //         ->where('type', 2)
-    //         ->where('tbl_auth_item.name', '=', $name)
-    //         ->first();
-    
-
-    //     // To retrieve the permissionByRoles under current permission (Start)
-    //     // Query the roles associated with the permission
-    //     $permissionByRoles = DB::table('tbl_auth_item')
-    //         ->select('tbl_auth_item.name', 'tbl_auth_item.description', 'tbl_auth_item_child.child')
-    //         ->leftJoin('tbl_auth_item_child', 'tbl_auth_item.name', '=', 'tbl_auth_item_child.parent')
-    //         ->where('tbl_auth_item.name', '=', $name)
-    //         ->get();
-    
-    //     // Create an array to store role descriptions
-    //     $permissionByRoleDescriptions = [];
-    
-    //     // Iterate through the roles and fetch descriptions
-    //     foreach ($permissionByRoles as $role) {
-    //         // Query the description for each role
-    //         $permissionByRoleDescription = DB::table('tbl_auth_item')
-    //             ->where('name', $role->child)
-    //             ->where('type', 2) // Assuming roles have type 1
-    //             ->value('description');
-    
-    //         // Store the description in the array
-    //         $permissionByRoleDescriptions[$role->child] = $permissionByRoleDescription;
-    //     }
-    //     // To retrieve the permissionByRoles under current permission (End)
-
-    //     // To retrieve the permissionByRoles not under current permission (Start)
-    //     // Get an array of permissions obtained through permissionByRoles and the permission itself
-    //     $permissionsToExclude = collect($permissionByRoles)->pluck('child')->push($name)->toArray();
-
-    //     // Query all permissions with type 2 except those in $permissionsToExclude
-    //     $itemPermissions = DB::table('tbl_auth_item')
-    //         ->where('type', 2)
-    //         ->whereNotIn('name', $permissionsToExclude)
-    //         ->get();
-
-    //     // Create an array to store descriptions for itemPermissions
-    //     $itemPermissionsDescriptions = [];
-
-    //     // Iterate through the permissions and fetch descriptions
-    //     foreach ($itemPermissions as $itemPermission) {
-    //         // Query the description for each permission
-    //         $permissionDescription = DB::table('tbl_auth_item')
-    //             ->where('name', $itemPermission->name)
-    //             ->where('type', 2)
-    //             ->value('description');
-
-    //         // Store the description in the array
-    //         $itemPermissionsDescriptions[$itemPermission->name] = $permissionDescription;
-    //     }
-    //     // To retrieve the permissionByRoles not under current permission (End)
-
-    //     return view('backendSystem.rbac.permissions.permissionEdit',[
-    //         'permissionData' => $permissionData,
-    //         'permissionByRoles' => $permissionByRoles,
-    //         'permissionByRoleDescriptions' => $permissionByRoleDescriptions,
-    //         'itemPermissions' => $itemPermissions,
-    //         'itemPermissionsDescriptions' => $itemPermissionsDescriptions,
-    //     ]);
-    // }
 
     public function showPermissionEdit($name){
         // Query the permission data
@@ -177,70 +108,52 @@ class RBAC_PermissionsController extends Controller
     
         // To retrieve the permissionByRoles under the current permission (Start)
         // Query the roles associated with the permission
-        $permissionByRoles = DB::table('tbl_auth_item')
-            ->select('tbl_auth_item.name', 'tbl_auth_item.description', 'tbl_auth_item_child.child')
-            ->leftJoin('tbl_auth_item_child', 'tbl_auth_item.name', '=', 'tbl_auth_item_child.parent')
-            ->where('tbl_auth_item.name', '=', $name)
+        $permissionByRoles = DB::table('tbl_auth_item_child')
+            ->where('parent', $name)
+            ->pluck('child');
+
+        $permissionByRoleDescriptions = DB::table('tbl_auth_item')
+            ->whereIn('name', $permissionByRoles)
+            ->pluck('description', 'name');
+
+        $excludedPermissions = $permissionByRoles->all(); // Convert the collection to an array
+
+        $itemPermissions = DB::table('tbl_auth_item')
+            ->where('type', 2)
+            ->whereNotIn('name', array_merge($excludedPermissions, [$permissionData->name]))
+            ->select('name', 'description')
             ->get();
-    
-        // Create an array to store role descriptions
-        $permissionByRoleDescriptions = [];
-    
-        // Iterate through the roles and fetch descriptions
-        foreach ($permissionByRoles as $role) {
-            // Query the description for each role
-            $permissionByRoleDescription = DB::table('tbl_auth_item')
-                ->where('name', $role->child)
-                ->where('type', 2) // Assuming roles have type 1
-                ->value('description');
-    
-            // Store the description in the array
-            $permissionByRoleDescriptions[$role->child] = $permissionByRoleDescription;
-        }
-        // To retrieve the permissionByRoles under the current permission (End)
-    
-        // To retrieve the permissionByRoles not under the current permission (Start)
-        // Get an array of permissions obtained through permissionByRoles and the permission itself
-        $permissionsToExclude = collect($permissionByRoles)->pluck('child')->push($name)->toArray();
-    
-        // Initialize $itemPermissionsDescriptions as an empty array
-        $itemPermissionsDescriptions = [];
-    
-        // Check if $permissionByRoleDescriptions is null
-        if (empty($permissionByRoleDescriptions)) {
-            // Query all permissions of type 2 except the current permission
-            $itemPermissions = DB::table('tbl_auth_item')
-                ->where('type', 2)
-                ->where('name', '!=', $name)
-                ->get();
-        } else {
-            // Query all permissions with type 2 except those in $permissionsToExclude
-            $itemPermissions = DB::table('tbl_auth_item')
-                ->where('type', 2)
-                ->whereNotIn('name', $permissionsToExclude)
-                ->get();
-    
-            // Iterate through the permissions and fetch descriptions
-            foreach ($itemPermissions as $itemPermission) {
-                // Query the description for each permission
-                $permissionDescription = DB::table('tbl_auth_item')
-                    ->where('name', $itemPermission->name)
-                    ->where('type', 2)
-                    ->value('description');
-    
-                // Store the description in the array
-                $itemPermissionsDescriptions[$itemPermission->name] = $permissionDescription;
-            }
-        }
-        // To retrieve the permissionByRoles not under the current permission (End)
     
         return view('backendSystem.rbac.permissions.permissionEdit', [
             'permissionData' => $permissionData,
             'permissionByRoles' => $permissionByRoles,
             'permissionByRoleDescriptions' => $permissionByRoleDescriptions,
             'itemPermissions' => $itemPermissions,
-            'itemPermissionsDescriptions' => $itemPermissionsDescriptions,
         ]);
+    }
+
+    public function permissionEditSave(Request $request, $permissionName)
+    {
+        // Retrieve data from the JSON request
+        $data = $request->json()->all();
+
+        // Extract data from the JSON request
+        $permissionsArray = $data['permissionsArray'];
+
+        $existingChildren = DB::table('tbl_auth_item_child')
+        ->where('parent', $permissionName)
+        ->pluck('child')
+        ->all();
+
+        $childrenToInsert = array_diff($permissionsArray, $existingChildren);
+
+        foreach ($childrenToInsert as $child) {
+            DB::table('tbl_auth_item_child')->insert([
+                'parent' => $permissionName,
+                'child' => $child,
+            ]);
+        }
+        return response()->json(['success' => true]);
     }
     
 

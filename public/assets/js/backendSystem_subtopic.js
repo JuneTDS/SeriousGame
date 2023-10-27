@@ -145,8 +145,9 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.data) {
                     $(".popup-form").hide();
-                    $("#success-popup .message").text("Subtopic has been deleted.");
-                    $("#success-popup").show();
+                    // $("#success-popup .message").text("Subtopic has been deleted.");
+                    // $("#success-popup").show();
+                    location.reload();
                 }
             },
             error: function (data) {

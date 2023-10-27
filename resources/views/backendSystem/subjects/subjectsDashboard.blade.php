@@ -22,14 +22,14 @@
             <input type="text" class="form-control" id="subject" required>
         </div>
         <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create Subject</button>
-        <button type="button" class="btn btn-cancel" id="close" style="width:526px; margin-top: 10px;">Close</button>
+        <!-- <button type="button" class="btn btn-cancel" id="close" style="width:526px; margin-top: 10px;">Close</button> -->
     </div>
 
     <!-- Create_Success_popup -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
             <div class="success-warning-icon">
-                <img src="/assets/images/check_circle.svg" />
+                <i class="fa fa-check" ></i>
             </div>
             <p class="text-center message" style="padding-top:50px">A new subject has been created.</p>
         </div>
@@ -48,7 +48,7 @@
 
     <!-- delete_popup -->
     <div id="delete-popup" class="popup-form">
-        <div class="row justify-content-center align-items-center ">
+        <!-- <div class="row justify-content-center align-items-center ">
             <div class="delete-warning-icon text-center">
                 <img src="/assets/images/error.svg" />
             </div>
@@ -56,7 +56,23 @@
         </div>
         <input type="hidden" class="form-control delete-id">
         <button type="button" class="btn btn-dark" id="delete-btn" style="width: 526px">Delete</button>
-        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button>
+        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button> -->
+
+        <div class="row justify-content-center align-items-center ">
+            <div class="delete-warning-icon col-1 ">
+                <i class="fa fa-exclamation"></i>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:42px">
+            <p class="text-center">Are you sure you want to delete?</p>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:24px">
+            <p class="text-center"><b>This action cannot be undone.</b></p>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:42px">
+            <button type="button" class="btn btn-outline-dark" id="close" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Class Code</button>
+        </div>
     </div>
 
     <!-- Popup Form -->
@@ -83,8 +99,8 @@
                 <p>Published</p>
                 <select class="form-select dropdown" id="dropdown1" name="publish">
                     <option value="">All</option>
-                    <option value="0" {{ $publish === "0" ? 'selected' : '' }}>False</option>
-                    <option value="1" {{ $publish === "1" ? 'selected' : '' }}>True</option>
+                    <option value="0" {{ $publish === "0" ? 'selected' : '' }}>Not Published</option>
+                    <option value="1" {{ $publish === "1" ? 'selected' : '' }}>Published</option>
                 </select>
             </div>
             <div class="col-2">
@@ -94,7 +110,7 @@
                     @if (count($users) > 0)
                         @foreach ($users as $key => $user)
                             @php
-                            $userId = $user->id;
+                            $userId = $user->user_id;
                             $updated_by = (int) $updated_by;
                             @endphp
                             <option value="{{ $userId }}" {{ $userId === $updated_by ? 'selected' : '' }}>{{ $user->username }}</option>

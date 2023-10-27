@@ -395,18 +395,18 @@ ul.custom-bullet-list li::before {
     border-radius: 6px;
 }
 
-#permissionRoleTable tr,
+#permissionByRolesTable tr,
 #itemPermissionsTable tr {
     height: 30px; /* Set the desired height for the rows */
 }
 
-#permissionRoleTable td,
+#permissionByRolesTable td,
 #itemPermissionsTable td {
     padding: 10px;
     border: 0; /* Remove individual cell borders */
 }
 
-#permissionRoleTable tr:last-child td,
+#permissionByRolesTable tr:last-child td,
 #itemPermissionsTable tr:last-child td {
     border-bottom: 0; /* Remove bottom border from the last row */
 }

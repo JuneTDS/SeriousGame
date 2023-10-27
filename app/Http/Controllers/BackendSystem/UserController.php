@@ -120,7 +120,7 @@ class UserController extends Controller
         $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `created_at`, `updated_at`) VALUES ('$username','$email','$authKey','$password_hash', $status, 'Yes', $createdAt, $createdAt )") );
         $user           = User::where('email', $email)->where('status', $status)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$username','$email', ' ', $createdAt, $createdAt)") );
-        $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
+        $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('user','$user->id',$createdAt)") );
 
         return response()->json(['success' => true]);
     }

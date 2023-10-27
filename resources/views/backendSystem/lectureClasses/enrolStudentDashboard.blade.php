@@ -23,9 +23,10 @@
             <div class="col-4">        
                 <p>Step 2: Upload the file</p>
             </div>        
-            <div class="col-5">                       
-                <form action="{{ url('/admin/uploadEnrolStudentFile') }}" method="POST" enctype="multipart/form-data">
+            <div class="col-5">
+                <form action="{{ url('/admin/uploadEnrolStudentFile') }}" method="POST" enctype="multipart/form-data">                       
                     @csrf
+                    <input type="hidden" name="lectureClassId" value="{{ $lectureClassId }}">
                     <div class="col-5">
                         <input type="file" id="fileUpload" name="file" style="display: none;">
                         <label for="fileUpload" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px; width: 200px; text-align: center;">
@@ -39,28 +40,28 @@
         <div class="header-row"></div>
         <div class="row" style="padding-top:30px">
             <h3 style="font-weight:normal;padding-bottom:56px">Enrollment Results</h3>
-            <table class="table" style=" border: none;">
-                <thead style="background-color: #CFDDE4;color:#45494C">
+            <table class="table" style="border: none;">
+                <thead style="background-color: #CFDDE4; color: #45494C">
                     <th>S/N</th>
                     <th>Class</th>
                     <th>Student</th>
                 </thead>
                 <tbody>
-                    @if (count($enrolStudentsResult) === 0)
+                    @if (isset($csvData) && count($csvData) > 0)
+                        @foreach ($csvData as $index => $data)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $data['class_name'] }}</td>
+                                <td>{{ $data['username'] }}</td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
                             <td colspan="3">No result found</td>
                         </tr>
-                    @else
-                        @foreach ($enrolStudentsResult as $enrolledStudent)
-                            <tr>
-                                <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $enrolledStudent['class_name'] }}</td>
-                                <td>{{ $enrolledStudent['student_full_name'] }}</td>
-                            </tr>
-                        @endforeach
                     @endif
                 </tbody>
-            </table>        
+            </table>
         </div>
     </div>
 </div>

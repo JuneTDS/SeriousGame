@@ -49,8 +49,13 @@ class SubjectsController extends Controller
         $subjects = $query
             ->get();
 
-        $users = DB::table('tbl_user')
-            ->where('status', true)->get();
+        // $users = DB::table('tbl_user')
+        //     ->where('status', true)->get();
+        $users = DB::table('tbl_auth_assignment')
+        ->whereIn('item_name', ['Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager', 'super_admin'])
+        ->join('tbl_user', 'tbl_auth_assignment.user_id', '=', 'tbl_user.id')
+        ->select('tbl_auth_assignment.user_id', 'tbl_user.username')
+        ->get();
 
         return view('backendSystem.subjects.subjectsDashboard',[
             'subjects' => $subjects,
@@ -112,6 +117,8 @@ class SubjectsController extends Controller
 
     public function showTopicsDashboard($id, Request $request)
     {
+        $hours = range(0, 99);  // Generate an array of hours (1-99)
+        $minutes = range(0, 59);    // Generate an array of minutes (0-59)
 
         $subject = $request->input("subject");
         $name = $request->input("name");
@@ -153,7 +160,13 @@ class SubjectsController extends Controller
         $topics = $query->get();
 
         $subjects = DB::table('tbl_subject')->where("subject_id", $id)->get();
-        $users = DB::table('tbl_user')->where("status", 1)->get();
+        // $users = DB::table('tbl_user')->where("status", 1)->get();
+        //To get all the user under 'Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager' role
+        $users = DB::table('tbl_auth_assignment')
+            ->whereIn('item_name', ['Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager', 'super_admin'])
+            ->join('tbl_user', 'tbl_auth_assignment.user_id', '=', 'tbl_user.id')
+            ->select('tbl_auth_assignment.user_id', 'tbl_user.username')
+            ->get();
 
         return view('backendSystem.topics.topicsDashboard', [
             'topics' => $topics,
@@ -165,6 +178,8 @@ class SubjectsController extends Controller
             'updated_by' => $updated_by,
             'updated_at' => $updated_at,
             'name_sort' => $name_sort,
+            'hours' => $hours,
+            'minutes' => $minutes,
         ]);
     }
 

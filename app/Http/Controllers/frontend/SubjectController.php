@@ -13,34 +13,27 @@ class SubjectController extends Controller
     public function index() {
 
         // June Code
-        $data["classes"] = DB::select( DB::raw("SELECT * FROM tbl_subject;") );
+        // $data["classes"] = DB::select( DB::raw("SELECT * FROM tbl_subject;") );
+
+        //Fendi Code
+        // Get the current logged-in user's ID
+        $userId = Auth::id();
+
+        // Query to get subject_id_fk from tbl_lecturer_subject_enrolment
+        $subjectIds = DB::table('tbl_lecturer_subject_enrolment')
+            ->select('subject_id_fk')
+            ->where('user_id_fk', $userId)
+            ->pluck('subject_id_fk')
+            ->toArray();
+
+        // Query to get subject data from tbl_subject using the subject IDs obtained
+        $$data["classes"] = DB::table('tbl_subject')
+            ->whereIn('subject_id', $subjectIds)
+            ->get();
+
         return view('frontend.subject', [
             'data' => $data
-        ]);
-
-        // Fendi Code (Failed)
-        // if (Auth::user()->role == 'Student'){
-        //     // Temporaly use other student user ID (46)
-        //     $userId = 46;
-        //    // Retrieve subject IDs and names for the logged-in student
-        //     $subjects = DB::table('tbl_subject')
-        //         ->leftjoin('tbl_subject_class', 'tbl_subject_class.subject_id_fk', '=', 'tbl_subject.subject_id')
-        //         ->leftjoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.subject_class_id_fk', '=', 'tbl_subject_class.subject_class_id')
-        //         ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
-        //         ->select('tbl_subject.subject_id', 'tbl_subject.subject_name')
-        //         ->distinct()
-        //         ->get();
-        //     return view('frontend.studentSubject',[
-        //         'subjects' => $subjects
-        //     ]);
-        // }
-        // else{
-        //     $data["classes"] = DB::select( DB::raw("SELECT * FROM tbl_subject;") );
-            
-        //     return view('frontend.subject', [
-        //         'data' => $data
-        //     ]);
-        // }   
+        ]); 
     }
 
     public function getGraphData(Request $request) {
@@ -107,14 +100,26 @@ class SubjectController extends Controller
 
     public function showStudentSubject(Request $request) {
 
-        // Temporaly use other student user ID (46)
-        $userId = 76;
-        // Temporaly use subject ID (1)
-        $subjectId = 3;
+        // $userId = 76;    // Temporaly use other student user ID (46)
+        $userId = auth()->user()->id;
+
+        //Get the subject id
+        // $subjectId = 3;  // Temporaly use subject ID (1)
+        if ($request->has('subjectFilter')) {
+            $subjectId = $request->input('subjectFilter');
+        } else {
+            $subject = DB::table('tbl_subject_class_enrolment')
+            ->select('tbl_subject_class.subject_id_fk')
+            ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
+            ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
+            ->first();
+
+            $subjectId = $subject->subject_id_fk;
+        }
 
         // Get Topic Id
-        if ($request->has('class')) {
-            $topic_id = $request->input('class');
+        if ($request->has('classFilter')) {
+            $topic_id = $request->input('classFilter');
         } else {
             $topic = DB::table('tbl_topic')
             ->select('tbl_topic.topic_id')
@@ -401,4 +406,13 @@ class SubjectController extends Controller
         return $get_class_id;
     }
 
+    public function getTopic(Request $request, $id) {
+        // Fetch topics based on the subject ID
+        $topics = DB::table('tbl_topic')
+        ->select('topic_id', 'topic_name')
+        ->where('subject_id_fk', $id)
+        ->get();
+    
+        return response()->json(['success' => true, 'data' => $topics]);
+    }  
 }

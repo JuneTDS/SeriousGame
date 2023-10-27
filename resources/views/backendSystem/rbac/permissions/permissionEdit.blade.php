@@ -9,7 +9,7 @@
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
         <div class="right" >
-            <button type="button" id="open-popup-btn" class="btn btn-dark" style="width:200px">Save</button>
+            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px" data-permission-name="{{ $permissionData->name }}">Save</button>
             <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
         </div>
     </div>
@@ -47,13 +47,10 @@
                             <td>
                                 <table id="permissionByRolesTable" class="table">
                                     <tbody>
-                                        @foreach ($permissionByRoles as $index => $permissionByRole)
-                                        <tr>
-                                            <!-- <td>{{ $permissionByRole->child }} ({{ $permissionByRoleDescriptions[$permissionByRole->child] }})</td> -->
-                                            <td>{{ $permissionByRole->child }}
-                                                @if(isset($permissionByRoleDescriptions[$permissionByRole->child]))
-                                                    ({{ $permissionByRoleDescriptions[$permissionByRole->child] }})
-                                                @endif
+                                        @foreach($permissionByRoles as $permission)
+                                        <tr data-permission-name="{{ $permission }}">
+                                            <td>
+                                                {{ $permission }} ({{ $permissionByRoleDescriptions[$permission] }})
                                             </td>
                                         </tr>
                                         @endforeach
@@ -75,11 +72,11 @@
                             <td>
                                 <table id="itemPermissionsTable" class="table">
                                     <tbody>
-                                        @foreach ($itemPermissions as $index => $itemPermission)
+                                    @foreach($itemPermissions as $itemPermission)
                                         <tr>
-                                            <td>{{ $itemPermission->name }} ({{ $itemPermissionsDescriptions[$itemPermission->name] }})</td>
+                                            <td>{{ $itemPermission->name }} ({{ $itemPermission->description }})</td>
                                         </tr>
-                                        @endforeach
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </td>
@@ -97,62 +94,5 @@
 
 <!-- Javascript for User Page Popup -->
 <script src="{{ asset('assets/js/backendSystem_RBACPermissionPopup.js') }}"></script>
-
-<script>
-    //To switch permission between table (Start)
-document.addEventListener('DOMContentLoaded', function() {
-    const itemPermissionsTable = document.getElementById('itemPermissionsTable');
-    const permissionByRolesTable = document.getElementById('permissionByRolesTable');
-    const upBtn = document.getElementById('upBtn');
-    const downBtn = document.getElementById('downBtn');
-    let selectedRow;
-
-    // Function to move selected row from itemPermissionsTable to permissionByRolesTable
-    function moveRowUp() {
-        if (selectedRow && !selectedRow.parentElement.isSameNode(permissionByRolesTable)) {
-            itemPermissionsTable.querySelector('tbody').removeChild(selectedRow);
-            permissionByRolesTable.querySelector('tbody').appendChild(selectedRow);
-            selectedRow.classList.remove('selected');
-            selectedRow = null;
-        }
-    }
-
-    // Function to move selected row from permissionByRolesTable to itemPermissionsTable
-    function moveRowDown() {
-        if (selectedRow && !selectedRow.parentElement.isSameNode(itemPermissionsTable)) {
-            permissionByRolesTable.querySelector('tbody').removeChild(selectedRow);
-            itemPermissionsTable.querySelector('tbody').appendChild(selectedRow);
-            selectedRow.classList.remove('selected');
-            selectedRow = null;
-        }
-    }
-
-    // Attach click event listeners to move the rows
-    upBtn.addEventListener('click', moveRowUp);
-    downBtn.addEventListener('click', moveRowDown);
-
-    // Add click event listeners to rows for selecting them
-    itemPermissionsTable.querySelectorAll('tr').forEach(row => {
-        row.addEventListener('click', () => {
-            if (selectedRow) {
-                selectedRow.classList.remove('selected');
-            }
-            row.classList.add('selected');
-            selectedRow = row;
-        });
-    });
-
-    permissionByRolesTable.querySelectorAll('tr').forEach(row => {
-        row.addEventListener('click', () => {
-            if (selectedRow) {
-                selectedRow.classList.remove('selected');
-            }
-            row.classList.add('selected');
-            selectedRow = row;
-        });
-    });
-});
-//To switch permission between table (End)
-</script>
 
 @endsection
