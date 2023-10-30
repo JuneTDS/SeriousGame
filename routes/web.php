@@ -11,7 +11,7 @@ use App\Http\Controllers\frontend\ProfileController;
 use App\Http\Controllers\BackendSystem\UserController;
 use App\Http\Controllers\BackendSystem\SubjectsController;
 use App\Http\Controllers\BackendSystem\SubjectEnrollmentsController;
-use App\Http\Controllers\BackendSystem\ModeSiteController;
+use App\Http\Controllers\BackendSystem\classCodeController;
 use App\Http\Controllers\BackendSystem\LectureClassesController;
 use App\Http\Controllers\BackendSystem\RBAC\RBAC_AccessRightsController;
 use App\Http\Controllers\BackendSystem\RBAC\RBAC_PermissionsController;
@@ -92,8 +92,11 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('/user/getFeedbacks', [FeedbackController::class, 'getFeedbacks'])->name("user.getFeedbacks");
     
-
-    // Route::post('/classes', [ClassController::class, 'search'])->name("search.class");
+    
+    
+    Route::get('/frontend/studentSubject', [SubjectController::class, 'showStudentSubject']);
+    //Get Topic based on selected subject dropdown option
+    Route::get('/admin/getTopic/{id}', [SubjectController::class, 'getTopic']);
 
     //Backend System Routing
     //User Profile Page
@@ -133,6 +136,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin/permissionInfo/{name}', [RBAC_PermissionsController::class, 'showPermissionInfo']);
     //Edit Permission Action Button
     Route::get('/admin/permissionEdit/{name}', [RBAC_PermissionsController::class, 'showPermissionEdit']);
+    //Save Permission Edit
+    Route::post('/admin/permissionEditSave/{name}', [RBAC_PermissionsController::class, 'permissionEditSave']);
     //Delete Action Button
     Route::delete('/admin/deletePermission/{name}', [RBAC_PermissionsController::class, 'deletePermission']);
 
@@ -145,6 +150,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin/roleInfo/{name}', [RBAC_RolesController::class, 'showRoleInfo']);
     //Edit Permission Action Button
     Route::get('/admin/roleEdit/{name}', [RBAC_RolesController::class, 'showRoleEdit']);
+    //Save Permission Edit
+    Route::post('/admin/roleEditSave/{name}', [RBAC_RolesController::class, 'roleEditSave']);
     //Delete Role
     Route::delete('/admin/deleteRole/{name}', [RBAC_RolesController::class, 'deleteRole']);
 
@@ -156,7 +163,7 @@ Route::group(['middleware' => ['auth']], function() {
     //Edit Assign Action Button
     Route::get('/admin/assignRightEdit/{id}', [RBAC_AccessRightsController::class, 'showaccessRightEdit']);
     //Delete User Action Button
-    Route::delete('/admin/deleteAssignRight/{id}', [RBAC_AccessRightsController::class, 'deleteAssignRight']);
+    Route::post('/admin/deleteAssignRight/{id}', [RBAC_AccessRightsController::class, 'deleteAssignRight']);
     //Save AccessRight Edit
     Route::post('/admin/accessRightEditSave', [RBAC_AccessRightsController::class, 'accessRightEditSave']);
 
@@ -231,15 +238,25 @@ Route::group(['middleware' => ['auth']], function() {
     //Download Enrol Student Template file
     Route::get('/admin/enrolStudentTemplate', [LectureClassesController::class, 'downloadEnrolStudentTemplate']);
     //Upload Enrol Student file
-    Route::get('/admin/uploadEnrolStudentFile', [LectureClassesController::class, 'showUploadForm']);
     Route::post('/admin/uploadEnrolStudentFile', [LectureClassesController::class, 'uploadEnrolStudentFile']);
-
-
-
 
     //Mode Site Dashboard
     Route::get('/admin/modeSiteDashboard', [ModeSiteController::class, 'showModeSiteDashboard']);
 
 
     Route::post('/user/uploadProfile', [CropImageController::class, 'cropImageUploadAjax']);
+    //Class Code Dashboard
+    Route::get('/admin/classCodesDashboard', [classCodeController::class, 'showClassCodesDashboard']);
+    //User create
+    Route::post('/admin/createClassCode', [classCodeController::class, 'createClassCode']);
+    //Get Subejct Class based on selected subject dropdown option
+    Route::get('/admin/getSubjectClasses/{id}', [classCodeController::class, 'getSubjectClasses']);
+    //View User Action Button
+    Route::get('/admin/classCodeInfo/{id}', [classCodeController::class, 'showClassCodeInfo']);
+    //Edit User Action Button
+    Route::get('/admin/classCodeEdit/{id}', [classCodeController::class, 'showClassCodeEdit']);
+    //Save User Edit
+    Route::post('/admin/classCodeEditSave', [classCodeController::class, 'classCodeEditSave']);
+    //Delete User Action Button
+    Route::delete('/admin/deleteClassCode/{id}', [classCodeController::class, 'deleteClassCode']);
 });

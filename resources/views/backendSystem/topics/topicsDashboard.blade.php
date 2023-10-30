@@ -33,18 +33,16 @@
         <div class="row mb-4">
             <div class="col">
                 <select class="form-select" id="hour-dropdown">
-                    <option value="00">0 Hour</option>
-                    <option value="01">01 Hour</option>
-                    <option value="02">02 Hour</option>
-                    <option value="23">23 Hour</option>
+                    @foreach($hours as $hour)
+                        <option value="{{ $hour }}">{{ $hour }} Hour</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col">
                 <select class="form-select" id="minute-dropdown">
-                    <option value="00">0 Minute</option>
-                    <option value="05">05 Minute</option>
-                    <option value="10">10 Minute</option>
-                    <option value="55">55 Minute</option>
+                    @foreach($minutes as $minute)
+                        <option value="{{ $minute }}">{{ $minute }} Minute</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -77,18 +75,16 @@
         <div class="row mb-4">
             <div class="col">
                 <select class="form-select hour-dropdown-update" id="hour-dropdown">
-                    <option value="00">0 Hour</option>
-                    <option value="01">01 Hour</option>
-                    <option value="02">02 Hour</option>
-                    <option value="23">23 Hour</option>
+                    @foreach($hours as $hour)
+                        <option value="{{ $hour }}">{{ $hour }} Hour</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col">
                 <select class="form-select minute-dropdown-update" id="minute-dropdown">
-                    <option value="00">0 Minute</option>
-                    <option value="05">05 Minute</option>
-                    <option value="10">10 Minute</option>
-                    <option value="55">55 Minute</option>
+                    @foreach($minutes as $minute)
+                        <option value="{{ $minute }}">{{ $minute }} Minute</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -109,7 +105,7 @@
 
     <!-- delete_popup -->
     <div id="delete-popup" class="popup-form">
-        <div class="row justify-content-center align-items-center ">
+        <!-- <div class="row justify-content-center align-items-center ">
             <div class="warning-icon text-center">
                 <img src="/assets/images/error.svg" />
             </div>
@@ -117,7 +113,23 @@
         </div>
         <input type="hidden" class="form-control delete-id">
         <button type="button" class="btn btn-dark" id="delete-btn" style="width: 526px">Delete</button>
-        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button>
+        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button> -->
+
+        <div class="row justify-content-center align-items-center ">
+            <div class="delete-warning-icon col-1 ">
+                <i class="fa fa-exclamation"></i>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:42px">
+            <p class="text-center">Are you sure you want to delete?</p>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:24px">
+            <p class="text-center"><b>This action cannot be undone.</b></p>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:42px">
+            <button type="button" class="btn btn-outline-dark" id="close" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete User</button>
+        </div>
     </div>
 
     <!--  //row star -->
@@ -152,9 +164,9 @@
                     @if (count($users) > 0)
                         @foreach ($users as $key => $value)
                             @php
-                                $userId = (int) $value->id;
+                                $userId = (int) $value->user_id;
                             @endphp
-                            <option value="{{ $value->id }}" {{ $userId === (int) $updated_by ? "selected" : ""}}>{{ $value->username }}</option>
+                            <option value="{{ $value->user_id }}" {{ $userId === (int) $updated_by ? "selected" : ""}}>{{ $value->username }}</option>
                         @endforeach
                     @endif
                     <!-- <option value="option2">Option 2</option>

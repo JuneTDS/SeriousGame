@@ -54,6 +54,11 @@
                                 <label for="">Logout</label>
                             </a>
                         </li>
+                        <li>
+                            <a href="/frontend/studentSubject">
+                                <label for="">Student Subjects</label>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

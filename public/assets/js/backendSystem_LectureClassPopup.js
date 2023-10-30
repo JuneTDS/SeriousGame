@@ -1,247 +1,206 @@
-// Close the popups when clicking outside
-document.getElementById('overlay').addEventListener('click', function(event) {
-    if (event.target === document.getElementById('overlay')) {
-        hideCreatePopup();
-        hideDeletePopup();
-        hideEditPopup();
-        document.getElementById('success-popup').style.display = 'none';
-        document.getElementById('update-success-popup').style.display = 'none';
-    }
-});
-
-
-
-
-
-// Open the create popup when the button is clicked
-document.getElementById('create-popup-btn').addEventListener('click', showCreatePopup);
-
-// Function to show the create popup and overlay
-function showCreatePopup() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('create-popup-form').style.display = 'block';
-}
-
-// Function to hide the create popup and overlay
-function hideCreatePopup() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('create-popup-form').style.display = 'none';
-}
-
-// Function to show the success popup and overlay
-function showSuccessPopup() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('success-popup').style.display = 'block';
-
-    // Hide the success popup and overlay after 2 seconds
-    setTimeout(function() {
-        document.getElementById('success-popup').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }, 2000);
-}
-
-document.getElementById('create-btn').addEventListener('click', function() {
-    // Get the form data
-    var className = document.getElementById('className').value;
-    var academicYear = document.getElementById('academicYear').value;
-    var academicSemester = document.getElementById('academicSemester').value;
-    var lecturerId = document.getElementById('lecturerId').value;
-    var subjectId = document.getElementById('subjectId').value;
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    
-    // Create a data object to send to the server
-    var data = {
-        _token: _token,
-        className: className,
-        academicYear: academicYear,
-        academicSemester: academicSemester,
-        lecturerId: lecturerId,
-        subjectId: subjectId
-    };
-    
-
-    // Send a POST request to the server to save the data
-    $.ajax({
-        url: '/admin/createLectureClass',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            if (response.success) {
-                hideCreatePopup();
-                showSuccessPopup();
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
+$(document).ready(function() {
+    // Close the popups when clicking outside
+    $('#overlay').on('click', function(event) {
+        if (event.target === $('#overlay')[0]) {
+            hideCreatePopup();
+            hideDeletePopup();
+            hideEditPopup();
+            $('#success-popup').hide();
+            $('#update-success-popup').hide();
         }
     });
-});
 
+    // Open the create popup when the button is clicked
+    $('#create-popup-btn').on('click', showCreatePopup);
 
+    function showCreatePopup() {
+        $('#overlay').show();
+        $('#create-popup-form').show();
+    }
 
+    function hideCreatePopup() {
+        $('#overlay').hide();
+        $('#create-popup-form').hide();
+    }
 
-// Function to populate the edit popup with lecture class details
-function populateEditPopup(classData) {
-    document.getElementById('class-update').value = classData.className;
-    document.getElementById('year-update').value = classData.academicYear;
-    document.getElementById('sem-update').value = classData.academicSemester;
-    document.getElementById('lecturer-update').value = classData.lectureName;
-    document.getElementById('subject-update').value = classData.subjectName;
-}
+    function showSuccessPopup() {
+        $('#overlay').show();
+        $('#success-popup').show();
+        
+        setTimeout(function() {
+            $('#success-popup').hide();
+            $('#overlay').hide();
+        }, 2000);
+    }
 
-// Open the edit popup when the button is clicked
-// Attach click event listener to edit button
-document.querySelectorAll('.edit-popup-btn').forEach(function (button) {
-    button.addEventListener('click', function () {
-        // Get lecture class data from data attributes
+    $('#create-btn').on('click', function() {
+        var createClassName = $('#createClassName').val();
+        var createAcademicYear = $('#createAcademicYear').val();
+        var createAcademicSemester = $('#createAcademicSemester').val();
+        var createLecturerId = $('#createLecturerId').val();
+        var createSubjectId = $('#createSubjectId').val();
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        
+        var data = {
+            _token: _token,
+            createClassName: createClassName,
+            createAcademicYear: createAcademicYear,
+            createAcademicSemester: createAcademicSemester,
+            createLecturerId: createLecturerId,
+            createSubjectId: createSubjectId
+        };
+        
+        $.ajax({
+            url: '/admin/createLectureClass',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                if (response.success) {
+                    hideCreatePopup();
+                    showSuccessPopup();
+                    location.reload();
+                } else {
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+
+    // Open the edit popup when the button is clicked
+    $('.edit-popup-btn').on('click', function() {
         var classData = {
-            className: this.getAttribute('data-class-name'),
-            academicYear: this.getAttribute('data-academic-year'),
-            academicSemester: this.getAttribute('data-academic-semester'),
-            lectureName: this.getAttribute('data-lecture-name'),
-            subjectName: this.getAttribute('data-subject-name')
+            subjectClassId: $(this).data('subject-class-id'),
+            className: $(this).data('class-name'),
+            academicYear: $(this).data('academic-year'),
+            academicSemester: $(this).data('academic-semester'),
+            lecturerId: $(this).data('lecturer-id'),
+            subjectId: $(this).data('subject-id')
         };
 
-        // Populate the edit popup with the lecture class details
         populateEditPopup(classData);
 
-        // Show the edit popup
         showEditPopup();
     });
-});
 
+    // Function to populate the edit popup with lecture class details
+    function populateEditPopup(classData) {
+        $('#subjectClass_Update').val(classData.subjectClassId);
+        $('#class_Update').val(classData.className);
+        $('#year_Update').val(classData.academicYear);
+        $('#sem_Update').val(classData.academicSemester);
+        $('#lecturer_Update').val(classData.lecturerId);
+        $('#subject_Update').val(classData.subjectId);
+    }
 
-// Function to show the create popup and overlay
-function showEditPopup() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('edit-popup-form').style.display = 'block';
-}
+    function showEditPopup() {
+        $('#overlay').show();
+        $('#edit-popup-form').show();
+    }
 
-// Function to hide the create popup and overlay
-function hideEditPopup() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('edit-popup-form').style.display = 'none';
-}
+    function hideEditPopup() {
+        $('#overlay').hide();
+        $('#edit-popup-form').hide();
+    }
 
-// Function to show the success popup and overlay
-function showEditSuccessPopup() {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('update-success-popup').style.display = 'block';
+    function showEditSuccessPopup() {
+        $('#overlay').show();
+        $('#update-success-popup').show();
 
-    // Hide the success popup and overlay after 2 seconds
-    setTimeout(function() {
-        document.getElementById('update-success-popup').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }, 2000);
-}
+        setTimeout(function() {
+            $('#update-success-popup').hide();
+            $('#overlay').hide();
+        }, 2000);
+    }
 
-document.getElementById('update-btn').addEventListener('click', function() {
-    // Get the form data
-    var class_Update = document.getElementById('class_Update').value;
-    var year_Update = document.getElementById('year_Update').value;
-    var sem_Update = document.getElementById('sem_Update').value;
-    var lecturer_Update = document.getElementById('lecturer_Update').value;
-    var subject_Update = document.getElementById('subject_Update').value;
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    
-    // Create a data object to send to the server
-    var data = {
-        _token: _token,
-        class_Update: class_Update,
-        year_Update: year_Update,
-        sem_Update: sem_Update,
-        lecturer_Update: lecturer_Update,
-        subject_Update: subject_Update
-    };
-    
+    $('#update-btn').on('click', function() {
+        var subjectClass_Update = $('#subjectClass_Update').val();
+        var class_Update = $('#class_Update').val();
+        var year_Update = $('#year_Update').val();
+        var sem_Update = $('#sem_Update').val();
+        var lecturer_Update = $('#lecturer_Update').val();
+        var subject_Update = $('#subject_Update').val();
+        var _token = $('meta[name="csrf-token"]').attr('content');
 
-    // Send a POST request to the server to save the data
-    $.ajax({
-        url: '/admin/lectureClassEditSave',
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(response) {
-            if (response.success) {
-                showEditSuccessPopup();
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
+        var data = {
+            _token: _token,
+            subjectClass_Update: subjectClass_Update,
+            class_Update: class_Update,
+            year_Update: year_Update,
+            sem_Update: sem_Update,
+            lecturer_Update: lecturer_Update,
+            subject_Update: subject_Update
+        };
+
+        $.ajax({
+            url: '/admin/lectureClassEditSave',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                if (response.success) {
+                    hideEditPopup();
+                    showEditSuccessPopup();
+                    location.reload();
+                } else {
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
             }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
-        }
+        });
     });
-});
 
-
-
-
-
-// Open the delete popup when the button is clicked
-document.querySelectorAll('.delete-popup-btn').forEach(function(deleteButton) {
-    deleteButton.addEventListener('click', function() {
-        var lectureClass = this.getAttribute('data-id');
+    // Open the delete popup when the button is clicked
+    $('.delete-popup-btn').on('click', function() {
+        var lectureClass = $(this).data('id');
         showDeletePopup(lectureClass);
     });
-});
 
-// Function to show the delete popup and overlay
-function showDeletePopup(lectureClass) {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('delete-popup-form').style.display = 'block';
+    function showDeletePopup(lectureClass) {
+        $('#overlay').show();
+        $('#delete-popup-form').show();
+        $('#delete-btn').attr('data-id', lectureClass);
+    }
 
-    // Store the permission name in a data attribute of the "Delete" button
-    document.getElementById('delete-btn').setAttribute('data-id', lectureClass);
-}
+    function hideDeletePopup() {
+        $('#overlay').hide();
+        $('#delete-popup-form').hide();
+    }
 
-// Function to hide the delete popup and overlay
-function hideDeletePopup() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('delete-popup-form').style.display = 'none';
-}
-
-// Call delete function when the "Delete" button is clicked
-document.getElementById('delete-btn').addEventListener('click', function() {
-    var lectureClass = this.getAttribute('data-id');
-    deleteLectureClass(lectureClass);
-});
-
-// Function to handle permission deletion and send data to the server
-function deleteLectureClass(lectureClass) {
-    let _token = $('meta[name="csrf-token"]').attr('content');
-    // Send a DELETE request to the server to delete the permission
-    $.ajax({
-        url: '/admin/deleteLectureClass/' + lectureClass,
-        type: 'DELETE',
-        data: {
-            _token: _token,
-        },
-        success: function(response) {
-            if (response.success) {
-                hideDeletePopup();
-                window.location.reload();
-                // Optionally, you can refresh the page or update the permission list here
-            } else {
-                // Handle errors or display error messages
-                console.error(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle AJAX errors here
-            console.error(error);
-        }
+    $('#delete-btn').on('click', function() {
+        var lectureClass = $('#delete-btn').data('id');
+        deleteLectureClass(lectureClass);
     });
-}
 
-// Close the delete user popup when the "Cancel" button is clicked
-document.getElementById('cancel-btn').addEventListener('click', function() {
-    hideDeletePopup();
+    function deleteLectureClass(lectureClass) {
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        
+        $.ajax({
+            url: '/admin/deleteLectureClass/' + lectureClass,
+            type: 'DELETE',
+            data: {
+                _token: _token,
+            },
+            success: function(response) {
+                if (response.success) {
+                    hideDeletePopup();
+                    location.reload();
+                } else {
+                    console.error(response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    };
+
+    $('#cancel-btn').on('click', function() {
+        hideDeletePopup();
+    });
 });

@@ -1,7 +1,17 @@
 $(document).ready(function() {
+    // Get the CSRF token
+    // var _token = $("input[name=_token]").val();
+
+    // // Set up the CSRF token in AJAX headers
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': _token
+    //     }
+    // });
+
     // Close the popups when clicking outside
     $('#overlay').on('click', function(event) {
-        if (event.target === $('#overlay')[0]) {
+        if (event.target === document.getElementById('overlay')) {
             hideCreatePopup();
             hideDeletePopup();
             $('#success-popup').hide();
@@ -37,20 +47,20 @@ $(document).ready(function() {
 
     $('#create-btn').on('click', function() {
         // Get the form data
-        var permissionName = $('#permissionName').val();
+        var roleName = $('#roleName').val();
         var description = $('#description').val();
         var _token = $('meta[name="csrf-token"]').attr('content');
 
         // Create a data object to send to the server
         var data = {
             _token: _token,
-            permissionName: permissionName,
+            roleName: roleName,
             description: description
         };
 
-        // Send a POST request to the server to save the data
+        // Send a POST request to t he server to save the data
         $.ajax({
-            url: '/admin/createPermission',
+            url: '/admin/createRole',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -71,11 +81,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#update-btn').on('click', function() {
-        var permissionName = $(this).data('permission-name');
-        updatePermission(permissionName);
-    });
-
+    //Still fail to get the value in the Permissions by role table
     function getPermissionByRolesTableValues() {
         var permissionValues = [];
         permissionByRolesTable.find('tbody tr').each(function() {
@@ -85,7 +91,7 @@ $(document).ready(function() {
         return permissionValues;
     }
 
-    function updatePermission(permissionName) {
+    function updateRole(roleName) {
         var _token = $('meta[name="csrf-token"]').attr('content');
         var permissionsArray = getPermissionByRolesTableValues();
 
@@ -105,7 +111,7 @@ $(document).ready(function() {
         
         // Send a POST request to the server to save the data
         $.ajax({
-            url: '/admin/permissionEditSave/' + permissionName,
+            url: '/admin/roleEditSave/' + roleName,
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -125,31 +131,44 @@ $(document).ready(function() {
         });
     };
 
+    $('#update-btn').on('click', function() {
+        var roleName = $(this).data('role-name');
+        updateRole(roleName);
+    });
+
     // Open the delete popup when the button is clicked
-    $('.delete-permission-btn').on('click', function() {
-        var permissionName = $(this).data('id');
-        showDeletePopup(permissionName);
+    $('.delete-role-btn').on('click', function() {
+        var roleName = $(this).data('id');
+        showDeletePopup(roleName);
     });
 
     // Function to show the delete popup and overlay
-    function showDeletePopup(permissionName) {
+    function showDeletePopup(roleName) {
         $('#overlay').show();
         $('#delete-popup-form').show();
-        // Store the permission name in a data attribute of the "Delete" button
-        $('#delete-btn').data('id', permissionName);
+
+        // Store the role name in a data attribute of the "Delete" button
+        $('#delete-btn').data('id', roleName);
     }
 
-    // Function to handle permission deletion and send data to the server
+    // Function to hide the delete popup and overlay
+    function hideDeletePopup() {
+        $('#overlay').hide();
+        $('#delete-popup-form').hide();
+    }
+
+    // Call delete function when the "Delete" button is clicked
     $('#delete-btn').on('click', function() {
-        var permissionName = $(this).data('id');
-        deletePermission(permissionName);
+        var roleName = $(this).data('id');
+        deleteRole(roleName);
     });
 
-    function deletePermission(permissionName) {
+    // Function to handle role deletion and send data to the server
+    function deleteRole(roleName) {
         var _token = $('meta[name="csrf-token"]').attr('content');
-        
+        // Send a DELETE request to the server to delete the role
         $.ajax({
-            url: '/admin/deletePermission/' + permissionName,
+            url: '/admin/deleteRole/' + roleName,
             type: 'DELETE',
             data: {
                 _token: _token,
@@ -157,26 +176,25 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     hideDeletePopup();
-                    location.reload();
+                    // window.location.reload();
+                    window.location.href = '/admin/rbac_RolesDashboard';
+                    // Optionally, you can refresh the page or update the role list here
                 } else {
+                    // Handle errors or display error messages
                     console.error(response.message);
                 }
             },
             error: function(xhr, status, error) {
+                // Handle AJAX errors here
                 console.error(error);
             }
         });
-    };
+    }
 
+    // Close the delete user popup when the "Cancel" button is clicked
     $('#cancel-btn').on('click', function() {
         hideDeletePopup();
     });
-
-    // Function to hide the delete popup and overlay
-    function hideDeletePopup() {
-        $('#overlay').hide();
-        $('#delete-popup-form').hide();
-    }
 
     // Switch permission between table (Start)
     var itemPermissionsTable = $('#itemPermissionsTable');

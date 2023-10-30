@@ -1,7 +1,14 @@
+// class classcode{
+//     updateDropdown(data) {
+//         this.renderClasses(data.classes);
+//         this.renderTopics(data.topics);
+//     }
+// }
+
 $(document).ready(function() {
     // Close the popups when clicking outside
     $('#overlay').on('click', function(event) {
-        if (event.target === document.getElementById('overlay')) {
+        if (event.target === $('#overlay')[0]) {
             hideCreatePopup();
             hideDeletePopup();
             $('#success-popup').hide();
@@ -13,44 +20,67 @@ $(document).ready(function() {
 
     // Function to show the create popup and overlay
     function showCreatePopup() {
-        $('#overlay').show();
-        $('#create-popup-form').show();
+        $('#overlay, #create-popup-form').show();
     }
 
     // Function to hide the create popup and overlay
     function hideCreatePopup() {
-        $('#overlay').hide();
-        $('#create-popup-form').hide();
+        $('#overlay, #create-popup-form').hide();
     }
 
     // Function to show the success popup and overlay
     function showSuccessPopup() {
-        $('#overlay').show();
-        $('#success-popup').show();
+        $('#overlay, #success-popup').show();
 
         // Hide the success popup and overlay after 2 seconds
         setTimeout(function() {
-            $('#success-popup').hide();
-            $('#overlay').hide();
+            $('#success-popup, #overlay').hide();
         }, 2000);
     }
 
+    $('#createSubject').on('change', function () {
+        var subjectId = $(this).val();
+
+        // Send an AJAX request to retrieve matching classes
+        $.ajax({
+            url: '/admin/getSubjectClasses/' + subjectId,
+            type: 'GET',
+            success: function (data) {
+                // Clear the existing options in the Class dropdown
+                $('#createClass').empty();
+
+                // Populate the Class dropdown with the retrieved data
+                $.each(data.data, function (key, value) {
+                    $('#createClass').append('<option value="' + key + '">' + value + '</option>');
+                });                
+            }
+        });
+    });
+
     $('#create-btn').on('click', function() {
         // Get the form data
-        var username = $('#username').val();
-        var description = $('#description').val();
+        var classCode = $('#createClassCode').val();
+        var subject = $('#createSubject').val();
+        var subject_Class = $('#createClass').val();
+        var classSize = $('#createClassSize').val();
+        var startDate = $('#createStartDate').val();
+        var endDate = $('#createEndDate').val();
         var _token = $('meta[name="csrf-token"]').attr('content');
-
+        
         // Create a data object to send to the server
         var data = {
             _token: _token,
-            username: username,
-            description: description
+            classCode: classCode,
+            subject: subject,
+            subject_Class: subject_Class,
+            classSize: classSize,
+            startDate: startDate,
+            endDate: endDate
         };
-
+        
         // Send a POST request to the server to save the data
         $.ajax({
-            url: '/admin/createAssignRight',
+            url: '/admin/createClassCode',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -58,6 +88,7 @@ $(document).ready(function() {
                 if (response.success) {
                     hideCreatePopup();
                     showSuccessPopup();
+                    location.reload();
                 } else {
                     // Handle errors or display error messages
                     console.error(response.message);
@@ -70,22 +101,51 @@ $(document).ready(function() {
         });
     });
 
+    $('#editSubject').on('change', function () {
+        var subjectId = $(this).val();
+
+        // Send an AJAX request to retrieve matching classes
+        $.ajax({
+            url: '/admin/getSubjectClasses/' + subjectId,
+            type: 'GET',
+            success: function (data) {
+                // Clear the existing options in the Class dropdown
+                $('#editClass').empty();
+
+                // Populate the Class dropdown with the retrieved data
+                $.each(data.data, function (key, value) {
+                    $('#editClass').append('<option value="' + key + '">' + value + '</option>');
+                });                
+            }
+        });
+    });
+
     $('#update-btn').on('click', function() {
         // Get the form data
-        var userId = $('#userId').val();
-        var roleDescription = $('#roleDescription').val();
+        var classCodeId = $('#editClassCodeId').val();
+        var classCode = $('#editClassCode').val();
+        var subject = $('#editSubject').val();
+        var subject_Class = $('#editClass').val();
+        var classSize = $('#editClassSize').val();
+        var startDate = $('#editStartDate').val();
+        var endDate = $('#editEndDate').val();
         var _token = $('meta[name="csrf-token"]').attr('content');
-
+        
         // Create a data object to send to the server
         var data = {
             _token: _token,
-            userId: userId,
-            roleDescription: roleDescription
+            classCodeId: classCodeId,
+            classCode: classCode,
+            subject: subject,
+            subject_Class: subject_Class,
+            classSize: classSize,
+            startDate: startDate,
+            endDate: endDate
         };
-
+        
         // Send a POST request to the server to save the data
         $.ajax({
-            url: '/admin/accessRightEditSave',
+            url: '/admin/classCodeEditSave',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -107,39 +167,34 @@ $(document).ready(function() {
 
     // Open the delete popup when the button is clicked
     $('.delete-popup-btn').on('click', function() {
-        var userId = $(this).data('id');
-        showDeletePopup(userId);
+        var class_code_id = $(this).data('id');
+        showDeletePopup(class_code_id);
     });
 
     // Function to show the delete popup and overlay
-    function showDeletePopup(userId) {
-        $('#overlay').show();
-        $('#delete-popup-form').show();
-
-        // Store the user ID in a data attribute of the "Delete" button
-        $('#delete-btn').data('id', userId);
+    function showDeletePopup(class_code_id) {
+        $('#overlay, #delete-popup-form').show();
+        $('#delete-btn').attr('data-id', class_code_id);
     }
 
     // Function to hide the delete popup and overlay
     function hideDeletePopup() {
-        $('#overlay').hide();
-        $('#delete-popup-form').hide();
+        $('#overlay, #delete-popup-form').hide();
     }
 
     // Call delete function when the "Delete" button is clicked
     $('#delete-btn').on('click', function() {
-        var userId = $(this).data('id');
-        deleteAssignRight(userId);
+        var class_code_id = $(this).data('id');
+        deleteClassCode(class_code_id);
     });
 
     // Function to handle permission deletion and send data to the server
-    function deleteAssignRight(userId) {
+    function deleteClassCode(class_code_id) {
         var _token = $('meta[name="csrf-token"]').attr('content');
-
         // Send a DELETE request to the server to delete the permission
         $.ajax({
-            url: '/admin/deleteAssignRight/' + userId,
-            type: 'POST',
+            url: '/admin/deleteClassCode/' + class_code_id,
+            type: 'DELETE',
             data: {
                 _token: _token,
             },
@@ -164,7 +219,4 @@ $(document).ready(function() {
     $('#cancel-btn').on('click', function() {
         hideDeletePopup();
     });
-
-    // //To switch permission between table (Start)
-    // This part of your code wasn't converted to jQuery, so I left it as is.
 });

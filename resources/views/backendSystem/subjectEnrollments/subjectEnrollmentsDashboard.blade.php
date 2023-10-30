@@ -18,7 +18,7 @@
         <h3 class="mb-4">Create Subject Enrolment</h3>
         <div class="mb-4">
             <label for="subject" class="form-label">Subject Name*</label>
-            <select class="form-select dropdown" id="subject" name="subject">
+            <select class="form-select" id="subject" name="subject">
                 <option value="" disabled selected>Select Subject Name</option>
                 @if (count($subjects))
                     @foreach ($subjects as $key => $subject)
@@ -29,13 +29,11 @@
         </div>
         <div class="mb-4">
             <label for="user" class="form-label">User Name*</label>
-            <select class="form-select dropdown" id="user" name="user">
+            <select class="form-select" id="user" name="user">
                 <option value="" disabled selected>Select User Name</option>
-                @if (count($users))
-                    @foreach ($users as $key => $user)
-                        <option value="{{ $user->id }}">{{ $user->username }}</option>
-                    @endforeach
-                @endif
+                @foreach ($users as $user)
+                    <option value="{{ $user->id }}">{{ $user->username }}</option>
+                @endforeach
             </select>
         </div>
         <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Enrol</button>
@@ -71,15 +69,6 @@
             <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Enrolment</button>
         </div>
     </div>
-
-    <!-- Show number of item in this module (Start) -->
-    <!-- <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
-        <div class="col-4" style="float: left;padding-top:41px">
-            <input type="text" class="form-control input-field" id="subjectname" name="username" placeholder="Search by subject or tutor name">
-        </div>
-        <div class="row"><p style="padding-top:10px">Showing 1 - 6 of 6 items</p></div>
-    </div> -->
-    <!-- Show number of item in this module (End) -->
 
     <form href="/admin/subjectEnrollmentsDashboard" id="filter-form">
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">

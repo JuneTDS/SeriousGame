@@ -113,11 +113,9 @@ class RBAC_AccessRightsController extends Controller
         $roleDescription = $data['roleDescription'];    
 
         $roleSql = "
-            UPDATE tbl_auth_assignment AS assignment
-            INNER JOIN tbl_auth_item AS item ON assignment.item_name = item.name
-            SET assignment.item_name = item.name
-            WHERE assignment.user_id = $userId
-            AND item.description = '$roleDescription'
+            UPDATE tbl_auth_assignment
+            SET item_name = $roleDescription
+            WHERE user_id = $userId
         ";
 
         // Execute the raw SQL query to update the record
@@ -128,24 +126,15 @@ class RBAC_AccessRightsController extends Controller
 
     public function deleteAssignRight($id)
     {
-        // Start a database transaction
-        DB::beginTransaction();
+        $assignRightSql = "
+            UPDATE tbl_auth_assignment
+            SET item_name = 'user'
+            WHERE user_id = $id
+        ";
 
-        try {
-            // Delete the user and related records
-            User::where('id', $id)->delete();   //Deleet user in the user table
-            DB::table('tbl_user_profile')->where('user_id', $id)->delete();
-            DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table
+        // Execute the raw SQL query to update the record
+        $assignRightData = DB::update($assignRightSql);
 
-            // Commit the transaction
-            DB::commit();
-
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            // If an error occurs during deletion, roll back the transaction
-            DB::rollback();
-
-            return response()->json(['success' => false]);
-        }
+        return response()->json(['success' => true]);
     }
 }

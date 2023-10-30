@@ -77,6 +77,11 @@
                                     <i class="fas fa-chalkboard-teacher"></i> <span class="ms-1 d-none d-sm-inline">Manage Lecture Class</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/admin/classCodesDashboard" class="nav-link px-0 align-middle text-white">
+                                    <i class="fas fa-graduation-cap"></i> <span class="ms-1 d-none d-sm-inline">Manage Class Code</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

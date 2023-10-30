@@ -61,7 +61,7 @@
                             <td>{{ $assignData->description }}</td>
                         </tr>
                         <tr>
-                            <td style="font-weight:bold">Permission By Role</td>
+                            <td style="font-weight: bold; vertical-align: top;">Permission By Role</td>
                             <td>
                                 <ul class="custom-bullet-list">
                                     @foreach($roleByPermission as $child)

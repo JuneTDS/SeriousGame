@@ -167,6 +167,18 @@ $(document).ready(function() {
 
         $('form#filter-form').submit();
     });
+
+    $('#overlay').on('click', function(event) {
+        if (event.target === $('#overlay')[0]) {
+            // hideCreatePopup();
+            // hideDeletePopup();
+            // hideEditPopup();
+            // $('#success-popup').hide();
+            // $('#update-success-popup').hide();
+            $(".popup-form").hide();
+            $("#overlay").hide();
+        }
+    });
 });
 
 function showUpdateSubjectPopup(subjectId) {

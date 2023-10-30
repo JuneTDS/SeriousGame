@@ -34,7 +34,18 @@ class SubjectEnrollmentsController extends Controller
 
         $subjectEnrollments = $query->get();
 
-        $users = DB::table('tbl_user')->where('status', true)->get();
+        // Get user IDs from tbl_auth_assignment where item_name matches the roles
+        $roleUserIds = DB::table('tbl_auth_assignment')
+        ->whereIn('item_name', ['Lecturer', 'Lecturer_Content_Creator', 'Lecturer_Manager'])
+        ->pluck('user_id');
+
+        // Get user IDs and usernames from tbl_user using the user IDs
+        $users = DB::table('tbl_user')
+        ->whereIn('id', $roleUserIds)
+        ->select('id', 'username')
+        ->get();
+
+
         $subjects = DB::table('tbl_subject')->where('published', true)->get();
 
         return view('backendSystem.subjectEnrollments.subjectEnrollmentsDashboard',[

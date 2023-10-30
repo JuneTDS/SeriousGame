@@ -103,7 +103,7 @@
 
     <!-- delete_popup -->
     <div id="delete-popup" class="popup-form">
-        <div class="row justify-content-center align-items-center ">
+        <!-- <div class="row justify-content-center align-items-center ">
             <div class="warning-icon text-center">
                 <img src="/assets/images/error.svg" />
             </div>
@@ -111,7 +111,23 @@
         </div>
         <input type="hidden" class="form-control delete-id">
         <button type="button" class="btn btn-dark" id="delete-btn" style="width: 526px">Delete</button>
-        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button>
+        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Cancel</button> -->
+
+        <div class="row justify-content-center align-items-center ">
+            <div class="delete-warning-icon col-1 ">
+                <i class="fa fa-exclamation"></i>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:42px">
+            <p class="text-center">Are you sure you want to delete?</p>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:24px">
+            <p class="text-center"><b>This action cannot be undone.</b></p>
+        </div>
+        <div class="row justify-content-center align-items-center " style="padding-top:42px">
+            <button type="button" class="btn btn-outline-dark" id="close" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete User</button>
+        </div>
     </div>
 
     <!--  //row star -->
