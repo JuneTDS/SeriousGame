@@ -132,8 +132,10 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.data) {
                     $(".popup-form").hide();
-                    $("#success-popup .message").text("Changes have been saved successfully.");
-                    $("#success-popup").show();
+                    // $("#success-popup .message").text("Changes have been saved successfully.");
+                    // $("#success-popup").show();
+                    showEditSuccessPopup();
+                    location.reload();
                 }
             },
             error: function (data) {
@@ -172,7 +174,52 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Javascript to control the MCQ field in create and update form (Start)
+    // Add a change event listener to the "update_type" select element
+    $('#type').change(function() {
+        checkCreateSelectedOption();
+    });
+
+    $('#update_type').change(function() {
+        checkUpdateSelectedOption();
+    });
+    //Javascript to control the MCQ field in create and update form (End)
 });
+
+function checkCreateSelectedOption() {
+    var selectedOption = $('#type').val();
+    if (selectedOption === 'mcq') {
+        // If "MCQ" is selected, show the MCQ input fields
+        $('#create_mcq_a_field').show();
+        $('#create_mcq_b_field').show();
+        $('#create_mcq_c_field').show();
+        $('#create_mcq_d_field').show();
+    } else {
+        // If "Short Answered Questions" or other options are selected, hide the MCQ input fields
+        $('#create_mcq_a_field').hide();
+        $('#create_mcq_b_field').hide();
+        $('#create_mcq_c_field').hide();
+        $('#create_mcq_d_field').hide();
+    }
+}
+
+function checkUpdateSelectedOption() {
+    var selectedOption = $('#update_type').val();
+    if (selectedOption === 'mcq') {
+        // If "MCQ" is selected, show the MCQ input fields
+        $('#update_mcq_a_field').show();
+        $('#update_mcq_b_field').show();
+        $('#update_mcq_c_field').show();
+        $('#update_mcq_d_field').show();
+    } else {
+        // If "Short Answered Questions" or other options are selected, hide the MCQ input fields
+        $('#update_mcq_a_field').hide();
+        $('#update_mcq_b_field').hide();
+        $('#update_mcq_c_field').hide();
+        $('#update_mcq_d_field').hide();
+    }
+}
 
 function showUpdateSubtopicPopup(questionId) {
     $("#overlay").show();
@@ -196,4 +243,14 @@ function confirmDelete(questionId) {
     $("#overlay").show();
     $("#delete-popup").show();
     $(".delete-id").val(questionId);
+}
+
+function showEditSuccessPopup() {
+    $('#overlay').show();
+    $('#update-success').show();
+
+    setTimeout(function() {
+        $('#update-success').hide();
+        $('#overlay').hide();
+    }, 2000);
 }

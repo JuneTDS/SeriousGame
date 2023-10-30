@@ -76,7 +76,7 @@
     </div>
 
     <!-- Popup Form -->
-    <!-- <div id="update-success" class="popup-form">
+    <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
             <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
@@ -85,7 +85,7 @@
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <p class="text-center">Changes have been saved successfully.</p>
         </div>
-    </div> -->
+    </div>
 
     <form href="/admin/usersDashboard" id="filter-form">
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">

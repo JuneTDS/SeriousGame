@@ -200,7 +200,8 @@ class SubjectsController extends Controller
         
         $result = DB::table('tbl_subject')->where('subject_id', $subjectId)->update(['published' => $published]);
 
-        return response()->json(array('data'=> $result), 200);
+        // return response()->json(array('data'=> $result), 200);
+        return response()->json(['success' => true]);
     }
 
     public function updateSubject(Request $request) {

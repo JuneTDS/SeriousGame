@@ -40,6 +40,7 @@
             <select id="type" class="form-control">
                 <option value="" selected disabled>Select a question type</option>
                 <option value="mcq">MCQ</option>
+                <option value="short">Short Answered Questions</option>zz
             </select>
         </div>
         <div class="mb-4">
@@ -47,19 +48,19 @@
             <!-- <input type="text" class="form-control" id="url" placeholder="Enter URL" /> -->
             <textarea class="form-control" name="" id="name" cols="30" rows="4" placeholder="Enter question"></textarea>
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="create_mcq_a_field">
             <label for="mcq_a" class="form-label">MCQ A</label>
             <input type="text" class="form-control" id="mcq_a" />
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="create_mcq_b_field">
             <label for="mcq_b" class="form-label">MCQ B</label>
             <input type="text" class="form-control" id="mcq_b" />
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="create_mcq_c_field">
             <label for="mcq_c" class="form-label">MCQ C</label>
             <input type="text" class="form-control" id="mcq_c" />
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="create_mcq_d_field">
             <label for="mcq_d" class="form-label">MCQ D</label>
             <input type="text" class="form-control" id="mcq_d" />
         </div>
@@ -112,6 +113,7 @@
             <select id="update_type" class="form-control">
                 <option value="" selected disabled>Select a question type</option>
                 <option value="mcq">MCQ</option>
+                <option value="short">Short Answered Questions</option>zz
             </select>
         </div>
         <div class="mb-4">
@@ -119,19 +121,19 @@
             <!-- <input type="text" class="form-control" id="url" placeholder="Enter URL" /> -->
             <textarea class="form-control" name="" id="update_name" cols="30" rows="4" placeholder="Enter question"></textarea>
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="update_mcq_a_field">
             <label for="update_mcq_a" class="form-label">MCQ A</label>
             <input type="text" class="form-control" id="update_mcq_a" />
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="update_mcq_b_field">
             <label for="update_mcq_b" class="form-label">MCQ B</label>
             <input type="text" class="form-control" id="update_mcq_b" />
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="update_mcq_c_field">
             <label for="update_mcq_c" class="form-label">MCQ C</label>
             <input type="text" class="form-control" id="update_mcq_c" />
         </div>
-        <div class="mb-4">
+        <div class="mb-4" id="update_mcq_d_field">
             <label for="update_mcq_d" class="form-label">MCQ D</label>
             <input type="text" class="form-control" id="update_mcq_d" />
         </div>
@@ -156,7 +158,7 @@
     <!-- Popup Form -->
     <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="warning-icon col-1 ">
+            <div class="success-warning-icon col-1 ">
                 <i class="fa fa-check"></i>
             </div>
         </div>

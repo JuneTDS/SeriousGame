@@ -10,7 +10,23 @@ use DB;
 class ClassController extends Controller
 {
     public function index() {
-        $data["classes"] = DB::select( DB::raw("SELECT * FROM tbl_subject;") );
+        // $data["classes"] = DB::select( DB::raw("SELECT * FROM tbl_subject;") );
+
+        //Fendi Code
+        // Get the current logged-in user's ID
+        $userId = Auth::id();
+
+        // Query to get subject_id_fk from tbl_lecturer_subject_enrolment
+        $subjectIds = DB::table('tbl_lecturer_subject_enrolment')
+            ->select('subject_id_fk')
+            ->where('user_id_fk', $userId)
+            ->pluck('subject_id_fk')
+            ->toArray();
+
+        // Query to get subject data from tbl_subject using the subject IDs obtained
+        $$data["classes"] = DB::table('tbl_subject')
+            ->whereIn('subject_id', $subjectIds)
+            ->get();
 
         return view('frontend.class', [
             'data' => $data

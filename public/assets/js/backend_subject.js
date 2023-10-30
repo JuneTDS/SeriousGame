@@ -37,6 +37,34 @@ $(document).ready(function() {
     });
     // Javascript to handle status change (End)
 
+    // Javascript for subjectInfo page published button (Start)
+    $('#change_status').on('click', function(e) {
+        e.preventDefault();
+        var subject = $(this).data('id');   //Get the value of 'user-id' under 'status-toggle' class
+        // Send a POST request to update the user's status without expecting a response
+        var formData = {
+            _token: _token,
+            subject: subject,
+        };
+        var type = "POST";
+        var ajaxurl = '/admin/subject/status';
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $('#overlay').show();
+                $('#success-popup').show();
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+    // Javascript for subjectInfo page published button (End)
+
     // Javascript to call function immediately when filter change (Start)
     $('.input-field, .dropdown').on('change', function () {
         $('form#filter-form').submit();
@@ -101,8 +129,10 @@ $(document).ready(function() {
             success: function (data) {
                 if (data.data) {
                     $("#popup-form-update").hide();
-                    $("#success-popup .message").text("Changes have been saved successfully.");
-                    $("#success-popup").show();
+                    // $("#success-popup .message").text("Changes have been saved successfully.");
+                    // $("#success-popup").show();
+                    showEditSuccessPopup();
+                    location.reload();
                 }
             },
             error: function (data) {
@@ -192,4 +222,14 @@ function confirmDelete(subjectId) {
     $("#overlay").show();
     $("#delete-popup").show();
     $(".delete-id").val(subjectId);
+}
+
+function showEditSuccessPopup() {
+    $('#overlay').show();
+    $('#update-success').show();
+
+    setTimeout(function() {
+        $('#update-success').hide();
+        $('#overlay').hide();
+    }, 2000);
 }

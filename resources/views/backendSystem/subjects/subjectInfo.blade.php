@@ -9,7 +9,7 @@
         <div class="right" >
             <input type="hidden" class="subject-id" value="{{ $data['subject'][0]->subject_id }}">
             <input type="hidden" class="subject-name" value="{{ $data['subject'][0]->subject_name }}">
-            <button type="button" id="change_status" class="btn btn-dark" style="padding-left: 60px; padding-right: 60px;">Publish</button>
+            <button type="button" id="change_status" class="btn btn-dark" style="padding-left: 60px; padding-right: 60px;" data-id="{{ $data['subject'][0]->subject_id }}">Publish</button>
         </div>
     </div>
 
@@ -20,9 +20,9 @@
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
             <div class="success-warning-icon">
-                <img src="/assets/images/check_circle.svg" />
+                <i class="fa fa-check" ></i>
             </div>
-            <p class="text-center message" style="padding-top:50px">A new subject has been created.</p>
+            <p class="text-center message" style="padding-top:50px">Subject has been published.</p>
         </div>
         <button type="button" class="btn btn-cancel" id="close_reload" style="width:100%; margin-top: 10px;">Close Window</button>
     </div>
