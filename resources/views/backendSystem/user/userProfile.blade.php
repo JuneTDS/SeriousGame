@@ -53,7 +53,14 @@
             <!-- First column with account image -->
             <div class="account-info-view">
                 <div class="account-icon-view">
+                    @if ($userData->profile != "null" && $userData->profile != null)
+                    <img src="/upload/{{$userData->profile}}" style="
+                        border-radius: 50%;
+                        width: 100px;
+                    "/>
+                    @else
                     <i class="fas fa-user" style="font-size: 30px; color: #737B7F;"></i>
+                    @endif
                 </div>
             </div>
         </div>

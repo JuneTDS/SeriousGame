@@ -17,6 +17,22 @@ use App\Http\Controllers\BackendSystem\RBAC\RBAC_AccessRightsController;
 use App\Http\Controllers\BackendSystem\RBAC\RBAC_PermissionsController;
 use App\Http\Controllers\BackendSystem\RBAC\RBAC_RolesController;
 
+use App\Http\Controllers\CropImageController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// Route::get('crop-image-upload', [CropImageController::class, 'index']);
+// Route::post('crop-image-upload-ajax', [CropImageController::class, 'cropImageUploadAjax']);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -224,9 +240,11 @@ Route::group(['middleware' => ['auth']], function() {
     //Upload Enrol Student file
     Route::post('/admin/uploadEnrolStudentFile', [LectureClassesController::class, 'uploadEnrolStudentFile']);
 
+    //Mode Site Dashboard
+    Route::get('/admin/modeSiteDashboard', [ModeSiteController::class, 'showModeSiteDashboard']);
 
 
-
+    Route::post('/user/uploadProfile', [CropImageController::class, 'cropImageUploadAjax']);
     //Class Code Dashboard
     Route::get('/admin/classCodesDashboard', [classCodeController::class, 'showClassCodesDashboard']);
     //User create
