@@ -382,21 +382,25 @@ class UserController extends Controller
 
     public function deleteUser($id)
     {
+        $user = DB::table('tbl_user')->where('id', $id)->first();
+
         // Start a database transaction
         DB::beginTransaction();
 
         try {
 
-            $result = DB::table('tbl_user')
-            ->where('id', $id)
-            ->update([
-                'status' => 3
-            ]);
-
-            // Delete the user and related records
-            // User::where('id', $id)->delete();   //Deleet user in the user table
-            // DB::table('tbl_user_profile')->where('user_id', $id)->delete();
-            // DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table
+            if ($user->status === 3){
+                // Delete the user and related records
+                User::where('id', $id)->delete();   //Deleet user in the user table
+                DB::table('tbl_user_profile')->where('user_id', $id)->delete();
+                DB::table('tbl_auth_assignment')->where('user_id', $id)->delete();  // Delete the user's role from the auth_assignment table    
+            } else {
+                $result = DB::table('tbl_user')
+                ->where('id', $id)
+                ->update([
+                    'status' => 3
+                ]);    
+            }
 
             // Commit the transaction
             DB::commit();

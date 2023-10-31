@@ -138,21 +138,48 @@ class RBAC_PermissionsController extends Controller
         $data = $request->json()->all();
 
         // Extract data from the JSON request
+        $permission = $data['permission'];
+        $description = $data['description'];
         $permissionsArray = $data['permissionsArray'];
 
+        //To update the permission name and description (Start)
+        $authItemSql = "
+        UPDATE tbl_auth_item
+        SET name = '$permission',
+        description = '$description'
+        WHERE name = '$permissionName'
+        ";
+
+        $authItemData = DB::update($authItemSql);
+        //To update the permission name and description (End)
+
+        // To insert and remove the permission into database (Start)
         $existingChildren = DB::table('tbl_auth_item_child')
         ->where('parent', $permissionName)
         ->pluck('child')
         ->all();
 
+        // To insert permissions that exist in permissionsArray but not in existingChildren
         $childrenToInsert = array_diff($permissionsArray, $existingChildren);
-
+        
         foreach ($childrenToInsert as $child) {
             DB::table('tbl_auth_item_child')->insert([
                 'parent' => $permissionName,
                 'child' => $child,
             ]);
         }
+
+        // To remove permissions that exist in existingChildren but not in permissionsArray
+        $permissionsToRemove = array_diff($existingChildren, $permissionsArray);
+
+        foreach ($permissionsToRemove as $permission) {
+            DB::table('tbl_auth_item_child')
+                ->where('parent', $permissionName)
+                ->where('child', $permission)
+                ->delete();
+        }
+        // To insert the missing permission into database (End)
+
         return response()->json(['success' => true]);
     }
     

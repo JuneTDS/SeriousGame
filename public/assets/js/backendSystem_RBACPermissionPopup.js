@@ -71,11 +71,6 @@ $(document).ready(function() {
         });
     });
 
-    $('#update-btn').on('click', function() {
-        var permissionName = $(this).data('permission-name');
-        updatePermission(permissionName);
-    });
-
     function getPermissionByRolesTableValues() {
         var permissionValues = [];
         permissionByRolesTable.find('tbody tr').each(function() {
@@ -85,21 +80,21 @@ $(document).ready(function() {
         return permissionValues;
     }
 
-    function updatePermission(permissionName) {
+    $('#update-btn').on('click', function() {
+
+        var permissionName = $(this).data('permission-name');
+
         var _token = $('meta[name="csrf-token"]').attr('content');
+        var permission = $('#permissionName').val();
+        var description = $('#description').val();
+
         var permissionsArray = getPermissionByRolesTableValues();
-
-        // // Select all <tr> elements under permissionByRolesTable and loop through them
-        // $('#permissionByRolesTable tbody tr').each(function() {
-        //     var latest_Permission = $(this).data('permission-name');
-        //     permissionsArray.push(latest_Permission);
-        // });
-
         var permissionsArray = ['managerRbac']; //For testing
 
-        // Create a data object to send to the server
         var data = {
             _token: _token,
+            permission: permission,
+            description: description,
             permissionsArray: permissionsArray
         };
         
@@ -123,7 +118,7 @@ $(document).ready(function() {
                 console.error(error);
             }
         });
-    };
+    });
 
     // Open the delete popup when the button is clicked
     $('.delete-permission-btn').on('click', function() {

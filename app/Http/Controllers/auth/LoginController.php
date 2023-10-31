@@ -29,6 +29,7 @@ class LoginController extends Controller
             'email'     => 'required|email',
             // 'password'  => 'required|min:6',
             'password'  => 'required',
+            'classcode' => 'min:6',
         ]);
 
         if ($validator->fails()) {
@@ -39,6 +40,7 @@ class LoginController extends Controller
 
         $email      = $request->input("email");
         $password   = $request->input("password");
+        $classcode  = $request->input("classcode");
         $rememberMe = $request->input("remember");
         // exit;
         $user = User::where('email', $email)->where('status', true)->first(); // DB::select( DB::raw("SELECT * FROM tbl_user WHERE email = '$email'") );
@@ -54,6 +56,39 @@ class LoginController extends Controller
         $user->role = $role[0]->item_name;
 
         Auth::login($user, ($rememberMe == "on") ? true : false);
+
+        if (!empty($classcode)) {
+            $checkClassCode = DB::select(DB::raw("SELECT * FROM tbl_class_code WHERE class_code = '$classcode'"));
+            
+            if (count($checkClassCode) == 0) {
+                return redirect()->back()
+                    ->withErrors(['classcode' => 'Classcode does not match.'])
+                    ->withInput();
+            }
+
+            // Check if the enrollment record exists
+            $enrollmentRecord = DB::table('tbl_subject_class_enrolment')
+            ->where('subject_class_id_fk', $checkClassCode->subject_class_id_fk) // Assuming 'subject_class_id_fk' should match '$classcode'
+            ->where('user_id_fk', $userId)
+            ->first();
+
+            if ($enrollmentRecord) {
+                return redirect()->back()
+                    ->withErrors(['classcode' => 'Already join the class.'])
+                    ->withInput();
+            }
+
+            $createUpdated_Time = now()->toDateTimeString();
+
+            DB::table('tbl_subject_class_enrolment')->insert([
+                'subject_class_id_fk' => $checkClassCode->subject_class_id_fk,
+                'user_id_fk' => $userId,
+                'updated_at' => $createUpdated_Time,
+                'created_at' => $createUpdated_Time,
+                'updated_by' => $userId,
+                'created_by' => $userId,
+            ]);
+        }
 
         $path = $this->redirectAfterLogin();
 

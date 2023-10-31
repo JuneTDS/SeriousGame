@@ -25,6 +25,25 @@
                 @enderror
             </div>
 
+            <!-- Class Code Field (Start)-->
+            <div style="margin-bottom: 32px;">
+                <span>
+                    <input type="checkbox" name="showClassCode" id="showClassCode">
+                    <label for="showClassCode">Join Class</label>
+                </span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 32px;" id="classCodeField" style="display: none;">
+                <div style="display: flex; flex-direction: column;">
+                    <label>Class Code</label>
+                    <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('classcode')}}">
+                    @error('classcode')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            <!-- Class Code Field (End)-->
+
             <div>
                 <button type="submit">Log In</button>
                 @if(isset($message))
@@ -43,9 +62,19 @@
         
 
         <div style="margin-top: 80px;">
-            <label for="" class="text-center">Logging in as a student? <a href="/classcode" style="text-decoration: none;display: contents;">Click Here</a></label>
+            <label for="" class="text-center">Logging in as a student? <a href="/register" style="text-decoration: none;display: contents;">Click Here</a></label>
         </div>
     </div>
 </div>
 
+<script>
+    const showClassCodeCheckbox = document.getElementById('showClassCode');
+    const classCodeField = document.getElementById('classCodeField');
+
+    classCodeField.style.display = 'none'; // Hide by default
+
+    showClassCodeCheckbox.addEventListener('change', () => {
+        classCodeField.style.display = showClassCodeCheckbox.checked ? 'block' : 'none';
+    });
+</script>
 @endsection

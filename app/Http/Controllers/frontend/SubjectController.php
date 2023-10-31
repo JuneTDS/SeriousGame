@@ -27,7 +27,7 @@ class SubjectController extends Controller
             ->toArray();
 
         // Query to get subject data from tbl_subject using the subject IDs obtained
-        $$data["classes"] = DB::table('tbl_subject')
+        $data["classes"] = DB::table('tbl_subject')
             ->whereIn('subject_id', $subjectIds)
             ->get();
 

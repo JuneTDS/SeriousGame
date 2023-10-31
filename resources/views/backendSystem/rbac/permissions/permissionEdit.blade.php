@@ -36,11 +36,11 @@
                     <table class="table leftTable" style="border: none;">
                         <tr>
                             <td style="font-weight:bold">Name</td>
-                            <td><input type="text"class="form-control" required placeholder="Enter Name" value="{{ $permissionData->name }}" ></td>
+                            <td><input id="permissionName" type="text"class="form-control" required placeholder="Enter Name" value="{{ $permissionData->name }}" ></td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold">Description</td>
-                            <td><input type="text"  class="form-control" placeholder="Enter Description" value="{{ $permissionData->description }}" ></td>
+                            <td><input id="description" type="text"  class="form-control" placeholder="Enter Description" value="{{ $permissionData->description }}" ></td>
                         </tr>
                         <tr>
                             <td style="font-weight:bold">Permission By Roles*</td>

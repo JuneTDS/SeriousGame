@@ -50,9 +50,9 @@ Route::group(['middleware' => ['guest']], function() {
 
     Route::post('/user/login', [LoginController::class, 'login'])->name("user.login");
 
-    Route::get('/classcode', [RegisterController::class, 'showClassCode'])->name("showClassCode");
+    // Route::get('/classcode', [RegisterController::class, 'showClassCode'])->name("showClassCode");
 
-    Route::post('/user/classcode', [RegisterController::class, 'checkClassCode'])->name("user.classcode");
+    // Route::post('/user/classcode', [RegisterController::class, 'checkClassCode'])->name("user.classcode");
 
     Route::get('/register', [RegisterController::class, 'showRegister'])->name("showRegister");
 
