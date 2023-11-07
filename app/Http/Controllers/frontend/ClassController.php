@@ -54,7 +54,7 @@ class ClassController extends Controller
 
     public function getStudentSubtopicAttemptTillFirstPass($subject_id, $user_id){
         
-        $subtopic_list = DB::select( DB::raw("SELECT tbl_subtopic.* FROM tbl_subtopic join tbl_topic on tbl_subtopic.topic_id_fk = tbl_topic.topic_id WHERE tbl_topic.subject_id_fk = '.$subject_id.'")); // Get list of subtopic
+        $subtopic_list = DB::select( DB::raw("SELECT tbl_subtopic.* FROM tbl_subtopic join tbl_topic on tbl_subtopic.topic_id_fk = tbl_topic.topic_id WHERE tbl_topic.subject_id_fk = '".$subject_id."'")); // Get list of subtopic
         
         $first_pass_array = array();
         $row_array = array();
@@ -242,6 +242,10 @@ class ClassController extends Controller
 
             $data[$user->id]["total_topics"] = DB::select( DB::raw(
                 "SELECT count(topic_id) as total_topics FROM `tbl_topic` WHERE `subject_id_fk` = ".$subject.";"
+            ) );
+
+            $data[$user->id]["topics"] = DB::select( DB::raw(
+                "SELECT * FROM `tbl_topic` WHERE `subject_id_fk` = ".$subject.";"
             ) );
         }
 

@@ -64,3 +64,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+ssh -i SeriousGame.pem ubuntu@46.51.223.52
+
+sudo apt update &&
+sudo apt upgrade &&
+sudo apt install apache2 &&
+sudo apt install software-properties-common &&
+sudo add-apt-repository ppa:ondrej/php &&
+sudo apt install php8.2 php8.2-cli php8.2-fpm php8.2-mysql php8.2-fpm php8.2-zip php8.2-gd php8.2-fpm php8.2-curl php8.2-bcmath php8.2-ctype php8.2-fileinfo php8.2-json php8.2-mbstring php8.2-openssl php8.2-pdo php8.2-tokenizer php8.2-xml php8.2-xmlwriter &&
+sudo apt install composer &&
+sudo apt install python3-certbot-apache &&
+sudo apt install npm
+
+cat ~/.ssh/id_rsa.pub | ssh -i SeriousGame.pem ubuntu@46.51.223.52 "cat >> .ssh/authorized_keys"

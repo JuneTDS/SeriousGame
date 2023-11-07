@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class SubjectController extends Controller
 {
     //
-    public function index() {
+    public function index()
+    {
 
         // June Code
         // $data["classes"] = DB::select( DB::raw("SELECT * FROM tbl_subject;") );
@@ -27,7 +28,7 @@ class SubjectController extends Controller
             ->toArray();
 
         // Query to get subject data from tbl_subject using the subject IDs obtained
-        $data["classes"] = DB::table('tbl_subject')
+        $data["subjects"] = DB::table('tbl_subject')
             ->whereIn('subject_id', $subjectIds)
             ->get();
 
@@ -36,18 +37,28 @@ class SubjectController extends Controller
         ]); 
     }
 
-    public function getGraphData(Request $request) {
+    public function getGraphData(Request $request)
+    {
+        $userId = auth()->user()->id;
         $subject = $request->input("subject");
+
+        $data["classes"] = DB::table('tbl_subject_class')
+            ->where('subject_id_fk', $subject)
+            ->where('lecturer_in_charge_id_fk', $userId)
+            ->get();
 
         $data["bar"] = $this->getStudentSubtopicAttemptTillFirstPass($subject);
 
         return response()->json(array('data'=> $data), 200);
     }
 
-    public function getStudentSubtopicAttemptTillFirstPass($subject_id){
+    public function getStudentSubtopicAttemptTillFirstPass($subject_id)
+    {
         
-        $subtopic_list = DB::select( DB::raw("SELECT tbl_subtopic.* FROM tbl_subtopic join tbl_topic on tbl_subtopic.topic_id_fk = tbl_topic.topic_id WHERE tbl_topic.subject_id_fk = '.$subject_id.'")); // Get list of subtopic
+        $subtopic_list = DB::select( DB::raw("SELECT tbl_subtopic.* FROM tbl_subtopic join tbl_topic on tbl_subtopic.topic_id_fk = tbl_topic.topic_id WHERE tbl_topic.subject_id_fk = '".$subject_id."'")); // Get list of subtopic
         
+        // print_r($subtopic_list);
+
         $first_pass_array = array();
         $row_array = array();
         $calculation = array();
@@ -98,7 +109,8 @@ class SubjectController extends Controller
         return $result;
     }
 
-    public function showStudentSubject(Request $request) {
+    public function showStudentSubject(Request $request)
+    {
 
         // $userId = 76;    // Temporaly use other student user ID (46)
         $userId = auth()->user()->id;
@@ -406,13 +418,49 @@ class SubjectController extends Controller
         return $get_class_id;
     }
 
-    public function getTopic(Request $request, $id) {
+    public function getTopic(Request $request, $id)
+    {
         // Fetch topics based on the subject ID
         $topics = DB::table('tbl_topic')
-        ->select('topic_id', 'topic_name')
-        ->where('subject_id_fk', $id)
-        ->get();
+            ->select('topic_id', 'topic_name')
+            ->where('subject_id_fk', $id)
+            ->get();
     
         return response()->json(['success' => true, 'data' => $topics]);
-    }  
+    }
+
+    public function getClassIndepthForSubject(Request $request)
+    {
+        $subject = $request->input("subject");
+        $class = $request->input("class");
+
+        $data["topics"] = DB::table('tbl_topic')
+            ->select('topic_id', 'topic_name')
+            ->where('subject_id_fk', $subject)
+            ->get();
+
+        // Fetch subtopics based on the subject ID
+        $data["subtopics"] = DB::table('tbl_subtopic')
+            ->leftJoin('tbl_topic', 'tbl_topic.topic_id', '=', 'tbl_subtopic.topic_id_fk')
+            ->leftJoin('tbl_subtopic_attempt_log', 'tbl_subtopic_attempt_log.subtopic_id_fk', '=', 'tbl_subtopic.subtopic_id')
+            ->leftJoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.user_id_fk', '=', 'tbl_subtopic_attempt_log.user_id_fk')
+            ->leftJoin('tbL_user', 'tbL_user.id', '=', 'tbl_subtopic_attempt_log.user_id_fk')
+            ->select('tbl_subtopic.subtopic_id', 'tbl_subtopic.subtopic_name', 'tbl_subtopic.topic_id_fk', 'tbl_topic.topic_name',
+                'tbL_user.username','tbl_subject_class_enrolment.subject_class_id_fk',
+                'tbl_subtopic_attempt_log.*')
+            // ->where('tbl_topic.subject_id_fk', $subject)
+            ->where('tbl_subject_class_enrolment.subject_class_id_fk', $class)
+            ->get();
+        // SELECT tbl_subtopic.subtopic_id, tbl_subtopic_attempt_log.*, tsce.subject_class_id_fk
+        // FROM tbl_subtopic
+        // LEFT JOIN tbl_subtopic_attempt_log on tbl_subtopic_attempt_log.subtopic_id_fk = tbl_subtopic.subtopic_id
+        // LEFT JOIN tbl_subject_class_enrolment as tsce on tsce.user_id_fk = tbl_subtopic_attempt_log.user_id_fk
+        // where tsce.subject_class_id_fk = 1;
+
+        $data["subtopics_users"] = DB::select( DB::raw("SELECT subtopic_id_fk, group_concat(user_id_fk) as subtopic_users FROM tbl_subtopic_attempt_log GROUP BY subtopic_id_fk;"));
+
+        $data["statstic"] = app('App\Http\Controllers\frontend\ClassController')->statstic($subject, $class);
+    
+        return response()->json(['success' => true, 'data' => $data]);
+    }
 }

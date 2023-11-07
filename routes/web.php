@@ -75,6 +75,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/frontend/indepth', [ClassController::class, 'indepth'])->name("indepth");
 
     Route::post('/user/indepth', [ClassController::class, 'searchIndepth'])->name("search.indepth");
+    
+    Route::post('/user/subject/indepth', [SubjectController::class, 'getClassIndepthForSubject'])->name("search.getClassIndepthForSubject");
 
     Route::post('/user/getClassGraphData', [ClassController::class, 'search'])->name("user.class");
 
