@@ -66,7 +66,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
-ssh -i SeriousGame.pem ubuntu@46.51.223.52
+ssh -i SeriousGame.pem ubuntu@13.212.199.207
 
 sudo apt update &&
 sudo apt upgrade &&
@@ -78,4 +78,23 @@ sudo apt install composer &&
 sudo apt install python3-certbot-apache &&
 sudo apt install npm
 
-cat ~/.ssh/id_rsa.pub | ssh -i SeriousGame.pem ubuntu@46.51.223.52 "cat >> .ssh/authorized_keys"
+cat ~/.ssh/id_rsa.pub | ssh -i SeriousGame.pem ubuntu@13.212.199.207 "cat >> .ssh/authorized_keys"
+
+
+ location /phpmyadmin {
+    root /var/www/html;
+    index index.php index.html index.htm;
+
+    location ~ ^/phpmyadmin/(.+\.php)$ {
+        try_files $uri =404;
+        root /var/www/html;
+        fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include /etc/nginx/fastcgi_params;
+    }
+
+    location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
+        root /var/www/html;
+    }
+}
