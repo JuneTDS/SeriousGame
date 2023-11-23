@@ -6,14 +6,14 @@
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
 </a>
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>View Role</h3></div>
         <div class="right" style="display: flex; justify-content: space-between;">
             <a href="{{ url('/admin/roleEdit/' . $roleData->name) }}">
                 <button type="button"  class="btn btn-outline-dark" style="width:200px">Update</button>
             </a>
-            <button type="button" id="open-popup-btn" class="btn btn-outline-danger delete-role-btn" data-id="{{ $roleData->name }}" style="width:200px">Delete</button>
+            <button type="button" id="open-popup-btn" class="btn btn-outline-danger delete-role-btn" data-id="{{ $roleData->name }}" style="width:200px;margin-left:5%;">Delete</button>
         </div>
     </div>
 

@@ -5,7 +5,7 @@
 <a href="{{ url('/admin/permissionInfo/' . $permissionData->name) }}" style="margin-left: 5%;">
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
 </a>
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
         <div class="right" >

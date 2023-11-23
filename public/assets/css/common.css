@@ -117,3 +117,7 @@ a {
 .no-data {
     text-align: center;
 }
+
+.require-span {
+    color: var(--statusBlocked);
+}

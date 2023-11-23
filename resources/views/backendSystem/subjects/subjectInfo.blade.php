@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container custom-container">
+<div class="container">
     <a href="/admin/subjectsDashboard"><img src="/assets/images/expand_more.svg" class="back_icon" style="vertical-align: bottom;margin-right: 20px;margin-bottom: 56px;" /><span style="margin-top: 3px;">Back to Manage Subjects</span></a>
     <div class="header-row">
         <div class="left"><h3>{{ $data["subject"][0]->subject_name }}</h3></div>

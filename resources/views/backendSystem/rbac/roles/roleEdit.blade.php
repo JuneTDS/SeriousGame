@@ -6,7 +6,7 @@
   <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
 </a>
 
-<div class="container custom-container">
+<div class="container">
   <div class="header-row">
     <div class="left"><h3>View Role</h3></div>
     <div class="right" style="display: flex; justify-content: space-between;">

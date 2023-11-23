@@ -38,8 +38,8 @@
                         </div>
                         <select name="complete" id="complete">
                             <option value="" disabled selected>Select an option</option>
-                            <option value="0">false</option>
-                            <option value="1">true</option>
+                            <option value="0">Incomplete</option>
+                            <option value="1">Complete</option>
                         </select>
                     </div>
                     <div class="form-control" style="width: 20%;margin-left: 30px;">
@@ -90,8 +90,8 @@
         <p class="initial-message">Select a class from the dropdown menu to begin.</p>
         <div class="indepth-data-section" style="width: 100%;display:none;">
             <div class="flex-box" style="width: 100%;justify-content: space-between">
-                <div style="width: 33%;padding-top:59px;">
-                    <h4 style="text-align:center;margin-bottom:45px">Number of Login Per Student</h4>
+                <div style="width: 33%;padding-top:70px;">
+                    <h3 style="text-align:center;margin-bottom:40px">Number of Login Per Student</h3>
                     <table class="table indepth_table">
                         <thead>
                             <tr>
@@ -105,12 +105,18 @@
                     </table>
                 </div>
                 <div class="graph-section" style="width: 65%;">
-                    <div id="bar"></div>
-                    <div id="pie"></div>
+                    <div>
+                        <h3 style="text-align:center;margin-bottom:40px">Distribution of Scores</h4>
+                        <div id="bar"></div>
+                    </div>
+                    <div>
+                        <h3 style="text-align:center;margin-bottom:40px">Percentage of students completed</h4>
+                        <div id="pie"></div>
+                    </div>
                 </div>
             </div>
             <div style="width: 100%;margin-top: 100px;">
-                <h4 style="text-align:center;">Student Statistics</h4>
+                <h3 style="text-align:center; margin-bottom: 40px;">Student Statistics</h3>
                 <table class="table statstic_table">
                     <thead>
                         <tr>

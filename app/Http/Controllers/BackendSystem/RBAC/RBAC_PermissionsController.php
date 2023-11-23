@@ -156,12 +156,18 @@ class RBAC_PermissionsController extends Controller
         // To insert and remove the permission into database (Start)
         $existingChildren = DB::table('tbl_auth_item_child')
         ->where('parent', $permissionName)
-        ->pluck('child')
-        ->all();
+        // ->pluck('child')
+        ->get();
+
+        print_r($permissionsArray);
+
+        print_r($existingChildren);
 
         // To insert permissions that exist in permissionsArray but not in existingChildren
         $childrenToInsert = array_diff($permissionsArray, $existingChildren);
         
+        print_r($childrenToInsert);
+
         foreach ($childrenToInsert as $child) {
             DB::table('tbl_auth_item_child')->insert([
                 'parent' => $permissionName,

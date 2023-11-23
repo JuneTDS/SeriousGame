@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Serious Games</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-    <link rel="stylesheet" href="/assets/css/common.css">
+    <link href="/assets/css/common.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/backendSystem.css">
-    
+    <link href="/assets/css/range_slider.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css"/>
 
     <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/highcharts.js"></script>
+
     <script src="/assets/js/common.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -23,74 +27,77 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <!-- Start Sidebar -->
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar">
-                <div class="text-white min-vh-100" style="width: 100%;">
-                    <a href="#" class="d-flex align-items-center justify-content-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <img src="../../assets/images/wannabee_logo_menu.svg" alt="Your Logo" class="navbar-logo">
-                    </a>
-                    <div class="divider"></div>
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu" style="padding-left: 20px; padding-right: 20px;">
-                            <li class="nav-item">
-                                <a href="/admin/usersDashboard" class="nav-link px-0 text-white">
-                                    <i class="fas fa-users"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
-                                </a>
-                            </li>
-                            <li class="nav-item position-relative">
-                                <a href="#" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">RBAC</span>
-                                    <span class="dropdown-icon"></span>
-                                </a>
-                                <!-- Sub-menu under RABC -->
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="/admin/rbac_PermissionsDashboard" class="nav-link px-0 align-middle text-white">
-                                            <span class="ms-1 d-none d-sm-inline">Permissions</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/rbac_RolesDashboard" class="nav-link px-0 align-middle text-white">
-                                            <span class="ms-1 d-none d-sm-inline">Roles</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/admin/rbac_AccessRightsDashboard" class="nav-link px-0 align-middle text-white">
-                                            <span class="ms-1 d-none d-sm-inline">Access Rights</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/subjectsDashboard" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-book"></i> <span class="ms-1 d-none d-sm-inline">Manage Subjects</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/subjectEnrollmentsDashboard" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-book-open"></i> <span class="ms-1 d-none d-sm-inline">Manage Subject Enrollments</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/lectureClassesDashboard" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-chalkboard-teacher"></i> <span class="ms-1 d-none d-sm-inline">Manage Lecture Class</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/classCodesDashboard" class="nav-link px-0 align-middle text-white">
-                                    <i class="fas fa-graduation-cap"></i> <span class="ms-1 d-none d-sm-inline">Manage Class Code</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+
+    <div>
+        <div class="flex-box">
+            <div class="menu">
+                <div class="logo">
+                    <img src="../../assets/images/wannabee_logo_menu.svg" />
                 </div>
-                <!--end sidebar-->
+                <nav>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu" style="padding-left: 20px; padding-right: 20px;">
+                        <li class="nav-item">
+                            <a href="/admin/usersDashboard" class="nav-link px-0 text-white">
+                                <i class="fas fa-users"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
+                            </a>
+                        </li>
+                        <li class="nav-item position-relative">
+                            <a href="#" class="nav-link px-0 align-middle text-white">
+                                <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">RBAC</span>
+                                <span class="dropdown-icon"></span>
+                            </a>
+                            <!-- Sub-menu under RABC -->
+                            <ul class="sub-menu" style="margin-top: 20px">
+                                <li>
+                                    <a href="/admin/rbac_PermissionsDashboard" class="nav-link px-0 align-middle text-white">
+                                        <span class="ms-1 d-none d-sm-inline">Permissions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/rbac_RolesDashboard" class="nav-link px-0 align-middle text-white">
+                                        <span class="ms-1 d-none d-sm-inline">Roles</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/rbac_AccessRightsDashboard" class="nav-link px-0 align-middle text-white">
+                                        <span class="ms-1 d-none d-sm-inline">Access Rights</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/subjectsDashboard" class="nav-link px-0 align-middle text-white">
+                                <i class="fas fa-book"></i> <span class="ms-1 d-none d-sm-inline">Manage Subjects</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/subjectEnrollmentsDashboard" class="nav-link px-0 align-middle text-white">
+                                <i class="fas fa-book-open"></i> <span class="ms-1 d-none d-sm-inline">Manage Subject Enrollments</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/lectureClassesDashboard" class="nav-link px-0 align-middle text-white">
+                                <i class="fas fa-chalkboard-teacher"></i> <span class="ms-1 d-none d-sm-inline">Manage Lecture Class</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/classCodesDashboard" class="nav-link px-0 align-middle text-white">
+                                <i class="fas fa-graduation-cap"></i> <span class="ms-1 d-none d-sm-inline">Manage Class Code</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/auth/logout" class="nav-link px-0 align-middle text-white">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span class="ms-1 d-none d-sm-inline">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
             <!-- Main Content Goes Here -->
-            <div class="col py-3" style="margin-left: 15%;">
-                <div class="row">
+            <div class="content">
+                <div class="row" style="position: absolute;top: 20px;right: 20px;">
                     <div class="col">
                         <div class="account-info" onclick="toggleDropdownMenu()">
                             <!-- Account icon here using FontAwesome icon -->
@@ -100,15 +107,17 @@
                             {{ Auth::user()->username }}
                         </div>
                     </div>
-                </div>
-                <div class="row">
+
                     <div class="dropdown-container">
                         <div class="dropdown-content" id="myDropdown">
                             <a href="{{ url('/admin/usersProfile', ['id' => auth()->user()->id]) }}">User Profile</a>
-                            <a href="/auth/logout">Logout</a>
+                            <!-- <a href="/auth/logout">Logout</a> -->
                         </div>
                     </div>
                 </div>
+                <!-- <div class="row">
+                    
+                </div> -->
                 <div>
                     @yield('content')
 

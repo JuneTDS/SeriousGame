@@ -6,7 +6,7 @@
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Topics</p>
 </a>
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>Manage Subtopics</h3></div>
         <div class="right" >

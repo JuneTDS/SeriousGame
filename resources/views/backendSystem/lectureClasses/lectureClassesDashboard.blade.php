@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>Manage Lecture Class</h3></div>
         <div class="right" >

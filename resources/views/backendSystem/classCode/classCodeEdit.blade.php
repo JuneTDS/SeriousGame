@@ -7,7 +7,7 @@
     <a href="{{ url('/admin/classCodeInfo/' . $classCodeData->class_code_id) }}" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Class Code</a>
 </div>
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>{{ $classCodeData->class_code }}’s Profile</h3></div>
         <div class="right" >

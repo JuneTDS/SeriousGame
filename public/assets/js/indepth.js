@@ -61,7 +61,7 @@ class Indepth {
                     type: 'column'
                 },
                 title: {
-                    text: 'Distribution of Scores',
+                    text: '', // Distribution of Scores
                     align: 'center'
                 },
                 xAxis: {
@@ -151,7 +151,7 @@ class Indepth {
                     type: 'pie'
                 },
                 title: {
-                    text: 'Percentage of students completed the subject',
+                    text: '', // Percentage of students completed the subject
                     align: 'center'
                 },
                 // tooltip: {

@@ -3,9 +3,9 @@
 @section('content')
 
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
-        <div class="left"><h3>Row Based Access Control</h3></div>
+        <div class="left"><h3>Role Based Access Control</h3></div>
             <div class="right" >
                 <button type="button" id="create-popup-btn" class="btn btn-outline-dark">Create New Role</button>
             </div>

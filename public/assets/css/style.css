@@ -22,13 +22,17 @@ nav ul {
 }
 
 nav ul li {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     padding: 20px 0;
 }
 
 nav ul li img {
     margin-right: calc(100vw * 28 / var(--designWidth));
+}
+
+.nav-pills .nav-link {
+    padding: 0;
 }
 
 .content {
@@ -92,7 +96,7 @@ nav ul li img {
 .table>thead tr th,
 .table>tbody tr td {
     text-align: center;
-    padding: 23px 0;
+    padding: 23px 10px;
 }
 
 .table>thead tr th {
@@ -104,7 +108,7 @@ nav ul li img {
 }
 
 .inner_table thead tr th {
-    padding: 23px 0;
+    padding: 23px 10px;
     font-weight: 700;
     text-align: center;
 }

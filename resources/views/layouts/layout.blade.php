@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Serious Games</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <link href="/assets/css/common.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
@@ -49,14 +50,14 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/auth/logout">
-                                <img src="../../assets/images/logout.svg" />
-                                <label for="">Logout</label>
+                            <a href="/frontend/studentSubject">
+                                <label for="">Student Subjects</label>
                             </a>
                         </li>
                         <li>
-                            <a href="/frontend/studentSubject">
-                                <label for="">Student Subjects</label>
+                            <a href="/auth/logout">
+                                <img src="../../assets/images/logout.svg" />
+                                <label for="">Logout</label>
                             </a>
                         </li>
                     </ul>

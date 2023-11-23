@@ -9,7 +9,7 @@
 
 @section('content')
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>{{ $userData->username }}</h3></div>
     </div>

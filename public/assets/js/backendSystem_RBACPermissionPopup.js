@@ -1,4 +1,13 @@
 $(document).ready(function() {
+
+    var _token = $('meta[name="csrf-token"]').attr('content');
+
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': _token
+    //     }
+    // });
+
     // Close the popups when clicking outside
     $('#overlay').on('click', function(event) {
         if (event.target === $('#overlay')[0]) {
@@ -29,10 +38,10 @@ $(document).ready(function() {
         $('#success-popup').show();
 
         // Hide the success popup and overlay after 2 seconds
-        setTimeout(function() {
-            $('#success-popup').hide();
-            $('#overlay').hide();
-        }, 2000);
+        // setTimeout(function() {
+        //     $('#success-popup').hide();
+        //     $('#overlay').hide();
+        // }, 2000);
     }
 
     $('#create-btn').on('click', function() {
@@ -83,8 +92,7 @@ $(document).ready(function() {
     $('#update-btn').on('click', function() {
 
         var permissionName = $(this).data('permission-name');
-
-        var _token = $('meta[name="csrf-token"]').attr('content');
+        
         var permission = $('#permissionName').val();
         var description = $('#description').val();
 
@@ -107,7 +115,9 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     showSuccessPopup();
-                    location.reload();
+                    // setTimeout(() => {
+                    //     location.reload();
+                    // }, 3000);
                 } else {
                     // Handle errors or display error messages
                     console.error(response.message);
@@ -141,7 +151,7 @@ $(document).ready(function() {
     });
 
     function deletePermission(permissionName) {
-        var _token = $('meta[name="csrf-token"]').attr('content');
+        // var _token = $('meta[name="csrf-token"]').attr('content');
         
         $.ajax({
             url: '/admin/deletePermission/' + permissionName,

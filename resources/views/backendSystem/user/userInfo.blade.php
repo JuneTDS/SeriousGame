@@ -6,7 +6,7 @@
     <a href="/admin/usersDashboard" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Users</a>
 </div>
 
-<div class="container custom-container">
+<div class="container">
     <div class="header-row">
         <div class="left"><h3>{{ $userData->username }}’s Profile</h3></div>
         <div class="right" >
