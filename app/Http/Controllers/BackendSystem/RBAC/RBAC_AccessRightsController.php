@@ -74,7 +74,7 @@ class RBAC_AccessRightsController extends Controller
             $roleDescriptions[$role->child] = $roleDescription;
         }
 
-        return view('backendSystem.rbac.accessrights.accessRightInfo',[
+        return view('backendSystem.rbac.accessRights.accessRightInfo',[
             'assignData' => $assignData,
             'roleByPermission' => $roleByPermission,
             'roleDescriptions' => $roleDescriptions,
@@ -96,7 +96,7 @@ class RBAC_AccessRightsController extends Controller
         ->where('type', 1)
         ->pluck('description');
 
-        return view('backendSystem.rbac.accessrights.accessRightEdit',[
+        return view('backendSystem.rbac.accessRights.accessRightEdit',[
             'assignData' => $assignData,
             'roleDescriptions' => $roleDescriptions,
         ]);
