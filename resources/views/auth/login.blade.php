@@ -26,14 +26,14 @@
             </div>
 
             <!-- Class Code Field (Start)-->
-            <div style="margin-bottom: 32px;">
+            <!-- <div style="margin-bottom: 32px;">
                 <span>
                     <input type="checkbox" name="showClassCode" id="showClassCode">
                     <label for="showClassCode">Join Class</label>
                 </span>
-            </div>
+            </div> -->
 
-            <div class="form-group" style="margin-bottom: 32px;" id="classCodeField" style="display: none;">
+            <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
                 <div style="display: flex; flex-direction: column;">
                     <label>Class Code</label>
                     <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('classcode')}}">
@@ -68,13 +68,13 @@
 </div>
 
 <script>
-    const showClassCodeCheckbox = document.getElementById('showClassCode');
-    const classCodeField = document.getElementById('classCodeField');
+    // const showClassCodeCheckbox = document.getElementById('showClassCode');
+    // const classCodeField = document.getElementById('classCodeField');
 
-    classCodeField.style.display = 'none'; // Hide by default
+    // classCodeField.style.display = 'none'; // Hide by default
 
-    showClassCodeCheckbox.addEventListener('change', () => {
-        classCodeField.style.display = showClassCodeCheckbox.checked ? 'block' : 'none';
-    });
+    // showClassCodeCheckbox.addEventListener('change', () => {
+    //     classCodeField.style.display = showClassCodeCheckbox.checked ? 'block' : 'none';
+    // });
 </script>
 @endsection
