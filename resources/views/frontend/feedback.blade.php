@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container page classes-page">
+<div class="page classes-page">
     <h3 class="page-header">Classes</h3>
     <form action="{{ route('search.class') }}" method="get">
         @csrf

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>Class Code</h3></div>
             <div class="right" >

@@ -7,7 +7,7 @@
     <a href="{{ url('/admin/classCodeInfo/' . $classCodeData->class_code_id) }}" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Class Code</a>
 </div>
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>{{ $classCodeData->class_code }}’s Profile</h3></div>
         <div class="right" >
@@ -25,7 +25,7 @@
     <!-- Popup Form -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon col-1 ">
+            <div class="success-warning-icon">
                 <i class="fa fa-check"></i>
             </div>
         </div>

@@ -159,14 +159,13 @@ class RBAC_PermissionsController extends Controller
         // ->pluck('child')
         ->get();
 
-        print_r($permissionsArray);
-
-        print_r($existingChildren);
+        $existingArray = [];
+        foreach ($existingChildren as $key => $value) {
+            array_push($existingArray, $value->child);
+        }
 
         // To insert permissions that exist in permissionsArray but not in existingChildren
-        $childrenToInsert = array_diff($permissionsArray, $existingChildren);
-        
-        print_r($childrenToInsert);
+        $childrenToInsert = array_diff($permissionsArray, $existingArray);
 
         foreach ($childrenToInsert as $child) {
             DB::table('tbl_auth_item_child')->insert([
@@ -176,7 +175,7 @@ class RBAC_PermissionsController extends Controller
         }
 
         // To remove permissions that exist in existingChildren but not in permissionsArray
-        $permissionsToRemove = array_diff($existingChildren, $permissionsArray);
+        $permissionsToRemove = array_diff($existingArray, $permissionsArray);
 
         foreach ($permissionsToRemove as $permission) {
             DB::table('tbl_auth_item_child')

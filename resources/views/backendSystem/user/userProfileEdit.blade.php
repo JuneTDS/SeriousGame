@@ -9,7 +9,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>{{ $userData->username }}</h3></div>
     </div>
@@ -20,7 +20,7 @@
     <!-- Popup Form -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon col-1 ">
+            <div class="success-warning-icon">
                 <i class="fa fa-check"></i>
             </div>
         </div>

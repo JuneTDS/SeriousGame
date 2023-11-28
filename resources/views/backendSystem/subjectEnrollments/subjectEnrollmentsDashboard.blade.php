@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>Manage Subject Enrolments</h3></div>
         <div class="right" >
@@ -65,7 +65,7 @@
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <input type="hidden" class="delete-id" />
-            <button type="button" class="btn btn-outline-dark close" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
             <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Enrolment</button>
         </div>
     </div>

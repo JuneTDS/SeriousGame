@@ -431,6 +431,10 @@ class SubjectsController extends Controller
         $hint = $request->input("hint");
         $score = $request->input("score");
 
+        if ($score == "") {
+            $score = 0;
+        }
+
         $createdAt = Carbon::now();
 
         $result = DB::insert(DB::raw("INSERT INTO `tbl_questions` (`subtopic_id_fk`, `question_difficulty`, `question_type`, `question_name`, `mcq_a`, `mcq_b`, `mcq_c`, `mcq_d`, `question_answer`, `score`, `hints`, `boss_level_id_fk`, `updated_at`, `updated_by`, `created_at`, `created_by`) VALUES (".$subtopic.",'".$difficulty."','".$type."','".$name."','".$mcq_a."','".$mcq_b."','".$mcq_c."','".$mcq_d."','".$answer."',".$score.",'".$hint."',0,'".$createdAt."', ".Auth::user()->id.",'".$createdAt."', ".Auth::user()->id.");"));

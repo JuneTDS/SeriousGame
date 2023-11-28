@@ -5,7 +5,7 @@
 <a href="{{ url('/admin/permissionInfo/' . $permissionData->name) }}" style="margin-left: 5%;">
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
 </a>
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
         <div class="right" >
@@ -20,13 +20,14 @@
     <!-- Popup Form -->
     <div id="success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon col-1 ">
+            <div class="success-warning-icon">
                 <i class="fa fa-check"></i>
             </div>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <p class="text-center">Changes have been saved successfully.</p>
         </div>
+        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Close Window</button>
     </div>
 
     <div class="row" style="padding-top:30px">
@@ -73,7 +74,7 @@
                                 <table id="itemPermissionsTable" class="table">
                                     <tbody>
                                     @foreach($itemPermissions as $itemPermission)
-                                        <tr>
+                                        <tr data-permission-name="{{ $itemPermission->name }}">
                                             <td>{{ $itemPermission->name }} ({{ $itemPermission->description }})</td>
                                         </tr>
                                     @endforeach

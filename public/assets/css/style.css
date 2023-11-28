@@ -24,11 +24,21 @@ nav ul {
 nav ul li {
     /* display: flex; */
     align-items: center;
-    padding: 20px 0;
+    padding: 17px 0;
 }
 
-nav ul li img {
+nav ul li img,
+nav ul li i {
+    width: 24px;
+    text-align: center;
     margin-right: calc(100vw * 28 / var(--designWidth));
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+nav ul li label {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .nav-pills .nav-link {
@@ -97,6 +107,7 @@ nav ul li img {
 .table>tbody tr td {
     text-align: center;
     padding: 23px 10px;
+    vertical-align: middle;
 }
 
 .table>thead tr th {

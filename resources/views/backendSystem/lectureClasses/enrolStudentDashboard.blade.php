@@ -6,7 +6,7 @@
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
 </a>
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>Enrol Student</h3></div></div>
         <div class="row" style="margin-bottom:52px;margin-top:52px">
@@ -27,13 +27,13 @@
                 <form action="{{ url('/admin/uploadEnrolStudentFile') }}" method="POST" enctype="multipart/form-data">                       
                     @csrf
                     <input type="hidden" name="lectureClassId" value="{{ $lectureClassId }}">
-                    <div class="col-5">
+                    <div class="">
                         <input type="file" id="fileUpload" name="file" style="display: none;">
                         <label for="fileUpload" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px; width: 200px; text-align: center;">
                             Upload File
                         </label>
                     </div>
-                    <button type="submit" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px; width: 200px; text-align: center;">Upload and Process CSV</button>
+                    <button type="submit" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: #CFDDE4; border: none; border-radius: 5px; width: 250px; text-align: center;">Upload and Process CSV</button>
                 </form>
             </div>
         </div>

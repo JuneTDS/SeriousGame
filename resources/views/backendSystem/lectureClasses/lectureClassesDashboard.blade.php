@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>Manage Lecture Class</h3></div>
         <div class="right" >
@@ -115,7 +115,7 @@
     <!-- Popup Form -->
     <div id="update-success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon col-1 ">
+            <div class="success-warning-icon">
                 <i class="fa fa-check"></i>
             </div>
         </div>
@@ -287,12 +287,20 @@
             $('form#filter-form').submit();
         });
 
-        $('.input-field').on('keydown', function () {
-            $('form#filter-form').submit();
+        $('.input-field').on('keydown', function (e) {
+            var key = e.which;
+            if(key == 13)  // the enter key code
+            {
+                $('form#filter-form').submit(); 
+            }
         });
 
-        $('.input-field').on('keyup', function () {
-            $('form#filter-form').submit();
+        $('.input-field').on('keyup', function (e) {
+            var key = e.which;
+            if(key == 13)  // the enter key code
+            {
+                $('form#filter-form').submit(); 
+            }
         });
 
         $(document).on("click", ".sortable", function(e) {

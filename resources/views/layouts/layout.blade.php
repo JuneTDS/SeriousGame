@@ -6,6 +6,11 @@
     <title>Serious Games</title>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css"/>
+
     <link href="/assets/css/common.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/tab_menu.css" rel="stylesheet">
@@ -17,7 +22,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="">
         <div class="flex-box">
             <div class="menu">
                 <div class="logo">
@@ -51,6 +56,7 @@
                         </li>
                         <li>
                             <a href="/frontend/studentSubject">
+                                <i class="fas fa-gamepad"></i>
                                 <label for="">Student Subjects</label>
                             </a>
                         </li>

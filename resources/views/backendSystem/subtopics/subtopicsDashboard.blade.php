@@ -6,7 +6,7 @@
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Topics</p>
 </a>
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>Manage Subtopics</h3></div>
         <div class="right" >
@@ -92,7 +92,7 @@
     <!-- Popup Form -->
     <div id="update-success" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon col-1 ">
+            <div class="success-warning-icon">
                 <i class="fa fa-check"></i>
             </div>
         </div>
@@ -126,7 +126,7 @@
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <button type="button" class="btn btn-outline-dark" id="close" style="width:200px;margin-right:20px">Don't Delete</button>
-            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete User</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete</button>
         </div>
     </div>
 

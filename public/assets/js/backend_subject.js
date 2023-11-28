@@ -55,8 +55,18 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 console.log(data);
-                $('#overlay').show();
-                $('#success-popup').show();
+                if (data.success) {
+                    if ($('#change_status').text() == "Publish") {
+                        $('#change_status').text("Unpublish");
+                        $("#success-popup p.message").text("Subject has been unpublished.")
+                    } else {
+                        $('#change_status').text("Publish")
+                        $("#success-popup p.message").text("Subject has been published.")
+                    }
+
+                    $('#overlay').show();
+                    $('#success-popup').show();
+                }
             },
             error: function (data) {
                 console.log(data);
@@ -84,7 +94,7 @@ $(document).ready(function() {
     $("#close_reload").on("click", function() {
         $(".popup-form").hide();
         $("#overlay").hide();
-        window.location.reload();
+        // window.location.reload();
     });
 
     $("#create-btn").on("click", function(e) {

@@ -10,7 +10,7 @@
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
 </a>
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>View Class Management</h3></div>
         <div class="right" >
@@ -77,7 +77,7 @@
     <!-- Popup Form -->
     <div id="update-success-popup" class="popup-form">
         <div class="row justify-content-center align-items-center ">
-            <div class="success-warning-icon col-1 ">
+            <div class="success-warning-icon">
                 <i class="fa fa-check"></i>
             </div>
         </div>

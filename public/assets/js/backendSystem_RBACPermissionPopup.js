@@ -97,7 +97,7 @@ $(document).ready(function() {
         var description = $('#description').val();
 
         var permissionsArray = getPermissionByRolesTableValues();
-        var permissionsArray = ['managerRbac']; //For testing
+        // var permissionsArray = ['managerRbac']; //For testing
 
         var data = {
             _token: _token,
@@ -134,6 +134,11 @@ $(document).ready(function() {
     $('.delete-permission-btn').on('click', function() {
         var permissionName = $(this).data('id');
         showDeletePopup(permissionName);
+    });
+
+    $(document).on("click", "#close", function(e) {
+        $(".popup-form").hide();
+        $("#overlay").hide();
     });
 
     // Function to show the delete popup and overlay

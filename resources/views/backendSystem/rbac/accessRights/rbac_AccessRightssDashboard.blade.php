@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>Role Based Access Control</h3></div>
             <div class="right" ></div>

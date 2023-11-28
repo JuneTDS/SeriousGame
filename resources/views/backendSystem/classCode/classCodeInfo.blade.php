@@ -6,7 +6,7 @@
     <a href="/admin/classCodesDashboard" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Class Code</a>
 </div>
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>{{ $classCodeData->class_code }}’s Profile</h3></div>
         <div class="right" >
@@ -42,7 +42,7 @@
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
-            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete User</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete</button>
         </div>
     </div>
 

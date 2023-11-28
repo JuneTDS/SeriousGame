@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container page my-profile-page">
+<div class="page my-profile-page">
     <h3 class="page-header">My Profile</h3>
     <form action="{{ route('profile.update') }}" class="form" method="post">
         @csrf

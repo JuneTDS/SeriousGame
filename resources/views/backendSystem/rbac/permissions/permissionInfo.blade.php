@@ -6,7 +6,7 @@
     <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
 </a>
 
-<div class="container">
+<div class="">
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
         <div class="right" >

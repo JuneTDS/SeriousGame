@@ -6,7 +6,7 @@
   <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
 </a>
 
-<div class="container">
+<div class="">
   <div class="header-row">
     <div class="left"><h3>View Role</h3></div>
     <div class="right" style="display: flex; justify-content: space-between;">
@@ -23,7 +23,7 @@
   <!-- Popup Form -->
   <div id="success-popup" class="popup-form">
     <div class="row justify-content-center align-items-center ">
-      <div class="success-warning-icon col-1 ">
+      <div class="success-warning-icon">
         <i class="fa fa-check"></i>
       </div>
     </div>

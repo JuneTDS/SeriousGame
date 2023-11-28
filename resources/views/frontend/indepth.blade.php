@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container page classes-page">
+<div class="page classes-page">
     <a href="/frontend/classes"><img src="/assets/images/expand_more.svg" class="back_icon" style="vertical-align: bottom;margin-right: 20px;margin-bottom: 56px;" /><span style="margin-top: 3px;">Back to Classes</span></a>
     @csrf
     <div class="search-section">
