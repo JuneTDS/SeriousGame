@@ -36,7 +36,7 @@ class RBAC_AccessRightsController extends Controller
 
         $assigns = $query->get();
 
-        return view('backendSystem.rbac.accessrights.rbac_AccessRightssDashboard',[
+        return view('backendSystem.rbac.accessRights.rbac_AccessRightssDashboard',[
             'assigns' => $assigns,
         ]);
     }
