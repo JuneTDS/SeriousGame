@@ -32,37 +32,37 @@
                     <ul>
                         <li>
                             <a href="/frontend/classes">
-                                <img src="../../assets/images/groups.svg" />
+                                <img src="../../assets/images/groups.svg" style="margin-right: 15px;"/>
                                 <label for="">Classes</label>
                             </a>
                         </li>
                         <li>
                             <a href="/frontend/subject">
-                                <img src="../../assets/images/menu_book.svg" />
+                                <img src="../../assets/images/menu_book.svg" style="margin-right: 15px;"/>
                                 <label for="">Subjects</label>
                             </a>
                         </li>
                         <li>
                             <a href="/frontend/feedback">
-                                <img src="../../assets/images/thumb_up_off_alt.svg" />
+                                <img src="../../assets/images/thumb_up_off_alt.svg" style="margin-right: 15px;"/>
                                 <label for="">Feedback</label>
                             </a>
                         </li>
                         <li>
                             <a href="/frontend/profile">
-                                <img src="../../assets/images/account_circle.svg" />
+                                <img src="../../assets/images/account_circle.svg" style="margin-right: 15px;"/>
                                 <label for="">My Profile</label>
                             </a>
                         </li>
                         <li>
                             <a href="/frontend/studentSubject">
-                                <i class="fas fa-gamepad"></i>
+                                <i class="fas fa-gamepad" style="margin-right: 15px;"></i>
                                 <label for="">Student Subjects</label>
                             </a>
                         </li>
                         <li>
                             <a href="/auth/logout">
-                                <img src="../../assets/images/logout.svg" />
+                                <img src="../../assets/images/logout.svg" style="margin-right: 15px;"/>
                                 <label for="">Logout</label>
                             </a>
                         </li>
