@@ -47,21 +47,21 @@
             <h3>Indepth Dashboard for test_p01</h3>
             <div>
                 <div class="flex-box">
-                    <div class="form-control" style="width: 20%">
+                    <div style="width: 20%">
                         <div>
                             <label>Topic Name</label>
                         </div>
-                        <select name="topic" id="topic">
+                        <select class="form-control" name="topic" id="topic">
                             <option value="" disabled selected>Select an option</option>
                         </select>
                     </div>
-                    <div class="form-control" style="width: 20%;margin-left: 30px;">
+                    <div style="width: 20%;margin-left: 30px;">
                         <div>
                             <label>Student Name</label>
                         </div>
-                        <input name="student" id="student" placeholder="Enter student's name" />
+                        <input class="form-control" name="student" id="student" placeholder="Enter student's name" />
                     </div>
-                    <div class="form-control">
+                    <div>
                         <button class="secondary export float-right">Export Raw Data</button>
                     </div>
                     <!-- <div class="range" style="width: 20%;margin-left: 30px;">

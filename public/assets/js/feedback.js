@@ -156,6 +156,19 @@ $("#topic-two").on("change", function(e) {
     findFeedback();
 });
 
+$(".tab").on("change", function(e) {
+    e.preventDefault();
+    
+    if ($("#tab1").is(":checked")) {
+        $(".tab1__content").css("display", "flex");
+        $(".tab2__content").hide();
+    }
+    if ($("#tab2").is(":checked")) {
+        $(".tab1__content").hide();
+        $(".tab2__content").css("display", "flex");
+    }
+});
+
 function findFeedback() {
     let _subject = $("#subject").val();
     let _class = $("#class").val();

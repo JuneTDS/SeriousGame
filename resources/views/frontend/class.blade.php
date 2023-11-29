@@ -20,11 +20,11 @@
         </div>
     
         <div>
-            <a class="activity_link" href="/frontend/activity?subject=1"><button type="button">Activity Tracker</button></a>
+            <a class="activity_link" href="/frontend/activity?subject=1"><button class="primary" type="button">Activity Tracker</button></a>
         </div>
         
         <div>
-            <a class="indepth_link" href="/frontend/indepth?subject=1"><button type="button">Go to Indepth</button></a>
+            <a class="indepth_link" href="/frontend/indepth?subject=1"><button class="primary" type="button">Go to Indepth</button></a>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
         <input type="radio" id="tab3" name="tabGroup1" class="tab">
         <label for="tab3">Scatter</label>
         
-        <div class="tab__content graph-form">
+        <div class="tab__content tab1__content graph-form">
             <h3 class="graph-title">Summary Dashboard for Classes</h3>
             <p class="initial-message">Select a subject from the dropdown menu to begin.</p>
             <div class="graph-section">
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="tab__content">
+        <div class="tab__content tab2__content" style="display: none">
             <h3>Leadership for Classes</h3>
             <table class="table leadership_table">
                 <thead>
@@ -67,7 +67,7 @@
             </table>
         </div>
 
-        <div class="tab__content scatter-form">
+        <div class="tab__content tab3__content scatter-form" style="display: none">
             <h3 class="scatter-form" style="display: none">Scatter for Classes</h3>
             <p class="initial-message">Not enough students have completed the subject.</p>
         </div>

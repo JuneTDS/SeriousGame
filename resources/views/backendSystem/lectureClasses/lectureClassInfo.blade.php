@@ -6,15 +6,15 @@
     use Carbon\Carbon;
 @endphp
 
-<a href="/admin/lectureClassesDashboard" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
+<a href="/admin/lectureClassesDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
 </a>
 
 <div class="">
     <div class="header-row">
         <div class="left"><h3>View Class Management</h3></div>
         <div class="right" >
-            <button type="button" class="btn btn-outline-dark edit-popup-btn" style="width:200px"
+            <button type="button" class="btn btn-outline-dark edit-popup-btn" style="width:200px;margin-right: 20px;"
                 data-class-name="{{ $lectureClassData->class_name }}"
                 data-academic-year="{{ $lectureClassData->academic_year }}"
                 data-academic-semester="{{ $lectureClassData->academic_semester }}"

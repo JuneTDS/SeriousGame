@@ -188,4 +188,24 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(".tab").on("change", function(e) {
+        e.preventDefault();
+        
+        if ($("#tab1").is(":checked")) {
+            $(".tab1__content").show();
+            $(".tab2__content").hide();
+            $(".tab3__content").hide();
+        }
+        if ($("#tab2").is(":checked")) {
+            $(".tab1__content").hide();
+            $(".tab2__content").show();
+            $(".tab3__content").hide();
+        }
+        if ($("#tab3").is(":checked")) {
+            $(".tab1__content").hide();
+            $(".tab2__content").hide();
+            $(".tab3__content").show();
+        }
+    });
 });

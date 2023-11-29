@@ -2,8 +2,8 @@
 
 @section('content')
 
-<a href="{{ url('/admin/permissionInfo/' . $permissionData->name) }}" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
+<a href="{{ url('/admin/permissionInfo/' . $permissionData->name) }}">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
 </a>
 <div class="">
     <div class="header-row">

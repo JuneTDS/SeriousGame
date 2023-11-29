@@ -2,8 +2,8 @@
 
 @section('content')
 
-<a href="/admin/rbac_PermissionsDashboard" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
+<a href="/admin/rbac_PermissionsDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Permissions</p>
 </a>
 
 <div class="">

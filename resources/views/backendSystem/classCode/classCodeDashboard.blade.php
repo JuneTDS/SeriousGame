@@ -95,19 +95,19 @@
                         <select class="form-select dropdown" id="subjectName" name="subjectName">
                             <option value="All">All</option>
                             @foreach($subjects as $subject)
-                                <option value="{{ $subject->subject_id }}">{{ $subject->subject_name }}</option>
+                                <option value="{{ $subject->subject_id }}" {{ ($selectedSubject == $subject->subject_id) ? "selected" : "" }}>{{ $subject->subject_name }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="col-2">
                         <p>Start Date</p>
-                        <input type="date" class="form-control input-field" id="startDate" name="startDate">
+                        <input type="date" class="form-control input-field" id="startDate" name="startDate" value="{{ $startDate }}">
                     </div>
 
                     <div class="col-2">
                         <p>End Date</p>
-                        <input type="date" class="form-control input-field" id="endDate" name="endDate">
+                        <input type="date" class="form-control input-field" id="endDate" name="endDate" value="{{ $endDate }}">
                     </div>
 
                     <input type="hidden" id="sortBy" name="sortBy" value="">
@@ -212,6 +212,10 @@
 
         // Javascript to call function immediately when filter change (Start)
         $('.dropdown').on('change', function () {
+            $('form#filter-form').submit();
+        });
+
+        $('.input-field').on('change', function () {
             $('form#filter-form').submit();
         });
 

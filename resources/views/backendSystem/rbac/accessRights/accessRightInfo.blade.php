@@ -2,15 +2,15 @@
 
 @section('content')
 
-<a href="/admin/rbac_AccessRightsDashboard" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Access Rights</p>
+<a href="/admin/rbac_AccessRightsDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Access Rights</p>
 </a>
 
 <div class="">
     <div class="header-row">
         <div class="left"><h3>View Access Right</h3></div>
         <div class="right" style="display: flex; justify-content: space-between;">
-            <a href="{{ url('/admin/assignRightEdit/' . $assignData->id) }}" class="btn-link" style="text-decoration: none;">
+            <a href="{{ url('/admin/assignRightEdit/' . $assignData->id) }}" class="btn-link" style="text-decoration: none;margin-right:20px;">
                 <button type="button" class="btn btn-outline-dark" style="width:200px">Update</button>
             </a>
             <button type="button" class="btn btn-outline-danger delete-popup-btn" style="width:200px" data-id="{{ $assignData->id }}">Revoke</button>

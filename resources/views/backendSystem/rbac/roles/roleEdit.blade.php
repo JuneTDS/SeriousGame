@@ -2,8 +2,8 @@
 
 @section('content')
 
-<a href="{{ url('/admin/roleInfo/' . $roleData->name) }}" style="margin-left: 5%;">
-  <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
+<a href="{{ url('/admin/roleInfo/' . $roleData->name) }}">
+  <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
 </a>
 
 <div class="">

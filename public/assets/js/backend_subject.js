@@ -58,10 +58,10 @@ $(document).ready(function() {
                 if (data.success) {
                     if ($('#change_status').text() == "Publish") {
                         $('#change_status').text("Unpublish");
-                        $("#success-popup p.message").text("Subject has been unpublished.")
+                        $("#success-popup p.message").text("Subject has been published.")
                     } else {
                         $('#change_status').text("Publish")
-                        $("#success-popup p.message").text("Subject has been published.")
+                        $("#success-popup p.message").text("Subject has been unpublished.")
                     }
 
                     $('#overlay').show();

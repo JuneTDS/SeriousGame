@@ -2,8 +2,8 @@
 
 @section('content')
 
-<a href="/admin/rbac_RolesDashboard" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
+<a href="/admin/rbac_RolesDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Roles</p>
 </a>
 
 <div class="">

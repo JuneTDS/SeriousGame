@@ -3,13 +3,16 @@
 @section('content')
 
 <div class="">
-    <a href="/admin/subjectsDashboard"><img src="/assets/images/expand_more.svg" class="back_icon" style="vertical-align: bottom;margin-right: 20px;margin-bottom: 56px;" /><span style="margin-top: 3px;">Back to Manage Subjects</span></a>
+    <a href="/admin/subjectsDashboard">
+        <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Subjects</p>
+    </a>
+
     <div class="header-row">
         <div class="left"><h3>{{ $data["subject"][0]->subject_name }}</h3></div>
         <div class="right" >
             <input type="hidden" class="subject-id" value="{{ $data['subject'][0]->subject_id }}">
             <input type="hidden" class="subject-name" value="{{ $data['subject'][0]->subject_name }}">
-            <button type="button" id="change_status" class="btn btn-dark" style="padding-left: 60px; padding-right: 60px;" data-id="{{ $data['subject'][0]->subject_id }}">{{ ($data["subject"][0]->published) ? "Unpublish" : "Publish" }}</button>
+            <button type="button" id="change_status" class="btn btn-dark" style="padding-left: 60px; padding-right: 60px;" data-id="{{ $data['subject'][0]->subject_id }}">{{ ($data["subject"][0]->published == 0) ? "Unpublish" : "Publish" }}</button>
         </div>
     </div>
 

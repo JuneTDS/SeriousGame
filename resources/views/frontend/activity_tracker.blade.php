@@ -45,7 +45,7 @@
                         <th>Student Name</th>
                         <th>Game Login Count</th>
                         <th>Latest Game Login</th>
-                        <th></th>
+                        <th style="width: 200px"></th>
                     </tr>
                 </thead>
                 <tbody>

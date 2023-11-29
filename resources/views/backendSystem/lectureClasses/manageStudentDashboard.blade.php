@@ -2,8 +2,8 @@
 
 @section('content')
 
-<a href="/admin/lectureClassesDashboard" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
+<a href="/admin/lectureClassesDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Lecturer Class</p>
 </a>
 
 <div class="">

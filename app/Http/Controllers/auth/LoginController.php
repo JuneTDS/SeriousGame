@@ -106,12 +106,15 @@ class LoginController extends Controller
     }
 
     private function redirectAfterLogin() {
-        if ($this->checkPermission->isSuperAdmin() || $this->checkPermission->isAdmin())
-        {
-            // return '/home';
-            return '/admin/usersDashboard';
-        } else if ($this->checkPermission->isStudent())
-        {
+        if (Auth::check()) {
+            if ($this->checkPermission->isSuperAdmin() || $this->checkPermission->isAdmin())
+            {
+                // return '/home';
+                return '/admin/usersDashboard';
+            } else if ($this->checkPermission->isStudent())
+            {
+                return '/frontend/classes';
+            }
             return '/frontend/classes';
         }
     }

@@ -38,7 +38,7 @@
         <label for="tab2">General</label>
 
         
-        <div class="tab__content" style="display: flex;flex-direction: column;">
+        <div class="tab__content tab1__content" style="display: flex;flex-direction: column;">
             <div class="search-section inside-form">
                 <div class="flex-box flex-column">
                     <label>Topic</label>
@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <div class="tab__content flex-display" style="display: flex">
+        <div class="tab__content tab2__content flex-display" style="display: flex">
             <!-- <div class="search-section inside-form">
                 <div class="flex-box flex-column">
                     <label>Topic</label>

@@ -20,7 +20,7 @@ class Subject {
         this.data = data;
     }
 
-    renderGraph(data) {
+    renderGraph(data, classId) {
 
         if (data.bar.calculation.length > 0) {
 
@@ -138,7 +138,9 @@ class Subject {
         }
 
         if (data.classes.length > 0) {
-            $("#class option.can-remove").remove();
+            if (classId == "") {
+                $("#class option.can-remove").remove();
+            }
             data.classes.forEach(value => {
                 let class_name = value.class_name;
                 let subject_class_id = value.subject_class_id;
@@ -441,6 +443,9 @@ $(document).ready(function() {
 
     $("#search").on("click", function(e) {
         e.preventDefault();
+
+        let classId = $("#class").val();
+        
         var formData = {
             subject: $("#subject").val(),
         };
@@ -453,12 +458,16 @@ $(document).ready(function() {
             dataType: 'json',
             success: function (data) {
                 console.log(data);
-                subject.renderGraph(data.data);
+                subject.renderGraph(data.data, classId);
             },
             error: function (data) {
                 console.log(data);
             }
         });
+    });
+
+    $("#subject").on("change", function(e) {
+        $("#class option.can-remove").remove();
     });
 
     let indepthSubject = new Subject();

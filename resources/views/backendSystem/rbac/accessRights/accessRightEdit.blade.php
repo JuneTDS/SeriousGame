@@ -2,8 +2,8 @@
 
 @section('content')
         
-<a href="/admin/rbac_AccessRightsDashboard" style="margin-left: 5%;">
-    <p class="align-self-center col-3" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Access Rights</p>
+<a href="/admin/rbac_AccessRightsDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Access Rights</p>
 </a>
 
 <div class="">
@@ -11,7 +11,7 @@
     <div class="header-row">
         <div class="left"><h3>Access Rights</h3></div>
         <div class="right" style="display: flex; justify-content: space-between;">
-            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px">Save</button>
+            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px;margin-right:20px;">Save</button>
             <a href="/admin/assignRightInfo/{{ $assignData->id }}">
                 <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
             </a>

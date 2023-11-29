@@ -32,21 +32,21 @@
             <h3>Indepth Dashboard for test_p01</h3>
             <div>
                 <div class="flex-box">
-                    <div class="form-control" style="width: 20%">
+                    <div style="width: 20%">
                         <div>
                             <label>Complete</label>
                         </div>
-                        <select name="complete" id="complete">
+                        <select class="form-control" name="complete" id="complete">
                             <option value="" disabled selected>Select an option</option>
                             <option value="0">Incomplete</option>
                             <option value="1">Complete</option>
                         </select>
                     </div>
-                    <div class="form-control" style="width: 20%;margin-left: 30px;">
+                    <div style="width: 20%;margin-left: 30px;">
                         <div>
                             <label>Student Name</label>
                         </div>
-                        <input name="student" id="student" placeholder="Enter student's name" />
+                        <input class="form-control" name="student" id="student" placeholder="Enter student's name" />
                     </div>
                 </div>
                 <div class="flex-box" style="margin-top: 60px;">

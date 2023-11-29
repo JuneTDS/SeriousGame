@@ -3,20 +3,26 @@
 @section('content')
 
 <!-- Main Content Goes Here -->
-<div class="normal-text" style="margin-left: 5%;">
-    <a href="{{ url('/admin/classCodeInfo/' . $classCodeData->class_code_id) }}" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Class Code</a>
+<div class="normal-text">
+    <a href="{{ url('/admin/classCodeInfo/' . $classCodeData->class_code_id) }}" class="align-self-center col-3 normal-text" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Class Code</a>
 </div>
 
 <div class="">
     <div class="header-row">
         <div class="left"><h3>{{ $classCodeData->class_code }}’s Profile</h3></div>
-        <div class="right" >
+        <!-- <div class="right" >
             <div class="d-flex">
                 <button type="button" id="update-btn" class="btn btn-dark" style="width:200px">Save</button>
                 <a href="/admin/classCodeInfo/{{ $classCodeData->class_code_id }}">
                     <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
                 </a>
             </div>
+        </div> -->
+        <div class="right" style="display: flex; justify-content: space-between;">
+            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px;margin-right:20px">Save</button>
+            <a href="/admin/classCodeInfo/{{ $classCodeData->class_code_id }}">
+                <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
+            </a>
         </div>
     </div>
     <!-- Overlay -->

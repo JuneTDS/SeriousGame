@@ -31,7 +31,7 @@ nav ul li img,
 nav ul li i {
     width: 24px;
     text-align: center;
-    margin-right: calc(100vw * 28 / var(--designWidth));
+    margin-right: calc(100vw * 2 / var(--designWidth));
     margin-top: auto;
     margin-bottom: auto;
 }
@@ -105,7 +105,7 @@ nav ul li label {
 
 .table>thead tr th,
 .table>tbody tr td {
-    text-align: center;
+    text-align: left;
     padding: 23px 10px;
     vertical-align: middle;
 }
@@ -116,6 +116,10 @@ nav ul li label {
 
 .table>tbody tr td {
     color: var(--neutral-700);
+}
+
+.table>tbody tr td label {
+    margin: 0;
 }
 
 .inner_table thead tr th {

@@ -2,25 +2,24 @@
 
 @section('content')
 
-<div class="normal-text" style="margin-left: 5%;">
-    <a href="/admin/classCodesDashboard" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Class Code</a>
+<div class="normal-text">
+    <a href="/admin/classCodesDashboard" class="align-self-center col-3 normal-text" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Manage Class Code</a>
 </div>
 
 <div class="">
     <div class="header-row">
         <div class="left"><h3>{{ $classCodeData->class_code }}’s Profile</h3></div>
-        <div class="right" >
-            <div class="row">
-                <div class="col-6">
-                    <form method="GET" action="/admin/classCodeEdit/{{ $classCodeData->class_code_id }}">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-dark" style="width:200px">Update</button>
-                    </form>
-                </div>
-                <div class="col-6">
+        <div class="right" style="display: flex; justify-content: space-between;">
+            <!-- <div class="row"> -->
+                <!-- <div class="col-6"> -->
+                    <a href="/admin/classCodeEdit/{{ $classCodeData->class_code_id }}">
+                        <button type="submit" class="btn btn-outline-dark" style="width:200px; margin-right: 20px">Update</button>
+                    </a>
+                <!-- </div> -->
+                <!-- <div class="col-6"> -->
                     <button type="button" class="btn btn-outline-danger delete-popup-btn" style="width:200px" data-id="{{ $classCodeData->class_code_id }}">Delete</button>
-                </div>
-            </div>
+                <!-- </div> -->
+            <!-- </div> -->
         </div>
     </div>
 

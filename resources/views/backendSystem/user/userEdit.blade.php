@@ -3,9 +3,9 @@
 @section('content')
 
 <!-- Main Content Goes Here -->
-<div class="normal-text" style="margin-left: 5%;">
-    <a href="/admin/usersDashboard" class="align-self-center col-3 normal-text" style="padding-bottom:20px;font-weight:bold"> ❮  Back to Users</a>
-</div>
+<a href="/admin/usersDashboard">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Users</p>
+</a>
 
 <div class="">
     <div class="header-row">
