@@ -73,7 +73,7 @@
                     </select>
                 </div>
             </div> -->
-            <div style="margin: auto;">
+            <div style="margin: auto 0;">
                 <p class="no-data general">No feedback available.</p>
                 <div class="feedback-section general">
                     <h4>Feedback Questions</h4>
