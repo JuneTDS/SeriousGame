@@ -145,13 +145,15 @@ class Subject {
                 let class_name = value.class_name;
                 let subject_class_id = value.subject_class_id;
                 
-                $("#class").append(`
-                    <option class="can-remove" value="${subject_class_id}">${class_name}</option>
-                `);
-                $(".class-column").show();
-                $(".indepth-btn").show();
-                $(".student-btn").show();
+                if ($(`#subject_class_${subject_class_id}`).length == 0) {
+                    $("#class").append(`
+                        <option class="can-remove" id="subject_class_${subject_class_id}" value="${subject_class_id}">${class_name}</option>
+                    `);
+                }
             });
+            $(".class-column").show();
+            $(".indepth-btn").show();
+            $(".student-btn").show();
         } else {
             $(".class-column").hide();
         }
