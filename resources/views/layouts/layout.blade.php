@@ -29,7 +29,7 @@
                     <img src="../../assets/images/wannabee_logo_menu.svg" />
                 </div>
                 <nav>
-                    <ul>
+                    <ul style="padding-left: 20px;padding-right: 20px;">
                         <li>
                             <a href="/frontend/classes">
                                 <img src="../../assets/images/groups.svg" style="margin-right: 15px;"/>
