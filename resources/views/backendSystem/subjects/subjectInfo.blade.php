@@ -12,7 +12,8 @@
         <div class="right" >
             <input type="hidden" class="subject-id" value="{{ $data['subject'][0]->subject_id }}">
             <input type="hidden" class="subject-name" value="{{ $data['subject'][0]->subject_name }}">
-            <button type="button" id="change_status" class="btn btn-dark" style="padding-left: 60px; padding-right: 60px;" data-id="{{ $data['subject'][0]->subject_id }}">{{ ($data["subject"][0]->published == 0) ? "Unpublish" : "Publish" }}</button>
+            <input type="hidden" class="subject-status" value="{{ $data['subject'][0]->published }}">
+            <button type="button" id="change_status" class="btn btn-dark" style="padding-left: 60px; padding-right: 60px;" data-id="{{ $data['subject'][0]->subject_id }}">{{ ($data["subject"][0]->published == 0) ? "Publish" : "Unpublish" }}</button>
         </div>
     </div>
 

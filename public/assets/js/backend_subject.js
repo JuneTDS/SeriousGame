@@ -56,7 +56,7 @@ $(document).ready(function() {
             success: function (data) {
                 console.log(data);
                 if (data.success) {
-                    if ($('#change_status').text() == "Publish") {
+                    if (data.data) {
                         $('#change_status').text("Unpublish");
                         $("#success-popup p.message").text("Subject has been published.")
                     } else {
