@@ -71,6 +71,16 @@
             <p class="text-center" style="padding-top:50px">[username] has been created succesfully.</p>
         </div>
 
+        <div id="noti-popup" class="popup-form">
+            <div class="row justify-content-center align-items-center ">
+                <div class="success-warning-icon">
+                    <i class="fa fa-exclamation-triangle" ></i>
+                </div>
+                <p class="text-center message" style="padding-top:50px"></p>
+            </div>
+            <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Close Window</button>
+        </div>
+
         <!--  //row start -->
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
             <form href="/admin/usersDashboard" id="filter-form">

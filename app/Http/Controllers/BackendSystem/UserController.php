@@ -99,12 +99,22 @@ class UserController extends Controller
         $data = $request->json()->all();
 
         // Perform server-side validation
-        $validatedData = $request->validate([
-            'username' => 'required|unique:tbl_user,username',
-            'email' => 'required|email|unique:tbl_user,email',
-            'password' => 'required',
-            'status' => 'required|in:0,1,2,3',
-        ]);
+        // $validatedData = $request->validate([
+        //     'username' => 'required|unique:tbl_user,username',
+        //     'email' => 'required|email|unique:tbl_user,email',
+        //     'password' => 'required',
+        //     'status' => 'required|in:0,1,2,3',
+        // ]);
+
+        $checkName = DB::table('tbl_user')->where("username", $data['username'])->get();
+        if (count($checkName) > 0) {
+            return response()->json(['success' => false, 'message' => 'Username was already exist!']);
+        }
+
+        $checkEmail = DB::table('tbl_user')->where("email", $data['email'])->get();
+        if (count($checkEmail) > 0) {
+            return response()->json(['success' => false, 'message' => 'Email was already exist!']);
+        }
 
         // Extract data from the JSON request
         $username = $data['username'];

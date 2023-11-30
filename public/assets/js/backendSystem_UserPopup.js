@@ -21,6 +21,10 @@ $(document).ready(function() {
     // Open the create user popup when the button is clicked
     document.getElementById('create-popup-btn').addEventListener('click', showCreateUserPopup);
 
+    $("#close").on("click", function() {
+        $("#noti-popup").hide();
+    });
+
     document.getElementById('create-btn').addEventListener('click', function() {
         // Get the form data
         var username = document.getElementById('username').value;
@@ -52,6 +56,9 @@ $(document).ready(function() {
                 } else {
                     // Handle errors or display error messages
                     console.error(response.message);
+
+                    $("#noti-popup p.message").text(response.message);
+                    $("#noti-popup").show();
                 }
             },
             error: function(xhr, status, error) {
