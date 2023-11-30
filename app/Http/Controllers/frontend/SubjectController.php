@@ -319,13 +319,15 @@ class SubjectController extends Controller
             }
     
             // Add the current user's data to $leaderboard
-            $leaderboard[] = [
-                'userId' => $current_user_query[0]->id,
-                'username' => $current_user_query[0]->username,
-                'total_score' => $current_user_query[0]->total_score,
-                'topicsCleared' => $current_user_query[0]->highestTopic,
-                'totalDuration' => $current_user_query[0]->totalDuration,
-            ];
+            if (count($current_user_query) > 0) {
+                $leaderboard[] = [
+                    'userId' => $current_user_query[0]->id,
+                    'username' => $current_user_query[0]->username,
+                    'total_score' => $current_user_query[0]->total_score,
+                    'topicsCleared' => $current_user_query[0]->highestTopic,
+                    'totalDuration' => $current_user_query[0]->totalDuration,
+                ];
+            }
         }
     
         return $leaderboard;
