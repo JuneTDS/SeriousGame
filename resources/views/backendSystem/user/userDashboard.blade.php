@@ -51,13 +51,13 @@
                 </div>
             </div>
             <div class="row justify-content-center align-items-center " style="padding-top:42px">
-                <p class="text-center">Are you sure you want to delete [username]'s record?</p>
+                <p class="message text-center">Are you sure you want to delete [username]'s record?</p>
             </div>
             <div class="row justify-content-center align-items-center " style="padding-top:24px">
                 <p class="text-center"><b>This action cannot be undone.</b></p>
             </div>
             <div class="row justify-content-center align-items-center " style="padding-top:42px">
-                <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+                <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Cancel</button>
                 <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete</button>
             </div>
         </div>
@@ -181,7 +181,7 @@
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 <!-- <i class="fa fa-trash" id="delete-popup-btn"></i> -->
-                                <a class="delete-user-btn" data-user-id="{{ $userData->id }}">
+                                <a class="delete-user-btn" data-user-id="{{ $userData->id }}" data-user-name="{{ $userData->username }}">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </div>
@@ -320,7 +320,8 @@
 
         $('.delete-user-btn').on('click', function(e) {
             var userId = $(this).attr('data-user-id');
-            showDeleteUserPopup(userId);
+            var userName = $(this).attr('data-user-name');
+            showDeleteUserPopup(userId, userName);
         });
 
         $('#delete-btn').on('click', function(e) {

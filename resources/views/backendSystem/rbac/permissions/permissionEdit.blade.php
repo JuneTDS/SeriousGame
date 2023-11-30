@@ -8,9 +8,11 @@
 <div class="">
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
-        <div class="right" >
-            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px" data-permission-name="{{ $permissionData->name }}">Save</button>
-            <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
+        <div class="right" style="display: flex; justify-content: space-between;">
+            <button type="button" id="update-btn" class="btn btn-dark" style="width:200px;margin-right: 18px;" data-permission-name="{{ $permissionData->name }}">Save</button>
+            <a href="/admin/permissionInfo/{{ $permissionData->name }}">
+                <button type="button" class="btn btn-outline-dark"  style="width:200px">Cancel</button>
+            </a>
         </div>
     </div>
 

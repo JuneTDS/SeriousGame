@@ -94,7 +94,7 @@ $(document).ready(function() {
     $("#close_reload").on("click", function() {
         $(".popup-form").hide();
         $("#overlay").hide();
-        // window.location.reload();
+        window.location.reload();
     });
 
     $("#create-btn").on("click", function(e) {

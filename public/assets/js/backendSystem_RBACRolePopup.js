@@ -39,10 +39,18 @@ $(document).ready(function() {
         $('#success-popup').show();
 
         // Hide the success popup and overlay after 2 seconds
-        setTimeout(function() {
-            $('#success-popup').hide();
-            $('#overlay').hide();
-        }, 2000);
+        // setTimeout(function() {
+        //     $('#success-popup').hide();
+        //     $('#overlay').hide();
+        // }, 2000);
+    }
+
+    $(document).on("click", "#close", function() {
+        closePopup();
+    })
+
+    function closePopup() {
+        window.location.href = "/admin/roleEdit/"+$("#role_name").val();
     }
 
     $('#create-btn').on('click', function() {
@@ -101,11 +109,13 @@ $(document).ready(function() {
         //     permissionsArray.push(latest_Permission);
         // });
 
-        var permissionsArray = ['managerRbac']; //For testing
+        // var permissionsArray = ['managerRbac']; //For testing
 
         // Create a data object to send to the server
         var data = {
             _token: _token,
+            roleName: $("#role_name").val(),
+            roleDescription: $("#role_description").val(),
             permissionsArray: permissionsArray
         };
         
@@ -118,7 +128,6 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     showSuccessPopup();
-                    location.reload();
                 } else {
                     // Handle errors or display error messages
                     console.error(response.message);

@@ -142,8 +142,14 @@ class RBAC_RolesController extends Controller
         // Extract data from the JSON request
         $permissionsArray = $data['permissionsArray'];
 
+        $roleSql = "UPDATE tbl_auth_item SET name = '".$data['roleName']."', description = '".$data['roleDescription']."' WHERE name = '".$roleName."'";
+        $roleData = DB::update($roleSql);
+
+        $roleAuthItemSql = "UPDATE tbl_auth_item_child SET parent = '".$data['roleName']."' WHERE parent = '".$roleName."'";
+        $roleAuthItemData = DB::update($roleAuthItemSql);
+
         $existingChildren = DB::table('tbl_auth_item_child')
-        ->where('parent', $roleName)
+        ->where('parent', $data['roleName'])
         ->pluck('child')
         ->all();
 
@@ -151,7 +157,7 @@ class RBAC_RolesController extends Controller
 
         foreach ($childrenToInsert as $child) {
             DB::table('tbl_auth_item_child')->insert([
-                'parent' => $roleName,
+                'parent' => $data['roleName'],
                 'child' => $child,
             ]);
         }

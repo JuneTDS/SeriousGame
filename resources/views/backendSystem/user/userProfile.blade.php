@@ -42,7 +42,7 @@
             <p class="text-center"><b>This action cannot be undone.</b></p>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Cancel</button>
             <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete</button>
         </div>
     </div>

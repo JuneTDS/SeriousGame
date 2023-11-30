@@ -72,7 +72,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="/admin/subjectEnrollmentsDashboard" class="nav-link px-0 align-middle text-white">
-                                <i class="fas fa-book-open"></i> <span class="ms-1 d-none d-sm-inline">Manage Subject Enrollments</span>
+                                <i class="fas fa-book-open"></i> <span class="ms-1 d-none d-sm-inline">Manage Subject Enrolments</span>
                             </a>
                         </li>
                         <li class="nav-item">

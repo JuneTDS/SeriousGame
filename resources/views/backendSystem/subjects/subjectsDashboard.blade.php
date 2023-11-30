@@ -69,9 +69,10 @@
         <div class="row justify-content-center align-items-center " style="padding-top:24px">
             <p class="text-center"><b>This action cannot be undone.</b></p>
         </div>
+        <input type="hidden" class="form-control delete-id">
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <button type="button" class="btn btn-outline-dark" id="close" style="width:200px;margin-right:20px">Don't Delete</button>
-            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Class Code</button>
+            <button type="button" class="btn btn-outline-dark" id="close" style="width:200px;margin-right:20px">Cancel</button>
+            <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete</button>
         </div>
     </div>
 

@@ -132,10 +132,10 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.data) {
                     $(".popup-form").hide();
-                    // $("#success-popup .message").text("Changes have been saved successfully.");
-                    // $("#success-popup").show();
+                    $("#success-popup .message").text("Changes have been saved successfully.");
+                    $("#success-popup").show();
                     showEditSuccessPopup();
-                    location.reload();
+                    // location.reload();
                 }
             },
             error: function (data) {
@@ -165,7 +165,7 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.data) {
                     $(".popup-form").hide();
-                    $("#success-popup .message").text("Subtopic has been deleted.");
+                    $("#success-popup .message").text("Question has been deleted.");
                     $("#success-popup").show();
                 }
             },
@@ -249,8 +249,8 @@ function showEditSuccessPopup() {
     $('#overlay').show();
     $('#update-success').show();
 
-    setTimeout(function() {
-        $('#update-success').hide();
-        $('#overlay').hide();
-    }, 2000);
+    // setTimeout(function() {
+    //     $('#update-success').hide();
+    //     $('#overlay').hide();
+    // }, 2000);
 }

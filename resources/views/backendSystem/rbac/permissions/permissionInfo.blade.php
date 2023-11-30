@@ -9,18 +9,11 @@
 <div class="">
     <div class="header-row">
         <div class="left"><h3>View Permission</h3></div>
-        <div class="right" >
-            <div class="row">
-                <div class="col-6">
-                    <form method="GET" action="/admin/permissionEdit/{{ $permissionData->name }}">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-dark" style="width:200px">Update</button>
-                    </form>
-                </div>
-                <div class="col-6">
-                    <button type="button" class="btn btn-outline-danger delete-permission-btn" style="width:200px" data-id="{{ $permissionData->name }}">Delete</button>
-                </div>
-            </div>
+        <div class="right" style="display: flex; justify-content: space-between;">
+            <a href="/admin/permissionEdit/{{ $permissionData->name }}" style="margin-left: 5%;">
+                <button type="submit" class="btn btn-outline-dark" style="width:200px;margin-right: 18px;">Update</button>
+            </a>
+            <button type="button" class="btn btn-outline-danger delete-permission-btn" style="width:200px" data-id="{{ $permissionData->name }}">Delete</button>
         </div>
     </div>
 
@@ -41,7 +34,7 @@
             <p class="text-center"><b>This action cannot be undone.</b></p>
         </div>
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
-            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Don't Delete</button>
+            <button type="button" class="btn btn-outline-dark" id="cancel-btn" style="width:200px;margin-right:20px">Cancel</button>
             <button type="button" class="btn btn-danger" id="delete-btn" style="width:200px">Delete Permission</button>
         </div>
     </div>

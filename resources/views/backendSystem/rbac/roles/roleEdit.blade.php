@@ -30,6 +30,7 @@
     <div class="row justify-content-center align-items-center " style="padding-top:42px">
       <p class="text-center">Changes have been saved successfully.</p>
     </div>
+    <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Close Window</button>
   </div>
 
   <div class="row" style="padding-top:30px">
@@ -39,12 +40,12 @@
           <table class="table leftTable" style="border: none;">
             <tr>
               <td style="font-weight:bold">Name</td>
-              <td><input type="text"class="form-control" required placeholder="Enter Name" value="{{ $roleData->name }}"></td>
+              <td><input type="text"class="form-control" id="role_name" required placeholder="Enter Name" value="{{ $roleData->name }}"></td>
             </tr>
             <tr>
               <td style="font-weight:bold">Description</td>
               <td>
-                <input type="text"  class="form-control" placeholder="Enter Description" value="{{ $roleData->description }}">
+                <input type="text"  class="form-control" id="role_description" placeholder="Enter Description" value="{{ $roleData->description }}">
               </td>
             </tr>
             <tr>
@@ -78,7 +79,7 @@
                 <table id="itemPermissionsTable" class="table">
                   <tbody>
                     @foreach($itemPermissions as $itemPermission)
-                    <tr>
+                    <tr data-permission-name="{{ $itemPermission->name }}">
                         <td>{{ $itemPermission->name }} ({{ $itemPermission->description }})</td>
                     </tr>
                     @endforeach

@@ -139,6 +139,8 @@ $(document).ready(function() {
     $(document).on("click", "#close", function(e) {
         $(".popup-form").hide();
         $("#overlay").hide();
+        var permission = $('#permissionName').val();
+        window.location.href = "/admin/permissionEdit/"+permission;
     });
 
     // Function to show the delete popup and overlay

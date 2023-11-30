@@ -48,7 +48,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     hideCreateUserPopup();
-                    showSuccessPopup();
+                    showSuccessPopup(username);
                 } else {
                     // Handle errors or display error messages
                     console.error(response.message);
@@ -223,7 +223,12 @@ function hideCreateUserPopup() {
 }
 
 // Function to show the success popup and overlay
-function showSuccessPopup() {
+function showSuccessPopup(name = null) {
+
+    if (name != null) {
+        $("#success-popup p").text(`${name} has been created succesfully.`);
+    }
+
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('success-popup').style.display = 'block';
 
@@ -236,7 +241,12 @@ function showSuccessPopup() {
 
 
 // Function to show the delete user popup and overlay
-function showDeleteUserPopup(userId) {
+function showDeleteUserPopup(userId, username) {
+
+    if (username != null) {
+        $("#delete-popup-form p.message").text(`Are you sure you want to delete ${username}'s record?`)
+    }
+
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('delete-popup-form').style.display = 'block';
 
