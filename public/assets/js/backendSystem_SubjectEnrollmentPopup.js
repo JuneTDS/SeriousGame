@@ -95,7 +95,7 @@ $(document).ready(function() {
                 console.log(data);
                 if (data.data) {
                     $(".popup-form").hide();
-                    $("#success-popup p").text("Enrollment has been removed.");
+                    $("#success-popup p").text("Enrolment has been removed.");
                     $("#success-popup").show();
                 }
             },
