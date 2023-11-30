@@ -444,9 +444,9 @@ class SubjectController extends Controller
             ->leftJoin('tbl_topic', 'tbl_topic.topic_id', '=', 'tbl_subtopic.topic_id_fk')
             ->leftJoin('tbl_subtopic_attempt_log', 'tbl_subtopic_attempt_log.subtopic_id_fk', '=', 'tbl_subtopic.subtopic_id')
             ->leftJoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.user_id_fk', '=', 'tbl_subtopic_attempt_log.user_id_fk')
-            ->leftJoin('tbL_user', 'tbL_user.id', '=', 'tbl_subtopic_attempt_log.user_id_fk')
+            ->leftJoin('tbl_user', 'tbl_user.id', '=', 'tbl_subtopic_attempt_log.user_id_fk')
             ->select('tbl_subtopic.subtopic_id', 'tbl_subtopic.subtopic_name', 'tbl_subtopic.topic_id_fk', 'tbl_topic.topic_name',
-                'tbL_user.username','tbl_subject_class_enrolment.subject_class_id_fk',
+                'tbl_user.username','tbl_subject_class_enrolment.subject_class_id_fk',
                 'tbl_subtopic_attempt_log.*')
             // ->where('tbl_topic.subject_id_fk', $subject)
             ->where('tbl_subject_class_enrolment.subject_class_id_fk', $class)
