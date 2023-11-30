@@ -26,10 +26,10 @@
             <button type="button" class="primary" id="search">Search</button>
         </div>
         <div class="indepth-btn" style="display: none;">
-            <button type="button" class="secondary" id="indepth">Go to Indepth</button>
+            <button type="button" class="primary" id="indepth">Go to Indepth</button>
         </div>
         <div class="student-btn" style="display: none;">
-            <button type="button" class="secondary" id="student">Student Details</button>
+            <button type="button" class="primary" id="student">Student Details</button>
         </div>
     </div>
 
