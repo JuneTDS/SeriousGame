@@ -244,9 +244,17 @@ class SubjectController extends Controller
     public function getLeaderboard($subject_id, $user_id)
     {
         // Get class ID of the student
+        // $class_id = DB::table('tbl_subject_class')
+        // ->leftJoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.subject_class_id_fk', '=', 'tbl_subject_class.subject_class_id')
+        // ->where('tbl_subject_class_enrolment.user_id_fk', $user_id)
+        // ->where('tbl_subject_class.subject_id_fk', $subject_id)
+        // ->select('tbl_subject_class.subject_class_id')
+        // // ->get();
+        // ->first();
+
         $class_id = DB::table('tbl_subject_class')
-        ->leftJoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.subject_class_id_fk', '=', 'tbl_subject_class.subject_class_id')
-        ->where('tbl_subject_class_enrolment.user_id_fk', $user_id)
+        ->leftJoin('tbl_lecturer_subject_enrolment', 'tbl_lecturer_subject_enrolment.subject_id_fk', '=', 'tbl_subject_class.subject_id_fk')
+        ->where('tbl_lecturer_subject_enrolment.user_id_fk', $user_id)
         ->where('tbl_subject_class.subject_id_fk', $subject_id)
         ->select('tbl_subject_class.subject_class_id')
         // ->get();
