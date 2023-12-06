@@ -11,7 +11,12 @@
             <button type="button" id="game-btn" class="btn btn-outline-dark" onclick="location.href='http://test.game.seriousgameanalytics.com/index.html?id=<?= $url_parameter ?>'">Go to game</button>
         </div>
     </div>
-
+    @if (isset($message))
+    <div>
+        <p class="text-center p-5">{{ $message }}</p>
+    </div>
+    @else
+    <div>
         <!--  //row start -->
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
             <form href="/frontend/studentSubject" id="filter-form">
@@ -164,6 +169,7 @@
         </div>
         <!--  //Performance Table (End) -->
     </div>
+    @endif
 </div>
 
 <!-- CSS for all backendSystem page -->

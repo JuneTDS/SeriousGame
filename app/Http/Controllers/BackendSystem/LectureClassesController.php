@@ -323,6 +323,8 @@ class LectureClassesController extends Controller
                 ->where('subject_class_id_fk', $lectureClassId)
                 ->exists();
 
+                $totalUsersToEnroll = 0;
+                $remainingClassSize = 0;
                 if ($classCodeExists){
 
                     //Check start date and end dat of the class (Start)
@@ -397,11 +399,11 @@ class LectureClassesController extends Controller
                             //Check the number of user to enrol is less than remaing position of class size or not (End)
                         } else {
                             // The current date is not within the date range, return an alert message.
-                            return redirect()->back()->with('error', 'Cannot enroll: The current date is not within the specified date range.');
+                            // return redirect()->back()->with('error', 'Cannot enroll: The current date is not within the specified date range.');
                         }
                     } else {
                         // Handle the case where the specified $lectureClassId is not found.
-                        return redirect()->back()->with('error', 'Class not found with the specified ID.');
+                        // return redirect()->back()->with('error', 'Class not found with the specified ID.');
                     }
                     //Check start date and end date of the class (End)
                 } else {
@@ -496,9 +498,11 @@ class LectureClassesController extends Controller
                     //  Insert the IDs from userIdsToEnroll that do not exist in existingUserIds into enrolment table.
                     $currentUserId = auth()->user()->id; // Get the current login user ID
                     $createUpdated_Time = now()->toDateTimeString();
-
+                    print_r($userIdsToEnroll);
+                    echo "<br>---------------<br>";
+                    print_r($existingUserIds);
                     $newUserIdsToEnroll = array_diff($userIdsToEnroll, $existingUserIds);
-
+                    print_r($newUserIdsToEnroll); exit;
                     foreach ($newUserIdsToEnroll as $userIdToEnroll) {
                         DB::table('tbl_subject_class_enrolment')->insert([
                             'subject_class_id_fk' => $lectureClassId,
@@ -517,16 +521,17 @@ class LectureClassesController extends Controller
                         'csvData' => $csvData,
                     ]);
                 } else {
+                    echo "else"; exit;
                     return view('backendSystem.lectureClasses.enrolStudentDashboard', [
                         'lectureClassId' => $lectureClassId,
                         'csvData' => $csvData,
                     ]);
                 }
             } else {
-                return redirect()->back()->with('error', 'The uploaded file is not a CSV.');
+                // return redirect()->back()->with('error', 'The uploaded file is not a CSV.');
             }
         } else {
-            return redirect()->back()->with('error', 'No file was uploaded.');
+            // return redirect()->back()->with('error', 'No file was uploaded.');
         }
     }
 

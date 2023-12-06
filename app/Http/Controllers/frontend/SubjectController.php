@@ -120,16 +120,19 @@ class SubjectController extends Controller
         if ($request->has('subjectFilter')) {
             $subjectId = $request->input('subjectFilter');
         } else {
-            // $subject = DB::table('tbl_subject_class_enrolment')
-            // ->select('tbl_subject_class.subject_id_fk')
-            // ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
-            // ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
-            // ->first();
-
-            $subject = DB::table('tbl_lecturer_subject_enrolment')
-            ->select('tbl_lecturer_subject_enrolment.subject_id_fk')
-            ->where('tbl_lecturer_subject_enrolment.user_id_fk', $userId)
+            $subject = DB::table('tbl_subject_class_enrolment')
+            ->select('tbl_subject_class.subject_id_fk')
+            ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
+            ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
             ->first();
+
+            if (isset($subject->subject_id_fk)) {
+                return view('frontend.studentSubject',[
+                    'message' => "Please contact to admin to enrol class for you.",
+                    'url_parameter' => "",
+                    'meterData' => "",
+                ]);
+            }
 
             $subjectId = $subject->subject_id_fk;
         }
@@ -244,21 +247,21 @@ class SubjectController extends Controller
     public function getLeaderboard($subject_id, $user_id)
     {
         // Get class ID of the student
-        // $class_id = DB::table('tbl_subject_class')
-        // ->leftJoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.subject_class_id_fk', '=', 'tbl_subject_class.subject_class_id')
-        // ->where('tbl_subject_class_enrolment.user_id_fk', $user_id)
-        // ->where('tbl_subject_class.subject_id_fk', $subject_id)
-        // ->select('tbl_subject_class.subject_class_id')
-        // // ->get();
-        // ->first();
-
         $class_id = DB::table('tbl_subject_class')
-        ->leftJoin('tbl_lecturer_subject_enrolment', 'tbl_lecturer_subject_enrolment.subject_id_fk', '=', 'tbl_subject_class.subject_id_fk')
-        ->where('tbl_lecturer_subject_enrolment.user_id_fk', $user_id)
+        ->leftJoin('tbl_subject_class_enrolment', 'tbl_subject_class_enrolment.subject_class_id_fk', '=', 'tbl_subject_class.subject_class_id')
+        ->where('tbl_subject_class_enrolment.user_id_fk', $user_id)
         ->where('tbl_subject_class.subject_id_fk', $subject_id)
         ->select('tbl_subject_class.subject_class_id')
         // ->get();
         ->first();
+
+        // $class_id = DB::table('tbl_subject_class')
+        // ->leftJoin('tbl_lecturer_subject_enrolment', 'tbl_lecturer_subject_enrolment.subject_id_fk', '=', 'tbl_subject_class.subject_id_fk')
+        // ->where('tbl_lecturer_subject_enrolment.user_id_fk', $user_id)
+        // ->where('tbl_subject_class.subject_id_fk', $subject_id)
+        // ->select('tbl_subject_class.subject_class_id')
+        // // ->get();
+        // ->first();
 
         // Get the top 5 students
         $leader_board_query = DB::table('tbl_subtopic_attempt_log')
