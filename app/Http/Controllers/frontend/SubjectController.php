@@ -120,10 +120,15 @@ class SubjectController extends Controller
         if ($request->has('subjectFilter')) {
             $subjectId = $request->input('subjectFilter');
         } else {
-            $subject = DB::table('tbl_subject_class_enrolment')
-            ->select('tbl_subject_class.subject_id_fk')
-            ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
-            ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
+            // $subject = DB::table('tbl_subject_class_enrolment')
+            // ->select('tbl_subject_class.subject_id_fk')
+            // ->join('tbl_subject_class', 'tbl_subject_class.subject_class_id', '=', 'tbl_subject_class_enrolment.subject_class_id_fk')
+            // ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
+            // ->first();
+
+            $subject = DB::table('tbl_lecturer_subject_enrolment')
+            ->select('tbl_lecturer_subject_enrolment.subject_id_fk')
+            ->where('tbl_lecturer_subject_enrolment.user_id_fk', $userId)
             ->first();
 
             $subjectId = $subject->subject_id_fk;
