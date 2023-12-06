@@ -126,7 +126,7 @@ class SubjectController extends Controller
             ->where('tbl_subject_class_enrolment.user_id_fk', $userId)
             ->first();
 
-            if (isset($subject->subject_id_fk)) {
+            if (!isset($subject->subject_id_fk)) {
                 return view('frontend.studentSubject',[
                     'message' => "Please contact to admin to enrol class for you.",
                     'url_parameter' => "",
