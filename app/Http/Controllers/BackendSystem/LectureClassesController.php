@@ -413,11 +413,12 @@ class LectureClassesController extends Controller
                 }
 
                 if ($totalUsersToEnroll <= $remainingClassSize) {
+                    
                     //Create user in the CSV that is not exist in the database (Start)
                     foreach ($csv as $row) {
                         $email = $row['email']; // Email from the CSV
                         // Check if the email does not exist in the tbl_user table
-                        if (!DB::table('tbl_user')->where('email', $email)->exists()) {
+                        if (DB::table('tbl_user')->where('email', $email)->exists()) {
                             $username = $row['username'];
                             $password = $row['password'];
                             $passwordHash = Hash::make($password);
@@ -455,20 +456,28 @@ class LectureClassesController extends Controller
                                 'updated_at' => $createdAt,
                             ]);
 
-                            // Insert user role into tbl_auth_assignment using the query builder
-                            DB::table('tbl_auth_assignment')->insert([
-                                'item_name' => 'user',
-                                'user_id' => $user->id,
-                                'created_at' => $createdAt,
-                            ]);
+                            if (!DB::table('tbl_auth_assignment')->where('item_name', 'user')->where('user_id', $user->id)->exists()) {
+                                // Insert user role into tbl_auth_assignment using the query builder
+                                DB::table('tbl_auth_assignment')->insert([
+                                    'item_name' => 'user',
+                                    'user_id' => $user->id,
+                                    'created_at' => $createdAt,
+                                ]);
+                            }
 
                             // Add the row to $csvData
-                            $csvData[] = [
+                            // $csvData[] = [
+                            //     'username' => $username,
+                            //     'email' => $email,
+                            //     'password' => $password,
+                            //     'class_name' => $class_name,
+                            // ];
+                            array_push($csvData, [
                                 'username' => $username,
                                 'email' => $email,
                                 'password' => $password,
                                 'class_name' => $class_name,
-                            ];
+                            ]);
                         }
                     }
                     //Create user in the CSV that is not exist in the database (End)
@@ -498,11 +507,8 @@ class LectureClassesController extends Controller
                     //  Insert the IDs from userIdsToEnroll that do not exist in existingUserIds into enrolment table.
                     $currentUserId = auth()->user()->id; // Get the current login user ID
                     $createUpdated_Time = now()->toDateTimeString();
-                    print_r($userIdsToEnroll);
-                    echo "<br>---------------<br>";
-                    print_r($existingUserIds);
+                    
                     $newUserIdsToEnroll = array_diff($userIdsToEnroll, $existingUserIds);
-                    print_r($newUserIdsToEnroll); exit;
                     foreach ($newUserIdsToEnroll as $userIdToEnroll) {
                         DB::table('tbl_subject_class_enrolment')->insert([
                             'subject_class_id_fk' => $lectureClassId,
@@ -521,7 +527,6 @@ class LectureClassesController extends Controller
                         'csvData' => $csvData,
                     ]);
                 } else {
-                    echo "else"; exit;
                     return view('backendSystem.lectureClasses.enrolStudentDashboard', [
                         'lectureClassId' => $lectureClassId,
                         'csvData' => $csvData,
