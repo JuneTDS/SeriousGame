@@ -41,7 +41,7 @@ class SubjectEnrollmentsController extends Controller
 
         // Get user IDs and usernames from tbl_user using the user IDs
         $users = DB::table('tbl_user')
-        ->whereIn('id', $roleUserIds)
+        // ->whereIn('id', $roleUserIds)
         ->select('id', 'username')
         ->get();
 
