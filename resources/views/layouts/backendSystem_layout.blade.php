@@ -35,58 +35,58 @@
                     <img src="../../assets/images/wannabee_logo_menu.svg" />
                 </div>
                 <nav>
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu" style="padding-left: 20px; padding-right: 20px;">
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0" id="menu">
                         <li class="nav-item">
-                            <a href="/admin/usersDashboard" class="nav-link px-0 text-white">
+                            <a href="/admin/usersDashboard" class="nav-link px-0">
                                 <i class="fas fa-users"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
                             </a>
                         </li>
                         <li class="nav-item position-relative">
-                            <a href="#" class="nav-link px-0 align-middle text-white">
+                            <a href="#" class="nav-link px-0 align-middle">
                                 <i class="fas fa-users-cog"></i> <span class="ms-1 d-none d-sm-inline">RBAC</span>
                                 <span class="dropdown-icon"></span>
                             </a>
                             <!-- Sub-menu under RABC -->
                             <ul class="sub-menu" style="margin-top: 20px">
                                 <li>
-                                    <a href="/admin/rbac_PermissionsDashboard" class="nav-link px-0 align-middle text-white">
+                                    <a href="/admin/rbac_PermissionsDashboard" class="nav-link px-0 align-middle">
                                         <span class="ms-1 d-none d-sm-inline">Permissions</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/admin/rbac_RolesDashboard" class="nav-link px-0 align-middle text-white">
+                                    <a href="/admin/rbac_RolesDashboard" class="nav-link px-0 align-middle">
                                         <span class="ms-1 d-none d-sm-inline">Roles</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/admin/rbac_AccessRightsDashboard" class="nav-link px-0 align-middle text-white">
+                                    <a href="/admin/rbac_AccessRightsDashboard" class="nav-link px-0 align-middle">
                                         <span class="ms-1 d-none d-sm-inline">Access Rights</span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/subjectsDashboard" class="nav-link px-0 align-middle text-white">
+                            <a href="/admin/subjectsDashboard" class="nav-link px-0 align-middle">
                                 <i class="fas fa-book"></i> <span class="ms-1 d-none d-sm-inline">Manage Subjects</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/subjectEnrollmentsDashboard" class="nav-link px-0 align-middle text-white">
+                            <a href="/admin/subjectEnrollmentsDashboard" class="nav-link px-0 align-middle">
                                 <i class="fas fa-book-open"></i> <span class="ms-1 d-none d-sm-inline">Manage Subject Enrolments</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/lectureClassesDashboard" class="nav-link px-0 align-middle text-white">
+                            <a href="/admin/lectureClassesDashboard" class="nav-link px-0 align-middle">
                                 <i class="fas fa-chalkboard-teacher"></i> <span class="ms-1 d-none d-sm-inline">Manage Lecture Class</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/classCodesDashboard" class="nav-link px-0 align-middle text-white">
+                            <a href="/admin/classCodesDashboard" class="nav-link px-0 align-middle">
                                 <i class="fas fa-graduation-cap"></i> <span class="ms-1 d-none d-sm-inline">Manage Class Code</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/auth/logout" class="nav-link px-0 align-middle text-white">
+                            <a href="/auth/logout" class="nav-link px-0 align-middle">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="ms-1 d-none d-sm-inline">Logout</span>
                             </a>

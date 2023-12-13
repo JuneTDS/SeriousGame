@@ -24,7 +24,17 @@ nav ul {
 nav ul li {
     /* display: flex; */
     align-items: center;
-    padding: 17px 0;
+}
+
+nav ul li a.nav-link {
+    padding: 17px 20px !important;
+    color: #a1acb1;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    background-color: var(--navLink_HoverBackground);
+    color: #a1acb1;
 }
 
 nav ul li img,

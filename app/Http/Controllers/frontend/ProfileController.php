@@ -35,10 +35,12 @@ class ProfileController extends Controller
                 ->withInput();
         }
 
-        $userId = Auth::user()->id;
+        $userId         = Auth::user()->id;
         $username       = $request->input("username");
         $email          = $request->input("email");
-        $password       = Hash::make($request->input("password"));
+        if ($request->input("password") != "")  {
+            $password       = Hash::make($request->input("password"));
+        }
 
         $checkEmail = User::where('email', $email)->first();
         if ($checkEmail->id != $userId) {
