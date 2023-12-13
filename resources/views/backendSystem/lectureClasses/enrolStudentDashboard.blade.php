@@ -7,8 +7,8 @@
 </a>
 
 <div class="">
-    <div class="header-row">
-        <div class="left"><h3>Enrol Student</h3></div></div>
+    <div class="header-row" style="display: none;">
+        <div class="left"><h3>Enrol Student</h3></div>
         <div class="row" style="margin-bottom:52px;margin-top:52px">
             <div class="col-4"> 
                 <p>Step 1: Download the template</p>
@@ -62,6 +62,49 @@
                     @endif
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="header-row">
+        <div class="col-md-9">
+            <form action="/admin/uploadEnrolStudent" method="post">
+                @csrf
+                <table class="table leftTable" style="border: none;">
+                    <input type="hidden" id="lectureClassId" name="lectureClassId" value="{{ $lectureClassId }}">
+                    
+                    @if(session()->has('message'))
+                        <tr>
+                            <div class="alert alert-success">
+                                {{ session()->get('message') }}
+                            </div>
+                        </tr>
+                    @endif
+
+                    @if(session()->has('error'))
+                        <tr>
+                            <div class="alert alert-danger">
+                                {{ session()->get('error') }}
+                            </div>
+                        </tr>
+                    @endif
+
+                    <tr>
+                        <td style="font-weight:bold">Student</td>
+                        <td>
+                            <select class="form-select dropdown" id="student" name="student">
+                                @foreach ($users as $key => $user)
+                                    @if (!in_array($user->id, $aldEnrollUsers))
+                                        <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary">Enrol</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </div>
 </div>

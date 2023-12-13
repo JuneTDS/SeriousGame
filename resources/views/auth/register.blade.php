@@ -50,6 +50,16 @@
                 @enderror
             </div>
 
+            <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
+                <div style="display: flex; flex-direction: column;">
+                    <label>Class Code</label>
+                    <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('classcode')}}">
+                    @error('classcode')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <div>
                 <button type="submit">Submit</button>
             </div>

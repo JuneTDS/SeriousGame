@@ -25,8 +25,8 @@ class ProfileController extends Controller
 
     public function update(Request $request) {
         $validator = Validator::make($request->all(), [
+            'username'  => 'required',
             'email'     => 'required|email',
-            'password'  => 'required|min:6',
         ]);
 
         if ($validator->fails()) {

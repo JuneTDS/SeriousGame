@@ -295,8 +295,18 @@ class LectureClassesController extends Controller
     {
         $lectureClassId = $id;
 
+        $users = DB::table('tbl_user')->where('status', 1)->get();
+
+        $aldEnrollUsers = DB::table('tbl_subject_class_enrolment')
+            ->select('user_id_fk')
+            ->where('subject_class_id_fk', $lectureClassId)
+            ->pluck('user_id_fk')
+            ->toArray();
+
         return view('backendSystem.lectureClasses.enrolStudentDashboard', [
             'lectureClassId' => $lectureClassId,
+            'users' => $users,
+            'aldEnrollUsers' => $aldEnrollUsers
         ]);
     }
 
@@ -583,5 +593,122 @@ class LectureClassesController extends Controller
 
             return response()->json(['success' => false]);
         }
+    }
+
+    public function uploadEnrolStudent(Request $request)
+    {
+        $lectureClassId = $request->input('lectureClassId');
+        $userId = $request->input('student');
+
+        $result = $this->enrolStudent($lectureClassId, $userId);
+
+        if ($result) {
+            return redirect()->back()->with('message', 'Enrol was success.');
+        }
+
+        return redirect()->back()->with('error', 'Something went wrong.');
+    }
+
+    public function enrolStudent($lectureClassId, $userId)
+    {
+        $class_name = DB::table('tbl_subject_class')
+            ->where('subject_class_id', $lectureClassId)
+            ->value('class_name');
+
+        // Check if the class code for the subject class exists in the database
+        $classCodeExists = DB::table('tbl_class_code')
+            ->where('subject_class_id_fk', $lectureClassId)
+            ->exists();
+
+        $remainingClassSize = 0;
+        if ($classCodeExists){
+            //Check start date and end dat of the class (Start)
+            // Get the start_date and end_date for the specified subject class
+            $classInfo = DB::table('tbl_class_code')
+                ->select('start_date', 'end_date')
+                ->where('subject_class_id_fk', $lectureClassId)
+                ->first();
+
+            // print_r($classInfo); exit;
+
+            if ($classInfo) {
+                $startDate = Carbon::parse($classInfo->start_date);
+                $endDate = Carbon::parse($classInfo->end_date);
+                $currentDate = Carbon::now();
+
+                // Check if the current date is between the start and end date
+                if ($currentDate->between($startDate, $endDate)) {
+                    $userIdsInDatabase[] = $userId;
+
+                    // Calculate the number of users that need to be created
+                    $usersToCreateCount = 1;
+
+                    //Get all user ID that already enrol
+                    $enrolledUserIds = DB::table('tbl_subject_class_enrolment')
+                        ->select('user_id_fk')
+                        ->where('subject_class_id_fk', $lectureClassId)
+                        ->pluck('user_id_fk')
+                        ->toArray();
+
+                    // Count number of users already enrol
+                    $enrolledUserCount = count($enrolledUserIds);
+
+                    //Get the ID of user in CSV that already exist in the databas and yet to enrol
+                    $newUserIdsToEnroll = array_diff($userIdsInDatabase, $enrolledUserIds);
+                    
+                    // Count the number of new users to enroll
+                    $newUserIdsToEnrollCount = count($newUserIdsToEnroll);
+
+                    //Get the class size of the subject class
+                    $classSize = DB::table('tbl_class_code')
+                        ->where('subject_class_id_fk', $lectureClassId)
+                        ->value('class_size');
+
+                    //Check number of user in the class
+                    $usersInClassCount = DB::table('tbl_class_code')
+                        ->where('subject_class_id_fk', $lectureClassId)
+                        ->count();
+
+                    // Calculate the remaining class size
+                    $remainingClassSize = $classSize - $usersInClassCount;
+                }
+            }
+
+            if ($remainingClassSize > 0) {
+            
+                $user = DB::table('tbl_user')
+                    ->where('id', $userId)
+                    ->first();
+
+                //Find all the user_id_fk in tbl_subject_class_enrolment where the subject_class_id_fk matches $lectureClassId.
+                $existingUserIds = DB::table('tbl_subject_class_enrolment')
+                    ->where('user_id_fk', $userId)
+                    ->where('subject_class_id_fk', $lectureClassId)
+                    ->get();
+                
+                if (count($existingUserIds) == 0) {
+                    //  Insert the IDs from userIdsToEnroll that do not exist in existingUserIds into enrolment table.
+                    if (Auth::check()) {
+                        $currentUserId = auth()->user()->id; // Get the current login user ID
+                    } else {
+                        $currentUserId = $userId;
+                    }
+                    $createUpdated_Time = now()->toDateTimeString();
+                    
+                    DB::table('tbl_subject_class_enrolment')->insert([
+                        'subject_class_id_fk' => $lectureClassId,
+                        'user_id_fk' => $userId,
+                        'updated_at' => $createUpdated_Time,
+                        'created_at' => $createUpdated_Time,
+                        'updated_by' => $currentUserId,
+                        'created_by' => $currentUserId,
+                    ]);
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

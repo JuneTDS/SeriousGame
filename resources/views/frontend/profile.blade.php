@@ -4,8 +4,16 @@
 
 <div class="page my-profile-page">
     <h3 class="page-header">My Profile</h3>
+
+    @if(session()->has('message'))
+        <div class="alert alert-success">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+
     <form action="{{ route('profile.update') }}" class="form" method="post">
         @csrf
+
         <div style="margin-bottom: 32px;">
             <label>Full Name</label>
             <input type="text" name="username" data-class="username" value="{{(old('username') !== null) ? old('username') : $user->username}}" />
@@ -37,12 +45,6 @@
             <button type="submit" class="update-btn disabled">Update</button>
         </div>
     </form>
-
-    @if(session()->has('message'))
-        <div class="alert alert-success">
-            {{ session()->get('message') }}
-        </div>
-    @endif
 </div>
 
 <script>

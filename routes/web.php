@@ -242,6 +242,8 @@ Route::group(['middleware' => ['auth']], function() {
     //Upload Enrol Student file
     Route::post('/admin/uploadEnrolStudentFile', [LectureClassesController::class, 'uploadEnrolStudentFile']);
 
+    Route::post('/admin/uploadEnrolStudent', [LectureClassesController::class, 'uploadEnrolStudent']);
+
     //Mode Site Dashboard
     Route::get('/admin/modeSiteDashboard', [ModeSiteController::class, 'showModeSiteDashboard']);
 

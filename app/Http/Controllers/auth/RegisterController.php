@@ -71,6 +71,7 @@ class RegisterController extends Controller
         $fullName       = $request->input("fullname");
         $email          = $request->input("email");
         $password       = Hash::make($request->input("password"));
+        $classCode     = $request->input("class_code");
 
         $authKey        = Str::random(32);
         $createdAt      = Carbon::now()->timestamp;
@@ -80,6 +81,13 @@ class RegisterController extends Controller
         $user           = User::where('email', $email)->where('status', true)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$ingameName','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
+
+        $class              = DB::table('tbl_class_code')
+            ->where('class_code', $classCode)
+            ->select('subject_class_id_fk')
+            ->pluck('subject_class_id_fk');
+        
+        $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
 
         return redirect("/login");
     }

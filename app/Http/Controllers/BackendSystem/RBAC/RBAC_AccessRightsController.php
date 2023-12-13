@@ -85,16 +85,16 @@ class RBAC_AccessRightsController extends Controller
     public function showaccessRightEdit($id)
     {
         $assignData = DB::table('tbl_user')
-            ->select('tbl_user.id', 'tbl_auth_item.description')
+            ->select('tbl_user.id', 'tbl_auth_item.description', 'tbl_auth_item.name')
             ->leftJoin('tbl_auth_assignment', 'tbl_user.id', '=', 'tbl_auth_assignment.user_id')
             ->leftJoin('tbl_auth_item', 'tbl_auth_assignment.item_name', '=', 'tbl_auth_item.name')
             ->where('tbl_user.id', '=', $id)
             ->first();
 
         $roleDescriptions = DB::table('tbl_auth_item')
-        ->distinct()
-        ->where('type', 1)
-        ->pluck('description');
+            ->distinct()
+            ->where('type', 1)
+            ->pluck('name', 'description');
 
         return view('backendSystem.rbac.accessRights.accessRightEdit',[
             'assignData' => $assignData,
@@ -114,7 +114,7 @@ class RBAC_AccessRightsController extends Controller
 
         $roleSql = "
             UPDATE tbl_auth_assignment
-            SET item_name = $roleDescription
+            SET item_name = '$roleDescription'
             WHERE user_id = $userId
         ";
 

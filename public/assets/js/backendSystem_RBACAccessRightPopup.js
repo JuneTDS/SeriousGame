@@ -23,16 +23,21 @@ $(document).ready(function() {
         $('#create-popup-form').hide();
     }
 
+    function hideSuccessPopup() {
+        $('#overlay').hide();
+        $('#success-popup').hide();
+    }
+
     // Function to show the success popup and overlay
     function showSuccessPopup() {
         $('#overlay').show();
         $('#success-popup').show();
 
         // Hide the success popup and overlay after 2 seconds
-        setTimeout(function() {
-            $('#success-popup').hide();
-            $('#overlay').hide();
-        }, 2000);
+        // setTimeout(function() {
+        //     $('#success-popup').hide();
+        //     $('#overlay').hide();
+        // }, 2000);
     }
 
     $('#create-btn').on('click', function() {
@@ -92,7 +97,6 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     showSuccessPopup();
-                    location.reload();
                 } else {
                     // Handle errors or display error messages
                     console.error(response.message);
@@ -130,6 +134,10 @@ $(document).ready(function() {
     $('#delete-btn').on('click', function() {
         var userId = $(this).data('id');
         deleteAssignRight(userId);
+    });
+
+    $('#close').on('click', function() {
+        hideSuccessPopup();
     });
 
     // Function to handle permission deletion and send data to the server

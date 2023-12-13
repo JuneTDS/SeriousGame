@@ -31,6 +31,7 @@
         <div class="row justify-content-center align-items-center " style="padding-top:42px">
             <p class="text-center">Changes have been saved successfully.</p>
         </div>
+        <button type="button" class="btn btn-cancel" id="close" style="width:100%; margin-top: 10px;">Close Window</button>
     </div>
 
     <!--  user info start -->
@@ -45,7 +46,7 @@
                             <td>
                                 <select class="form-select form-control form-select" style="width:400px" id="roleDescription">
                                     @foreach ($roleDescriptions as $roleDescription)
-                                        <option value="{{ $roleDescription }}" {{ $roleDescription == $assignData->description ? 'selected' : '' }}>
+                                        <option value="{{ $roleDescription }}" {{ $roleDescription == $assignData->name ? 'selected' : '' }}>
                                             {{ $roleDescription }}
                                         </option>
                                     @endforeach
@@ -63,5 +64,8 @@
 <!-- CSS for all backendSystem page -->
 <link rel="stylesheet" href="/assets/css/common.css">
 <link rel="stylesheet" href="/assets/css/backendSystem.css">
+
+<!-- Javascript for Popup -->
+<script src="{{ asset('assets/js/backendSystem_RBACAccessRightPopup.js') }}"></script>
 
 @endsection
