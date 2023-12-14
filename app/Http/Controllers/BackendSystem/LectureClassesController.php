@@ -610,8 +610,10 @@ class LectureClassesController extends Controller
             ->pluck('user_id_fk')
             ->toArray();
 
+        print_r($result);
+
         if ($result) {
-            // echo "if"; exit;
+            echo "if"; exit;
             // return redirect()->back()->with('message', 'Enrol was success.');
             return view('backendSystem.lectureClasses.enrolStudentDashboard', [
                 'lectureClassId' => $lectureClassId,
@@ -621,7 +623,7 @@ class LectureClassesController extends Controller
             ]);
         } 
         else {
-            // echo "else"; exit;
+            echo "else"; exit;
             // return redirect()->back()->with('error', 'Something went wrong.');
             return view('backendSystem.lectureClasses.enrolStudentDashboard', [
                 'lectureClassId' => $lectureClassId,
