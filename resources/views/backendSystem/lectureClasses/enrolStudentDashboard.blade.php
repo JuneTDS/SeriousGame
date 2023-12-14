@@ -72,18 +72,18 @@
                 <table class="table leftTable" style="border: none;">
                     <input type="hidden" id="lectureClassId" name="lectureClassId" value="{{ $lectureClassId }}">
                     
-                    @if(session()->has('message'))
+                    @if(isset($message))
                         <tr>
                             <div class="alert alert-success">
-                                {{ session()->get('message') }}
+                                {{ $message }}
                             </div>
                         </tr>
                     @endif
 
-                    @if(session()->has('error'))
+                    @if(isset($error))
                         <tr>
                             <div class="alert alert-danger">
-                                {{ session()->get('error') }}
+                                {{ $error }}
                             </div>
                         </tr>
                     @endif
