@@ -601,36 +601,12 @@ class LectureClassesController extends Controller
         $userId = $request->input('student');
 
         $result = $this->enrolStudent($lectureClassId, $userId);
-        
-        $users = DB::table('tbl_user')->where('status', 1)->get();
-
-        $aldEnrollUsers = DB::table('tbl_subject_class_enrolment')
-            ->select('user_id_fk')
-            ->where('subject_class_id_fk', $lectureClassId)
-            ->pluck('user_id_fk')
-            ->toArray();
-
-        print_r($result);
 
         if ($result) {
-            echo "if"; exit;
-            // return redirect()->back()->with('message', 'Enrol was success.');
-            return view('backendSystem.lectureClasses.enrolStudentDashboard', [
-                'lectureClassId' => $lectureClassId,
-                'users' => $users,
-                'aldEnrollUsers' => $aldEnrollUsers,
-                'message' => 'Enrol was success.'
-            ]);
+            return redirect()->back()->with('message', 'Enrol was success.');
         } 
         else {
-            echo "else"; exit;
-            // return redirect()->back()->with('error', 'Something went wrong.');
-            return view('backendSystem.lectureClasses.enrolStudentDashboard', [
-                'lectureClassId' => $lectureClassId,
-                'users' => $users,
-                'aldEnrollUsers' => $aldEnrollUsers,
-                'error' => 'Something went wrong.'
-            ]);
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 
