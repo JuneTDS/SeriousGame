@@ -283,11 +283,16 @@ class LectureClassesController extends Controller
         // Modify the query to retrieve a single record based on the provided ID
         $lectureClassId = $id;
 
+        $classCode = DB::table('tbl_class_code')
+            ->where('subject_class_id_fk', $lectureClassId)
+            ->exists();
+
         return view('backendSystem.lectureClasses.manageStudentDashboard', [
             'manageStudentsData' => $manageStudentsData,
             'lectureClassId' => $lectureClassId,
             'searchKeyword' => $searchKeyword,
             'selectedDate' => $selectedDate,
+            'classCode' => $classCode
         ]);
     }
 

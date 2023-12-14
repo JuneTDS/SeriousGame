@@ -10,9 +10,15 @@
     <div class="header-row">
         <div class="left"><h3>Manage Students</h3></div>
         <div class="right" >
+            @if ($classCode)
             <a href="{{ url('/admin/enrolStudentDashboard/' . $lectureClassId) }}">
                 <button type="button" class="btn btn-outline-dark">Enrol Student</button>
             </a>
+            @else
+            <a href="{{ route('classCodesDashboard.all') }}">
+                <button type="button" class="btn btn-outline-dark">Create Class Code</button>
+            </a>
+            @endif
         </div>
     </div>
 

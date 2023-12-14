@@ -250,7 +250,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('/user/uploadProfile', [CropImageController::class, 'cropImageUploadAjax']);
     //Class Code Dashboard
-    Route::get('/admin/classCodesDashboard', [classCodeController::class, 'showClassCodesDashboard']);
+    Route::get('/admin/classCodesDashboard', [classCodeController::class, 'showClassCodesDashboard'])->name('classCodesDashboard.all');
     //User create
     Route::post('/admin/createClassCode', [classCodeController::class, 'createClassCode']);
     //Get Subejct Class based on selected subject dropdown option
