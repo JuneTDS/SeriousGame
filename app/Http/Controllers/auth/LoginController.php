@@ -11,6 +11,7 @@ use App\Models\User;
 use DB;
 use Illuminate\Support\Facades\Session;
 use App\Http\Middleware\CheckPermission;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -27,9 +28,9 @@ class LoginController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email'     => 'required|email',
-            // 'password'  => 'required|min:6',
+            'password'  => 'required|min:6',
             'password'  => 'required',
-            'classcode' => 'min:6',
+            // 'classcode' => 'min:6',
         ]);
 
         if ($validator->fails()) {
@@ -40,22 +41,51 @@ class LoginController extends Controller
 
         $email      = $request->input("email");
         $password   = $request->input("password");
-        $classcode  = $request->input("classcode");
+        // $classcode  = $request->input("classcode");
+        $classcode  = "";
         $rememberMe = $request->input("remember");
         // exit;
-        $user = User::where('email', $email)->where('status', true)->first(); // DB::select( DB::raw("SELECT * FROM tbl_user WHERE email = '$email'") );
+        $user = User::select("tbl_user.*", "tbl_auth_assignment.item_name as role")
+            ->leftJoin('tbl_auth_assignment', 'tbl_auth_assignment.user_id', '=', 'tbl_user.id')
+            ->where('email', $email)
+            ->where('status', '<', 3)
+            ->first(); // DB::select( DB::raw("SELECT * FROM tbl_user WHERE email = '$email'") );
         
+        $userId     = $user->id;
+        $userDataSql = "UPDATE tbl_user
+            SET `role` = '$user->role'
+            WHERE id = $userId";
+
+        $user = User::where('email', $email)
+            ->where('status', '<', 3)
+            ->first();
+
+        // Execute the raw SQL query to update the record
+        $userData = DB::update($userDataSql);
+
+        if ($user->status == 2) {
+            return redirect()->back()
+                ->withErrors(['password' => 'Your account is still wait status.'])
+                ->withInput();
+        }
+
         if (!Hash::check($password, $user->password_hash)) {
             return redirect()->back()
                 ->withErrors(['password' => 'Password does not match.'])
                 ->withInput();
         }
 
-        $userId     = $user->id;
-        $role       = DB::select( DB::raw("SELECT * FROM tbl_auth_assignment WHERE user_id = '$userId'") );
-        $user->role = $role[0]->item_name;
-
+        
+        // print_r($user->role); exit;
+        // $role       = DB::select( DB::raw("SELECT * FROM tbl_auth_assignment WHERE user_id = '$userId'") );
+        $user->role = $user->role_name;
         Auth::login($user, ($rememberMe == "on") ? true : false);
+
+        $lastLogin      = Carbon::now()->timestamp;
+        $userProfileSql = "UPDATE tbl_user_profile
+            SET last_visit = $lastLogin
+            WHERE user_id = $userId";
+        $userProfile = DB::update($userProfileSql);
 
         if (!empty($classcode)) {
             $checkClassCode = DB::select(DB::raw("SELECT * FROM tbl_class_code WHERE class_code = '$classcode'"));

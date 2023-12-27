@@ -286,7 +286,7 @@ function deleteUser(userId) {
         success: function(response) {
             if (response.success) {
                 hideDeleteUserPopup();
-                window.location.reload();
+                window.location.href = "/admin/usersDashboard";
                 // Optionally, you can refresh the page or update the user list here
             } else {
                 // Handle errors or display error messages

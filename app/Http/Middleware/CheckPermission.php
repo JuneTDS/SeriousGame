@@ -43,4 +43,28 @@ class CheckPermission
         }
         return false;
     }
+
+    public function isLecturer()
+    {
+        if (Auth::user()->role == 'Lecturer') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isLecturerManager()
+    {
+        if (Auth::user()->role == 'Lecturer_Manager') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isUser()
+    {
+        if (Auth::user()->role == 'user') {
+            return true;
+        }
+        return false;
+    }
 }

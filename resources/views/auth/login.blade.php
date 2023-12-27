@@ -33,7 +33,7 @@
                 </span>
             </div> -->
 
-            <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
+            <!-- <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
                 <div style="display: flex; flex-direction: column;">
                     <label>Class Code</label>
                     <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('classcode')}}">
@@ -41,7 +41,7 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
-            </div>
+            </div> -->
             <!-- Class Code Field (End)-->
 
             <div style="margin-bottom: 40px;">

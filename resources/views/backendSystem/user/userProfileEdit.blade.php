@@ -59,22 +59,22 @@
                     <form action="/admin/userProfileEditSave" method="post">
                         @csrf
                         <table class="table leftTable" style="border: none;">
-                            <input type="hidden" id="userId" value="{{ $userData->id }}">
+                            <input type="hidden" id="userId" name="userId" value="{{ $userData->id }}">
                             <tr>
                                 <td style="font-weight:bold">First Name</td>
-                                <td><input type="text"  class="form-control" placeholder="Enter first name" value="{{ $userData->first_name }}" id="firstName"></td>
+                                <td><input type="text"  class="form-control" name="first_name" placeholder="Enter first name" value="{{ $userData->first_name }}" id="firstName"></td>
                             </tr>
                             <tr>
                                 <td style="font-weight:bold">Last Name</td>
-                                <td><input type="text" class="form-control"  placeholder="Enter last name" value="{{ $userData->last_name }}" id="lastName"></td>
+                                <td><input type="text" class="form-control" name="last_name" placeholder="Enter last name" value="{{ $userData->last_name }}" id="lastName"></td>
                             </tr>
                             <tr>
                                 <td style="font-weight:bold">Email Address</td>
-                                <td><input type="email" value="{{ $userData->email }}" id="email" class="form-control" required></td>
+                                <td><input type="email" name="email" value="{{ $userData->email }}" id="email" class="form-control" required></td>
                             </tr>
                             <tr>
                                 <td style="font-weight:bold">Email Gravatar</td>
-                                <td><input type="email" value="{{ $userData->email_gravatar }}" id="emailGravatar" class="form-control" ></td>
+                                <td><input type="email" name="email_gravatar" value="{{ $userData->email_gravatar }}" id="emailGravatar" class="form-control" ></td>
                             </tr>
                             <tr>
                                 <td></td>

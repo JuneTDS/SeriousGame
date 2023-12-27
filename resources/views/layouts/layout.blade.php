@@ -30,6 +30,7 @@
                 </div>
                 <nav>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0">
+                        @if(Auth::user()->role == "Lecturer_Manager" || Auth::user()->role == "Lecturer")
                         <li>
                             <a class="nav-link" href="/frontend/classes">
                                 <img src="../../assets/images/groups.svg" style="margin-right: 15px;"/>
@@ -48,18 +49,21 @@
                                 <label for="">Feedback</label>
                             </a>
                         </li>
+                        @endif
                         <li>
                             <a class="nav-link" href="/frontend/profile">
                                 <img src="../../assets/images/account_circle.svg" style="margin-right: 15px;"/>
                                 <label for="">My Profile</label>
                             </a>
                         </li>
+                        @if(Auth::user()->role == "Student")
                         <li>
                             <a class="nav-link" href="/frontend/studentSubject">
                                 <i class="fas fa-gamepad" style="margin-right: 15px;color:#a1acb1"></i>
                                 <label for="">Student Subjects</label>
                             </a>
                         </li>
+                        @endif
                         <li>
                             <a class="nav-link" href="/auth/logout">
                                 <img src="../../assets/images/logout.svg" style="margin-right: 15px;"/>

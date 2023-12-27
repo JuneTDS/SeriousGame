@@ -76,6 +76,8 @@ class UserController extends Controller
             }
         }
 
+        $query->where('tbl_user.status', '<', 3);
+        
         // Continue with sorting and retrieving the results
         $user = $query
         ->get();
@@ -317,20 +319,20 @@ class UserController extends Controller
     public function userProfileEditSave(Request $request)
     {
         // Retrieve data from the JSON request
-        $data = $request->json()->all();
+        $data = $request->input();
 
         // Perform server-side validation
         $validatedData = $request->validate([
-            'email' => 'required|email|unique:tbl_user,email',
-            'emailGravatar' => 'required|email|unique:tbl_user,email',
+            'email' => 'required|email',
+            'email_gravatar' => 'required|email',
         ]);
 
         // Extract data from the JSON request
         $userId = $data['userId'];
-        $firstName = $data['firstName'];
-        $lastName = $data['lastName'];
+        $firstName = $data['first_name'];
+        $lastName = $data['last_name'];
         $email = $data['email'];
-        $emailGravatar = $data['emailGravatar'];
+        $emailGravatar = $data['email_gravatar'];
         $updatedAt      = Carbon::now()->timestamp;
 
         $userDataSql = "
@@ -354,7 +356,7 @@ class UserController extends Controller
         $userData = DB::update($userDataSql);
         $userProfile = DB::update($userProfileSql);
 
-        return response()->json(['success' => true]);
+        return redirect()->back()->with('success', true);
     }
 
     // Function to save user profile edit

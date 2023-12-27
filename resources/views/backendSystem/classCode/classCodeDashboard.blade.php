@@ -219,12 +219,14 @@
             $('form#filter-form').submit();
         });
 
-        $('.input-field').on('keydown', function () {
-            $('form#filter-form').submit();
-        });
+        // $('.input-field').on('keydown', function () {
+        //     $('form#filter-form').submit();
+        // });
 
-        $('.input-field').on('keyup', function () {
-            $('form#filter-form').submit();
+        $('.input-field').on('keyup', function (e) {
+            if (e.key == "Enter") {
+                $('form#filter-form').submit();
+            }
         });
 
         $(document).on("click", ".sortable", function(e) {

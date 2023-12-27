@@ -169,7 +169,8 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     hideDeletePopup();
-                    location.reload();
+                    // location.reload();
+                    window.location.href = "/admin/rbac_PermissionsDashboard";
                 } else {
                     console.error(response.message);
                 }
