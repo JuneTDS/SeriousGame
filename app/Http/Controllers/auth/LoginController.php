@@ -78,7 +78,7 @@ class LoginController extends Controller
         
         // print_r($user->role); exit;
         // $role       = DB::select( DB::raw("SELECT * FROM tbl_auth_assignment WHERE user_id = '$userId'") );
-        $user->role = $user->role_name;
+        // $user->role = $user->role_name;
         Auth::login($user, ($rememberMe == "on") ? true : false);
 
         $lastLogin      = Carbon::now()->timestamp;
