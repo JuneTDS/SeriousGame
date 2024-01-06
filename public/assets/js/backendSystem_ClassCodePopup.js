@@ -91,7 +91,8 @@ $(document).ready(function() {
                     location.reload();
                 } else {
                     // Handle errors or display error messages
-                    console.error(response.message);
+                    $(".alert-danger.alert").text(response.message)
+                    $(".alert-danger.alert").show();
                 }
             },
             error: function(xhr, status, error) {

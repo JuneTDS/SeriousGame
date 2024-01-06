@@ -97,13 +97,19 @@ class classCodeController extends Controller
 
         // Perform server-side validation
         $validatedData = $request->validate([
-            'classCode' => 'required|unique:tbl_class_code,class_code',
+            'classCode' => 'required',
             'subject' => 'required',
             'subject_Class' => 'required',
             'classSize' => 'required',
             'startDate' => 'required',
             'endDate' => 'required',
         ]);
+
+        $isClassCodeExist = DB::table('tbl_class_code')->where('class_code', $data['classCode'])->get();
+
+        if (count($isClassCodeExist) > 0) {
+            return response()->json(['message' => "Class code is exist."]);
+        }
 
         // Extract data from the JSON request
         $classCode = $data['classCode'];

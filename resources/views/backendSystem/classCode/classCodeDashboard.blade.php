@@ -47,6 +47,7 @@
                 <label for="endDate" class="form-label">End Date*</label>
                 <input type="date" class="form-control" id="createEndDate" required>
             </div>
+            <div class="alert alert-danger mb-2" style="display: none;"></div>
             <button type="button" class="btn btn-dark" id="create-btn" style="width:526px">Create</button>
         </div>
 
