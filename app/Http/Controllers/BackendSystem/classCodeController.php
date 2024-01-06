@@ -96,20 +96,14 @@ class classCodeController extends Controller
         $data = $request->json()->all();
 
         // Perform server-side validation
-        $validatedData = $request->validate([
-            'classCode' => 'required',
-            'subject' => 'required',
-            'subject_Class' => 'required',
-            'classSize' => 'required',
-            'startDate' => 'required',
-            'endDate' => 'required',
-        ]);
-
-        $isClassCodeExist = DB::table('tbl_class_code')->where('class_code', $data['classCode'])->get();
-
-        if (count($isClassCodeExist) > 0) {
-            return response()->json(['message' => "Class code is exist."]);
-        }
+        // $validatedData = $request->validate([
+        //     'classCode' => 'required',
+        //     'subject' => 'required',
+        //     'subject_Class' => 'required',
+        //     'classSize' => 'required',
+        //     'startDate' => 'required',
+        //     'endDate' => 'required',
+        // ]);
 
         // Extract data from the JSON request
         $classCode = $data['classCode'];
@@ -118,6 +112,31 @@ class classCodeController extends Controller
         $classSize = $data['classSize'];
         $startDate = $data['startDate'];
         $endDate = $data['endDate'];
+
+        if ($classCode == "") {
+            return response()->json(['message' => "Class code is required."]);
+        }
+        if ($subject == "") {
+            return response()->json(['message' => "Subject is required."]);
+        }
+        if ($class == "") {
+            return response()->json(['message' => "Class is required."]);
+        }
+        if ($classSize == "") {
+            return response()->json(['message' => "ClassSize is required."]);
+        }
+        if ($startDate == "") {
+            return response()->json(['message' => "Start date is required."]);
+        }
+        if ($endDate == "") {
+            return response()->json(['message' => "End date is required."]);
+        }
+
+        $isClassCodeExist = DB::table('tbl_class_code')->where('class_code', $classCode)->get();
+
+        if (count($isClassCodeExist) > 0) {
+            return response()->json(['message' => "Class code is exist."]);
+        }
         
         // Format startDate and endDate with the current time
         $startDate = date("Y-m-d H:i:s", strtotime($startDate));
