@@ -38,6 +38,24 @@ $(document).ready(function() {
         }, 2000);
     }
 
+    $('#createEndDate').on('change', function () {
+        let startDate = $("#createStartDate").val();
+        let endDate = $("#createEndDate").val();
+
+        var date1 = new Date(startDate);
+        var date2 = new Date(endDate);
+
+        if (date1.getTime() > date2.getTime()) {
+            console.log('Date1 is earlier than Date2');
+            $("#create-popup-form .alert-danger").text("End date should not smaller than start date.");
+            $("#create-popup-form .alert-danger").show();
+            $('#create-btn').attr("disabled", true);
+        } else {
+            $("#create-popup-form .alert-danger").hide();
+            $('#create-btn').removeAttr("disabled");
+        }
+    });
+
     $('#createSubject').on('change', function () {
         var subjectId = $(this).val();
 
@@ -202,7 +220,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     hideDeletePopup();
-                    window.location.reload();
+                    window.location.href = "/admin/classCodesDashboard";
                     // Optionally, you can refresh the page or update the permission list here
                 } else {
                     // Handle errors or display error messages

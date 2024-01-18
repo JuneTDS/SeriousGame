@@ -44,7 +44,7 @@
 
             <div style="margin-bottom: 32px;">
                 <label>Password</label>
-                <input type="text" name="password" placeHolder="Minimum 6 characters" value="{{old('password')}}">
+                <input type="password" name="password" placeHolder="Minimum 6 characters" value="{{old('password')}}">
                 @error('password')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror

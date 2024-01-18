@@ -141,8 +141,8 @@
                         <td>{{ $classCodeData->subject_name }}</td>
                         <td>{{ $classCodeData->class_name }}</td>
                         <td>{{ $classCodeData->class_size }}</td>
-                        <td>{{ date('M d, Y, h:i:s A', strtotime($classCodeData->start_date)) }}</td>
-                        <td>{{ date('M d, Y, h:i:s A', strtotime($classCodeData->end_date)) }}</td>
+                        <td>{{ date('M d, Y', strtotime($classCodeData->start_date)) }}</td>
+                        <td>{{ date('M d, Y', strtotime($classCodeData->end_date)) }}</td>
                         <td>
                             <div class="icon-container">
                                 <a href="{{ url('/admin/classCodeInfo/' . $classCodeData->class_code_id) }}">
