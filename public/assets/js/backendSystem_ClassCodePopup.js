@@ -47,7 +47,7 @@ $(document).ready(function() {
 
         if (date1.getTime() > date2.getTime()) {
             console.log('Date1 is earlier than Date2');
-            $("#create-popup-form .alert-danger").text("End date should not smaller than start date.");
+            $("#create-popup-form .alert-danger").text("End date should not be lesser than start date");
             $("#create-popup-form .alert-danger").show();
             $('#create-btn').attr("disabled", true);
         } else {
@@ -65,7 +65,7 @@ $(document).ready(function() {
 
         if (date1.getTime() > date2.getTime()) {
             console.log('Date1 is earlier than Date2');
-            $(".alert-danger").text("End date should not smaller than start date.");
+            $(".alert-danger").text("End date should not be lesser than start date");
             $(".alert-danger").show();
             $('#update-btn').attr("disabled", true);
         } else {
