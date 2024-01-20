@@ -56,6 +56,24 @@ $(document).ready(function() {
         }
     });
 
+    $('#editEndDate').on('change', function () {
+        let startDate = $("#editStartDate").val();
+        let endDate = $("#editEndDate").val();
+
+        var date1 = new Date(startDate);
+        var date2 = new Date(endDate);
+
+        if (date1.getTime() > date2.getTime()) {
+            console.log('Date1 is earlier than Date2');
+            $(".alert-danger").text("End date should not smaller than start date.");
+            $(".alert-danger").show();
+            $('#update-btn').attr("disabled", true);
+        } else {
+            $(".alert-danger").hide();
+            $('#update-btn').removeAttr("disabled");
+        }
+    });
+
     $('#createSubject').on('change', function () {
         var subjectId = $(this).val();
 

@@ -95,6 +95,9 @@
                                 <td style="font-weight: bold">End Date*</td>
                                 <td><input type="date" class="form-control" placeholder="Select start date" value="{{ date('Y-m-d', strtotime($classCodeData->end_date)) }}" id="editEndDate"></td>
                             </tr>
+                            <tr>
+                                <div class="alert alert-danger mb-2" style="display: none;"></div>
+                            </tr>
                         </table>
                     </form>
                 </div>
