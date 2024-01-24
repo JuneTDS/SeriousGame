@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 20, 2024 at 03:43 AM
+-- Generation Time: Jan 24, 2024 at 05:41 AM
 -- Server version: 8.0.35-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.14
 
@@ -859,10 +859,10 @@ INSERT INTO `tbl_auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Student', 861, 1655692005),
 ('Student', 862, 1655692006),
 ('Student', 863, 1655692006),
-('Student', 868, 1705653100),
-('Student', 869, 1705721395),
+('Student', 870, 1706068776),
 ('super_admin', 1, 1692895490),
-('super_admin', 2, 1692606526);
+('super_admin', 2, 1692606526),
+('user', 868, 1705653100);
 
 -- --------------------------------------------------------
 
@@ -14846,7 +14846,7 @@ CREATE TABLE `tbl_user` (
   `updated_at` int NOT NULL COMMENT 'Updated',
   `status` smallint NOT NULL DEFAULT '0' COMMENT 'Status',
   `role` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `remember_token` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `first_login` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
@@ -15683,8 +15683,8 @@ INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, 
 (863, 'dpae_75', 'dpae_75@tp.edu.sg', 'LlvxEoXwyOQE6xchbHOLJ6KmXMOF5-6t', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1655692006, 1655692006, 1, '', '', 'Yes'),
 (865, 'zz', 'test@gmail.com', 'of1F-eeQxxtVsDKNlyiSS7IZtxq4y8Ae', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1693310278, 1693310278, 2, '', '', 'Yes'),
 (867, 'test', 'fendi@gmail.com', '57h5ipZcj2WH0Zre8_llIV0_rtgBbg3Z', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1693359493, 1693359493, 2, '', '', 'Yes'),
-(868, 'Linda William', 'lindawatihamid@gmail.com', 'SL67BWo2hW2wmIw1PfodwWVu9497pbl9', '$2y$10$aZNHcHWLyE7zfHri2co4xuonCwtt7PB3kxoLchn2r8VXBq1BieUIq', NULL, NULL, 1705653100, 1705653100, 1, 'Student', 'OF4yj6up9w9zQ9tLV1Pfsivs1tBiAyaeEUQGgowxN8PnmOO45tGe2RICi3Iq', 'Yes'),
-(869, 'King Slayer', 'king@gmail.com', 'DoR9Ope4sWrBpTlA67hDRLJMnQTKTJwe', '$2y$10$aZNHcHWLyE7zfHri2co4xuonCwtt7PB3kxoLchn2r8VXBq1BieUIq', NULL, NULL, 1705721395, 1705721395, 1, 'Student', '9eWTrpQRCqv5b2ljBgsTyfqVZXqfQkzuUFZYZK3NUmM7C0S4A4mSZAfjA0QJ', 'Yes');
+(868, 'Linda William', 'lindawatihamid@gmail.com', 'SL67BWo2hW2wmIw1PfodwWVu9497pbl9', '$2y$10$aZNHcHWLyE7zfHri2co4xuonCwtt7PB3kxoLchn2r8VXBq1BieUIq', NULL, NULL, 1705653100, 1705653100, 3, 'Student', 'O4B9hDg5KGQ2iMu0iQm14TtB3TJqQKxT9VqziO2UIeA60kotPhDQdCt6zi29', 'Yes'),
+(870, 'King Slayer', 'king@gmail.com', 'SGVOgKlkWZHDTdH4Z67y52GEzEX0pq4m', '$2y$10$YbQ9CiZbYQnzJAHsE1XON.uH1lU4MdGNowT7F5RVwbq7mBPDbZqgO', NULL, NULL, 1706068776, 1706068776, 1, 'Student', 'jMiGYlUQWI3dVhcDs53yfupyDUWJocwCeL7Li1Bbabo0qoYb9jUPljl22itM', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -15956,7 +15956,7 @@ CREATE TABLE `tbl_user_profile` (
 --
 
 INSERT INTO `tbl_user_profile` (`id`, `user_id`, `first_name`, `last_name`, `full_name`, `admin_no`, `email_gravatar`, `last_visit`, `player_tag`, `created_at`, `updated_at`) VALUES
-(1, 1, '', '', 'admin', '', 'cbysimon@gmail.com', 1705719991, '', 1598431510, 1694057859),
+(1, 1, '', '', 'admin', '', 'cbysimon@gmail.com', 1706068110, '', 1598431510, 1694057859),
 (2, 2, '', '', 'wannabee_admin', '', 'cby_simon@hotmail.com', 1692895490, '', 1598434082, 1647483957),
 (4, 4, '', '', 'Lecturer 1', '', 'lecturer1@abc.com', 1693898907, '', 1598928873, 1693469488),
 (5, 5, NULL, NULL, 'Manager 1', '', 'manager1@abc.com', 1670397999, '', 1599105111, 1599105111),
@@ -16780,8 +16780,8 @@ INSERT INTO `tbl_user_profile` (`id`, `user_id`, `first_name`, `last_name`, `ful
 (861, 861, NULL, NULL, 'Wong Jing Yu', 'WONG261C', 'jing.wong02@gmail.com', 1657422848, 'f682aa123d4b421ba1841c7c272d35cb', 1655692005, 1657422796),
 (862, 862, NULL, NULL, 'Xavier Loh', 'XAVI503I', 'xevierljj@gmail.com', 1657299483, '9e0313e9912d4c4c83422e889091a834', 1655692006, 1657299480),
 (863, 863, NULL, NULL, 'Yeo Boon Hin, Terry', 'YEO 496D', '2002496D@student.tp.edu.sg', 1655719297, '05638450e5f74d52943767eb52fc8595', 1655692006, 1655719294),
-(864, 868, NULL, NULL, 'Linda', ' ', 'lindawatihamid@gmail.com', 1705722117, NULL, 1705653100, 1705653100),
-(865, 869, NULL, NULL, 'KingSlayer', ' ', 'king@gmail.com', 1705722097, NULL, 1705721395, 1705721395);
+(864, 868, NULL, NULL, 'Linda', ' ', 'lindawatihamid@gmail.com', 1705722641, NULL, 1705653100, 1705653100),
+(866, 870, NULL, NULL, 'KingSlayer', ' ', 'king@gmail.com', 1706068788, NULL, 1706068776, 1706068776);
 
 --
 -- Indexes for dumped tables
@@ -17054,13 +17054,13 @@ ALTER TABLE `tbl_topic_feedback`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=870;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=871;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_profile`
 --
 ALTER TABLE `tbl_user_profile`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=866;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=867;
 
 --
 -- Constraints for dumped tables
