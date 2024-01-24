@@ -56,9 +56,10 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'ingame_name'   => 'required',
-            'email'         => 'required|email|unique:tbl_user',
-            'password'      => 'min:6',
+            'ingame_name'       => 'required',
+            'email'             => 'required|email|unique:tbl_user',
+            'password'          => 'min:6|required_with:confirm_password|same:confirm_password',
+            'confirm_password'  => 'min:6|required_with:password|same:password',
         ]);
 
         if ($validator->fails()) {
@@ -77,7 +78,7 @@ class RegisterController extends Controller
         $createdAt      = Carbon::now()->timestamp;
         // exit;
 
-        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', $createdAt, $createdAt )") );
+        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', $createdAt, $createdAt )") );
         $user           = User::where('email', $email)->where('status', true)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$ingameName','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
@@ -89,6 +90,14 @@ class RegisterController extends Controller
         
         $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
 
-        return redirect("/login");
+        Auth::login($user, true);
+
+        $lastLogin      = Carbon::now()->timestamp;
+        $userProfileSql = "UPDATE tbl_user_profile
+            SET last_visit = $lastLogin
+            WHERE user_id = $user->id";
+        $userProfile = DB::update($userProfileSql);
+
+        return redirect("/frontend/studentSubject");
     }
 }

@@ -50,6 +50,14 @@
                 @enderror
             </div>
 
+            <div style="margin-bottom: 32px;">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" placeHolder="Minimum 6 characters">
+                @error('confirm_password')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
                 <div style="display: flex; flex-direction: column;">
                     <label>Class Code</label>
