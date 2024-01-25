@@ -60,6 +60,7 @@ class RegisterController extends Controller
             'email'             => 'required|email|unique:tbl_user',
             'password'          => 'min:6|required_with:confirm_password|same:confirm_password',
             'confirm_password'  => 'min:6|required_with:password|same:password',
+            'class_code'        => 'required|exists:tbl_class_code'
         ]);
 
         if ($validator->fails()) {
@@ -83,12 +84,14 @@ class RegisterController extends Controller
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$ingameName','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
 
-        $class          = DB::table('tbl_class_code')
-            ->where('class_code', $classCode)
-            ->select('subject_class_id_fk')
-            ->pluck('subject_class_id_fk');
-        
-        $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
+        if ($classCode != "") {
+            $class          = DB::table('tbl_class_code')
+                ->where('class_code', $classCode)
+                ->select('subject_class_id_fk')
+                ->pluck('subject_class_id_fk');
+            
+            $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
+        }
 
         Auth::login($user, true);
 

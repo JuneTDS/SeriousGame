@@ -57,7 +57,7 @@ nav ul li label {
 
 .content {
     flex-grow: 1;
-    padding: calc(100vw * 153 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth));
+    padding: calc(100vw * 10 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth));
 }
 
 .search-section {

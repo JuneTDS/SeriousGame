@@ -3,12 +3,15 @@
 @section('content')
 
 <div class="custom-container">
+    <div class="row">
+        <img src="/assets/images/game_banner.jpg" alt="" srcset="" class="p-0">
+    </div>
+    <div class="row text-center mb-3" style="padding: 0 8px;">
+        <button type="button" id="game-btn" class="btn btn-primary py-3" onclick="location.href='http://test.game.seriousgameanalytics.com/index.html?id=<?= $url_parameter ?>'">Go to game</button>
+    </div>
     <div class="header-row">
         <div class="left">
             <h3>Subject</h3>
-        </div>
-        <div class="right" >
-            <button type="button" id="game-btn" class="btn btn-outline-dark" onclick="location.href='http://test.game.seriousgameanalytics.com/index.html?id=<?= $url_parameter ?>'">Go to game</button>
         </div>
     </div>
     @if (isset($message))
@@ -64,7 +67,7 @@
         <!--  //Leaderboard Title -->
         <div class="row" style="padding-top: 35px; padding-bottom: 35px;">
             <div class="col-4" style="float: left;padding-top:41px">
-                <h5>Permission</h5>
+                <h5>Leaderboard</h5>
             </div>
         </div>
 

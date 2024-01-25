@@ -61,8 +61,8 @@
             <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
                 <div style="display: flex; flex-direction: column;">
                     <label>Class Code</label>
-                    <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('classcode')}}">
-                    @error('classcode')
+                    <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('class_code')}}">
+                    @error('class_code')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
