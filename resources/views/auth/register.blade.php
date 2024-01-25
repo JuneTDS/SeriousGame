@@ -18,8 +18,9 @@
 
         <form action="{{ route('user.register') }}" method="post">
             @csrf
+
             <div style="margin-bottom: 32px;">
-                <label>In-Game Name*</label>
+                <label>In-Game Name *</label>
                 <input type="text" name="ingame_name" placeHolder="Enter in-game name" value="{{old('ingame_name')}}">
                 @error('ingame_name')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -35,7 +36,7 @@
             </div>
 
             <div style="margin-bottom: 32px;">
-                <label>Personal Email*</label>
+                <label>Personal Email *</label>
                 <input type="text" name="email" placeHolder="Example@mail.com" value="{{old('email')}}">
                 @error('email')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -43,7 +44,7 @@
             </div>
 
             <div style="margin-bottom: 32px;">
-                <label>Password</label>
+                <label>Password *</label>
                 <input type="password" name="password" placeHolder="Minimum 6 characters" value="{{old('password')}}">
                 @error('password')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -51,7 +52,7 @@
             </div>
 
             <div style="margin-bottom: 32px;">
-                <label>Confirm Password</label>
+                <label>Confirm Password *</label>
                 <input type="password" name="confirm_password" placeHolder="Minimum 6 characters">
                 @error('confirm_password')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -60,11 +61,14 @@
 
             <div class="form-group" style="margin-bottom: 32px;" id="classCodeField">
                 <div style="display: flex; flex-direction: column;">
-                    <label>Class Code</label>
+                    <label>Class Code *</label>
                     <input type="text" name="class_code" placeHolder="E.g. LOMA123" value="{{old('class_code')}}">
                     @error('class_code')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
+                    @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
                 </div>
             </div>
 

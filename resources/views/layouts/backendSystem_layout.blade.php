@@ -86,6 +86,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/frontend/profile" class="nav-link px-0 align-middle">
+                                <img src="../../assets/images/account_circle.svg" style="margin-right: 15px;"/>
+                                <label for="">My Profile</label>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/auth/logout" class="nav-link px-0 align-middle">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span class="ms-1 d-none d-sm-inline">Logout</span>
@@ -98,15 +104,14 @@
             <!-- Main Content Goes Here -->
             <div class="content">
                 <div class="row" style="position: absolute;top: 20px;right: 20px;">
-                    <div class="col">
+                    <!-- <div class="col">
                         <div class="account-info" onclick="toggleDropdownMenu()">
-                            <!-- Account icon here using FontAwesome icon -->
                             <div class="account-icon">
                                 <i class="fas fa-user" style="font-size: 16px; color: white;"></i>
                             </div>
                             {{ Auth::user()->username }}
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="dropdown-container">
                         <div class="dropdown-content" id="myDropdown">

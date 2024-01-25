@@ -4,7 +4,7 @@ body {
 }
 
 .menu {
-    min-width: calc(100vw * 317 / var(--designWidth));
+    width: calc(100vw * 400 / var(--designWidth));
     min-height: 100vh;
     background-color: var(--neutral-800);
 }
@@ -57,7 +57,7 @@ nav ul li label {
 
 .content {
     flex-grow: 1;
-    padding: calc(100vw * 10 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth));
+    padding: calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth)) calc(100vw * 61 / var(--designWidth));
 }
 
 .search-section {

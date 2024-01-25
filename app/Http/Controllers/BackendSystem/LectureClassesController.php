@@ -671,7 +671,7 @@ class LectureClassesController extends Controller
                         ->value('class_size');
 
                     //Check number of user in the class
-                    $usersInClassCount = DB::table('tbl_class_code')
+                    $usersInClassCount = DB::table('tbl_subject_class_enrolment')
                         ->where('subject_class_id_fk', $lectureClassId)
                         ->count();
 

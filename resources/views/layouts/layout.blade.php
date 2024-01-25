@@ -50,12 +50,6 @@
                             </a>
                         </li>
                         @endif
-                        <li>
-                            <a class="nav-link" href="/frontend/profile">
-                                <img src="../../assets/images/account_circle.svg" style="margin-right: 15px;"/>
-                                <label for="">My Profile</label>
-                            </a>
-                        </li>
                         @if(Auth::user()->role == "Student")
                         <li>
                             <a class="nav-link" href="/frontend/studentSubject">
@@ -64,6 +58,12 @@
                             </a>
                         </li>
                         @endif
+                        <li>
+                            <a class="nav-link" href="/frontend/profile">
+                                <img src="../../assets/images/account_circle.svg" style="margin-right: 15px;"/>
+                                <label for="">My Profile</label>
+                            </a>
+                        </li>
                         <li>
                             <a class="nav-link" href="/auth/logout">
                                 <img src="../../assets/images/logout.svg" style="margin-right: 15px;"/>

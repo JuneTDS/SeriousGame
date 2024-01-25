@@ -79,18 +79,39 @@ class RegisterController extends Controller
         $createdAt      = Carbon::now()->timestamp;
         // exit;
 
+        DB::beginTransaction();
+
         $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', $createdAt, $createdAt )") );
         $user           = User::where('email', $email)->where('status', true)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$ingameName','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
 
         if ($classCode != "") {
-            $class          = DB::table('tbl_class_code')
+
+            $classSize = DB::table('tbl_class_code')
                 ->where('class_code', $classCode)
-                ->select('subject_class_id_fk')
-                ->pluck('subject_class_id_fk');
-            
-            $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
+                ->first();
+
+            //Check number of user in the class
+            $usersInClassCount = DB::table('tbl_subject_class_enrolment')
+                ->where('subject_class_id_fk', $classSize->subject_class_id_fk)
+                ->count();
+
+            // Calculate the remaining class size
+            if ($classSize->class_size > $usersInClassCount) {
+
+                $class = DB::table('tbl_class_code')
+                    ->where('class_code', $classCode)
+                    ->select('subject_class_id_fk')
+                    ->pluck('subject_class_id_fk');
+                
+                $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
+
+                DB::commit();
+            } else {
+                DB::rollback();
+                return redirect()->back()->with('error', "Class size is full.")->withInput();
+            }
         }
 
         Auth::login($user, true);
