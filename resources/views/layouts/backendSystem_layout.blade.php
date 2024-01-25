@@ -86,7 +86,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/frontend/profile" class="nav-link px-0 align-middle">
+                            <a href="{{ url('/admin/usersProfile', ['id' => auth()->user()->id]) }}" class="nav-link px-0 align-middle">
                                 <img src="../../assets/images/account_circle.svg" style="margin-right: 15px;"/>
                                 <label for="">My Profile</label>
                             </a>

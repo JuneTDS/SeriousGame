@@ -5,6 +5,7 @@ body {
 
 .menu {
     width: calc(100vw * 400 / var(--designWidth));
+    max-width: calc(100vw * 400 / var(--designWidth));
     min-height: 100vh;
     background-color: var(--neutral-800);
 }
