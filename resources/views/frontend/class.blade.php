@@ -74,6 +74,6 @@
     </div>
 </div>
 
-<script src="/assets/js/class.js"></script>
+<script src="/assets/js/class.js?<?= env('JS_VERSION') ?>"></script>
 
 @endsection

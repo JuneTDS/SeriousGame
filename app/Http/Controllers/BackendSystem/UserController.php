@@ -9,6 +9,7 @@ use App\Models\User;    //Import the User model
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -76,6 +77,7 @@ class UserController extends Controller
             }
         }
 
+        $query->where('tbl_user.id', '<>', Auth::user()->id);
         $query->where('tbl_user.status', '<', 3);
         
         // Continue with sorting and retrieving the results
@@ -179,6 +181,10 @@ class UserController extends Controller
     // Function to display userInfo page
     public function showUserInfo($id)
     {
+        if (Auth::user()->id == $id) {
+            return redirect("/admin/usersDashboard");
+        }
+
         $userData = DB::table('tbl_user')
             ->select(
                 'tbl_user.*',
@@ -200,6 +206,10 @@ class UserController extends Controller
     // Function to display userEdit page
     public function showUserEdit($id)
     {
+        if (Auth::user()->id == $id) {
+            return redirect("/admin/usersDashboard");
+        }
+
         $userData = DB::table('tbl_user')
             ->select(
                 'tbl_user.*',
@@ -221,6 +231,10 @@ class UserController extends Controller
     {
         // Retrieve data from the JSON request
         $data = $request->json()->all();
+
+        if (Auth::user()->id == $data['userId']) {
+            return response()->json(['success' => false]);
+        }
 
         // Perform server-side validation
         $validatedData = $request->validate([

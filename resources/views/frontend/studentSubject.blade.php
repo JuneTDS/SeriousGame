@@ -7,7 +7,7 @@
         <img src="/assets/images/game_banner.jpg" alt="" srcset="" class="p-0">
     </div>
     <div class="row text-center mb-3" style="padding: 0 8px;">
-        <button type="button" id="game-btn" class="btn btn-primary py-3" onclick="location.href='http://test.game.seriousgameanalytics.com/index.html?id=<?= $url_parameter ?>'">Go to game</button>
+        <a target="_blank" type="button" id="game-btn" class="btn btn-primary py-3" href='http://test.game.seriousgameanalytics.com/index.html?id=<?= $url_parameter ?>'>Go to game</a>
     </div>
     <div class="header-row">
         <div class="left">
@@ -176,8 +176,8 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
-<link rel="stylesheet" href="/assets/css/common.css">
-<link rel="stylesheet" href="/assets/css/backendSystem.css">
+<link rel="stylesheet" href="/assets/css/common.css?<?= env('JS_VERSION') ?>">
+<link rel="stylesheet" href="/assets/css/backendSystem.css?<?= env('JS_VERSION') ?>">
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>

@@ -19,7 +19,7 @@
                     </form>
                 </div>
                 <div class="col-6">
-                    <!-- <button type="button" id="open-popup-btn" class="btn btn-outline-danger" style="width:200px">Delete</button> -->
+<!-- <button type="button" id="open-popup-btn" class="btn btn-outline-danger" style="width:200px">Delete</button> -->
                     <button type="button" class="btn btn-outline-danger delete-user-btn" style="width:200px" data-user-id="{{ $userData->id }}">Delete</button>
                 </div>
             </div>

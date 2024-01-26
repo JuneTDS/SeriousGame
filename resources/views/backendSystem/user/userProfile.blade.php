@@ -2,10 +2,15 @@
 
 @section('content')
 
+@if($userData->id != Auth::user()->id)
 <a href="/admin/usersDashboard">
     <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Users</p>
 </a>
-
+@else
+<a style="opacity: 0; pointer-events: none;">
+    <p class="align-self-center col-3" style="padding-left:0px;padding-bottom:20px;font-weight:bold"> ❮  Back to Users</p>
+</a>
+@endif
 <div class="">
     <div class="header-row">
         <div class="left"><h3>{{ $userData->username }}</h3></div>
@@ -19,7 +24,9 @@
                     </form>
                 </div>
                 <div class="col-6">
-                    <button type="button" class="btn btn-outline-danger delete-user-btn" style="width:200px" data-user-id="{{ $userData->id }}">Delete</button>
+                    @if($userData->id != Auth::user()->id)
+                        <button type="button" class="btn btn-outline-danger delete-user-btn" style="width:200px" data-user-id="{{ $userData->id }}">Delete</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -150,8 +157,8 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
-<link rel="stylesheet" href="/assets/css/common.css">
-<link rel="stylesheet" href="/assets/css/backendSystem.css">
+<link rel="stylesheet" href="/assets/css/common.css?<?= env('JS_VERSION') ?>">
+<link rel="stylesheet" href="/assets/css/backendSystem.css?<?= env('JS_VERSION') ?>">
 
 <!-- Javascript for Popup -->
 <script src="{{ asset('assets/js/backendSystem_UserPopup.js') }}"></script>

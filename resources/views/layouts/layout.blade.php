@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css"/>
 
-    <link href="/assets/css/common.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
-    <link href="/assets/css/tab_menu.css" rel="stylesheet">
-    <link href="/assets/css/range_slider.css" rel="stylesheet">
+    <link href="/assets/css/common.css?<?= env('JS_VERSION') ?>" rel="stylesheet">
+    <link href="/assets/css/style.css?<?= env('JS_VERSION') ?>" rel="stylesheet">
+    <link href="/assets/css/tab_menu.css?<?= env('JS_VERSION') ?>" rel="stylesheet">
+    <link href="/assets/css/range_slider.css?<?= env('JS_VERSION') ?>" rel="stylesheet">
 
     <script src="/assets/js/jquery-3.7.1.min.js"></script>
     <script src="/assets/js/highcharts.js"></script>

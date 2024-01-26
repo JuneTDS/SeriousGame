@@ -92,5 +92,5 @@
     </div>
 </div>
 
-<script src="/assets/js/feedback.js"></script>
+<script src="/assets/js/feedback.js?<?= env('JS_VERSION') ?>"></script>
 @endsection

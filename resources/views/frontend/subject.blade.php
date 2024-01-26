@@ -145,5 +145,5 @@
 </div>
 
 <script src="/assets/js/tableToExcel.js"></script>
-<script src="/assets/js/subject.js"></script>
+<script src="/assets/js/subject.js?<?= env('JS_VERSION') ?>"></script>
 @endsection

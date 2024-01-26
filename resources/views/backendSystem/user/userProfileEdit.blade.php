@@ -166,8 +166,8 @@
 </div>
 
 <!-- CSS for all backendSystem page -->
-<link rel="stylesheet" href="/assets/css/common.css">
-<link rel="stylesheet" href="/assets/css/backendSystem.css">
+<link rel="stylesheet" href="/assets/css/common.css?<?= env('JS_VERSION') ?>">
+<link rel="stylesheet" href="/assets/css/backendSystem.css?<?= env('JS_VERSION') ?>">
 
 <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
 

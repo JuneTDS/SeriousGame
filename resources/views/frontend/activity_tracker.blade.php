@@ -71,7 +71,7 @@
     </div>
 </div>
 
-<script src="/assets/js/tableToExcel.js"></script>
-<script src="/assets/js/activity.js"></script>
+<script src="/assets/js/tableToExcel.js?<?= env('JS_VERSION') ?>"></script>
+<script src="/assets/js/activity.js?<?= env('JS_VERSION') ?>"></script>
 
 @endsection

@@ -110,7 +110,7 @@ class RegisterController extends Controller
                 DB::commit();
             } else {
                 DB::rollback();
-                return redirect()->back()->with('error', "Class size is full.")->withInput();
+                return redirect()->back()->with('error', "Class size is full, please contact your lecturer")->withInput();
             }
         }
 

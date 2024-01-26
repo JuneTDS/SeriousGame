@@ -161,8 +161,8 @@
     </div>
 </div>
 
-<script src="/assets/js/range_slider.js"></script>
-<script src="/assets/js/tableToExcel.js"></script>
-<script src="/assets/js/indepth.js"></script>
+<script src="/assets/js/range_slider.js?<?= env('JS_VERSION') ?>"></script>
+<script src="/assets/js/tableToExcel.js?<?= env('JS_VERSION') ?>"></script>
+<script src="/assets/js/indepth.js?<?= env('JS_VERSION') ?>"></script>
 
 @endsection

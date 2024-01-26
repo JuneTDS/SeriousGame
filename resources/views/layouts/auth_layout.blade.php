@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Serious Games</title>
 
-    <link href="/assets/css/common.css" rel="stylesheet">
-    <link href="/assets/css/auth_style.css" rel="stylesheet">
+    <link href="/assets/css/common.css?<?= env('JS_VERSION') ?>" rel="stylesheet">
+    <link href="/assets/css/auth_style.css?<?= env('JS_VERSION') ?>" rel="stylesheet">
 </head>
 
 <body>
