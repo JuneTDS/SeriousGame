@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
 use App\Http\Middleware\CheckPermission;
 use Carbon\Carbon;
 
+use Mailgun\Mailgun;
+use GuzzleHttp\Client;
+
 class RegisterController extends Controller
 {
     public function __construct(Type $var = null) {
@@ -81,7 +84,8 @@ class RegisterController extends Controller
 
         DB::beginTransaction();
 
-        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', $createdAt, $createdAt )") );
+        $token          = (string) Str::uuid();
+        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `is_verified`, `email_confirm_token`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', 0, '$token', $createdAt, $createdAt )") );
         $user           = User::where('email', $email)->where('status', true)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$ingameName','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
@@ -114,14 +118,56 @@ class RegisterController extends Controller
             }
         }
 
-        Auth::login($user, true);
+        $this->sendVerifyLink($email, $token);
 
-        $lastLogin      = Carbon::now()->timestamp;
-        $userProfileSql = "UPDATE tbl_user_profile
-            SET last_visit = $lastLogin
-            WHERE user_id = $user->id";
-        $userProfile = DB::update($userProfileSql);
+        return redirect("/register/success");
+    }
 
-        return redirect("/frontend/studentSubject");
+    public function registerSuccess() {
+        return view('auth.success');
+    }
+
+    public function testMail() {
+        # Instantiate the client.
+        $mgClient = Mailgun::create(env('MAILGUN_SECRET')); // new Mailgun(env('MAILGUN_SECRET'), $client);
+        $domain = env('MAILGUN_DOMAIN');
+        # Make the call to the client.
+        $result = $mgClient->messages()->send($domain, array(
+            'from'	=> 'Excited User <mailgun@test.com>',
+            'to'	=> 'tds.mm.dev004@gmail.com',
+            'subject' => 'Hello',
+            'text'	=> 'Testing some Mailgun awesomeness!'
+        ));
+    }
+
+    public function sendVerifyLink($email, $token) {
+        # Instantiate the client.
+        $mgClient = Mailgun::create(env('MAILGUN_SECRET')); // new Mailgun(env('MAILGUN_SECRET'), $client);
+        $domain = env('MAILGUN_DOMAIN');
+        # Make the call to the client.
+        $result = $mgClient->messages()->send($domain, array(
+            'from'	=> 'Admin <noreply@seriousgame.com>',
+            'to'	=> $email, // 'tds.mm.dev004@gmail.com',
+            'subject' => 'Verify Account',
+            'text'	=> route('verify', ['token' => $token])
+        ));
+    }
+
+    public function verifyAccount(Request $request, $token) {
+        $user = User::where('email_confirm_token', $token)->where('is_verified', false)->first();
+        $updatedAt = Carbon::now()->timestamp;
+
+        if (!empty($user)) {
+            $userDataSql = "
+                UPDATE tbl_user
+                SET email_confirm_token = null,
+                    is_verified = true,
+                    updated_at = $updatedAt
+                WHERE id = $user->id
+            ";
+
+            $userData = DB::update($userDataSql);
+        }
+        return view('auth.verifySuccess');
     }
 }

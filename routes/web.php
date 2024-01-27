@@ -58,6 +58,11 @@ Route::group(['middleware' => ['guest']], function() {
 
     Route::post('/user/register', [RegisterController::class, 'register'])->name("user.register");
 
+    Route::get('/testmail', [RegisterController::class, 'testMail'])->name("testmail");
+
+    Route::get('/register/success', [RegisterController::class, 'registerSuccess'])->name("register.success");
+
+    Route::get('/verify/{token}', [RegisterController::class, 'verifyAccount'])->name("verify");
 });
 
 Route::group(['middleware' => ['auth']], function() {

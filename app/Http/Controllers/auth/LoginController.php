@@ -51,6 +51,15 @@ class LoginController extends Controller
             ->where('status', '<', 3)
             ->first(); // DB::select( DB::raw("SELECT * FROM tbl_user WHERE email = '$email'") );
         
+        if (!$user->is_verified) {
+
+            $verifyEmail = app('App\Http\Controllers\auth\RegisterController')->sendVerifyLink($user->email, $user->email_confirm_token);
+
+            return redirect()->back()
+                ->withErrors(['password' => 'Your account is not verify. Link send right now.'])
+                ->withInput();
+        }
+
         $userId     = $user->id;
         $userDataSql = "UPDATE tbl_user
             SET `role` = '$user->role'
