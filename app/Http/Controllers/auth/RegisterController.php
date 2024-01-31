@@ -85,7 +85,13 @@ class RegisterController extends Controller
         DB::beginTransaction();
 
         $token          = (string) Str::uuid();
-        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `is_verified`, `email_confirm_token`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', 0, '$token', $createdAt, $createdAt )") );
+        $verified = 1;
+        if (env('ACCOUNT_VERIFY') == true) {
+            $verified = 0;
+            $token = '';
+        }
+
+        $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `is_verified`, `email_confirm_token`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', $verified, '$token', $createdAt, $createdAt )") );
         $user           = User::where('email', $email)->where('status', true)->first();
         $userProfile    = DB::select( DB::raw("INSERT INTO `tbl_user_profile`(`user_id`, `full_name`, `email_gravatar`, `admin_no`, `created_at`, `updated_at`) VALUES ('$user->id','$ingameName','$email', ' ', $createdAt, $createdAt)") );
         $userRole       = DB::select( DB::raw("INSERT INTO `tbl_auth_assignment`(`item_name`, `user_id`, `created_at`) VALUES ('Student','$user->id',$createdAt)") );
@@ -118,9 +124,14 @@ class RegisterController extends Controller
             }
         }
 
-        $this->sendVerifyLink($email, $token);
+        if (env('ACCOUNT_VERIFY') == true) {
+            $this->sendVerifyLink($email, $token);
+            return redirect("/register/success");
+        } else {
+            return redirect("/login")->with('message', "Your account was registered successfully.");
+        }
 
-        return redirect("/register/success");
+        
     }
 
     public function registerSuccess() {

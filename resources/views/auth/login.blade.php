@@ -9,6 +9,13 @@
 
         <form action="{{ route('user.login') }}" method="post">
             @csrf
+
+            @if(session()->has('message'))
+                <div class="alert alert-success" style="padding: 10px 0;color: green;">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+
             <div style="margin-bottom: 32px;">
                 <label>Email Address <span class="require-span">*</span></label>
                 <input type="text" name="email" placeHolder="Example@mail.com" value="{{old('email')}}">
