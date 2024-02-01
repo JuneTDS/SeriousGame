@@ -1,7 +1,7 @@
 <x-mail::message>
-# Introduction
+# Thank you for registering with us. 
 
-The body of your message.
+Please verify your email by clicking on the below button.
 
 <x-mail::button :url="$url">
 Verify Now
