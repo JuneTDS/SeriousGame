@@ -16,6 +16,9 @@ use Carbon\Carbon;
 use Mailgun\Mailgun;
 use GuzzleHttp\Client;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Verify;
+
 class RegisterController extends Controller
 {
     public function __construct(Type $var = null) {
@@ -139,29 +142,29 @@ class RegisterController extends Controller
     }
 
     public function testMail() {
-        # Instantiate the client.
-        $mgClient = Mailgun::create(env('MAILGUN_SECRET')); // new Mailgun(env('MAILGUN_SECRET'), $client);
-        $domain = env('MAILGUN_DOMAIN');
-        # Make the call to the client.
-        $result = $mgClient->messages()->send($domain, array(
-            'from'	=> 'Excited User <mailgun@test.com>',
-            'to'	=> 'tds.mm.dev004@gmail.com',
-            'subject' => 'Hello',
-            'text'	=> 'Testing some Mailgun awesomeness!'
-        ));
+        // # Instantiate the client.
+        // $mgClient = Mailgun::create(env('MAILGUN_SECRET')); // new Mailgun(env('MAILGUN_SECRET'), $client);
+        // $domain = env('MAILGUN_DOMAIN');
+        // # Make the call to the client.
+        // $result = $mgClient->messages()->send($domain, array(
+        //     'from'	=> 'Excited User <mailgun@test.com>',
+        //     'to'	=> 'tds.mm.dev004@gmail.com',
+        //     'subject' => 'Hello',
+        //     'text'	=> 'Testing some Mailgun awesomeness!'
+        // ));
+
+        $data = array(
+            'url'	=> route('verify', ['token' => 'token'])
+        );
+        Mail::to("tds.mm.dev004@gmail.com")
+            ->send(new Verify($data));
     }
 
     public function sendVerifyLink($email, $token) {
-        # Instantiate the client.
-        $mgClient = Mailgun::create(env('MAILGUN_SECRET')); // new Mailgun(env('MAILGUN_SECRET'), $client);
-        $domain = env('MAILGUN_DOMAIN');
-        # Make the call to the client.
-        $result = $mgClient->messages()->send($domain, array(
-            'from'	=> 'Admin <noreply@seriousgame.com>',
-            'to'	=> $email, // 'tds.mm.dev004@gmail.com',
-            'subject' => 'Verify Account',
-            'text'	=> route('verify', ['token' => $token])
-        ));
+        $data = array(
+            'url'	=> route('verify', ['token' => $token])
+        );
+        Mail::to($email)->send(new Verify($data));
     }
 
     public function verifyAccount(Request $request, $token) {
