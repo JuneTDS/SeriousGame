@@ -86,12 +86,12 @@ class RegisterController extends Controller
         // exit;
 
         DB::beginTransaction();
-
-        $token          = (string) Str::uuid();
+        
+        $token = '';
         $verified = 1;
         if (env('ACCOUNT_VERIFY') == true) {
             $verified = 0;
-            $token = '';
+            $token          = (string) Str::uuid();
         }
 
         $userData       = DB::select( DB::raw("INSERT INTO `tbl_user`(`username`, `email`, `auth_key`, `password_hash`, `status`, `first_login`, `role`, `is_verified`, `email_confirm_token`, `created_at`, `updated_at`) VALUES ('$fullName','$email','$authKey','$password', 1, 'Yes', 'Student', $verified, '$token', $createdAt, $createdAt )") );
@@ -117,8 +117,8 @@ class RegisterController extends Controller
                     ->where('class_code', $classCode)
                     ->select('subject_class_id_fk')
                     ->pluck('subject_class_id_fk');
-                
-                $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id);
+
+                $data["statstic"] = app('App\Http\Controllers\BackendSystem\LectureClassesController')->enrolStudent($class[0], $user->id, $classCode);
 
                 DB::commit();
             } else {
@@ -162,7 +162,7 @@ class RegisterController extends Controller
 
     public function sendVerifyLink($email, $token) {
         $data = array(
-            'url'	=> route('verify', ['token' => $token])
+            'url'	=> route('verify', $token)
         );
         Mail::to($email)->send(new Verify($data));
     }

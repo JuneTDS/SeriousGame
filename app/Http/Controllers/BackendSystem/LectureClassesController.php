@@ -615,25 +615,41 @@ class LectureClassesController extends Controller
         }
     }
 
-    public function enrolStudent($lectureClassId, $userId)
+    public function enrolStudent($lectureClassId, $userId, ?string $classCode)
     {
         $class_name = DB::table('tbl_subject_class')
-            ->where('subject_class_id', $lectureClassId)
-            ->value('class_name');
+                ->where('subject_class_id', $lectureClassId)
+                ->value('class_name');
 
-        // Check if the class code for the subject class exists in the database
-        $classCodeExists = DB::table('tbl_class_code')
-            ->where('subject_class_id_fk', $lectureClassId)
-            ->exists();
+        if ($classCode != null && $classCode != "") {
+            // Check if the class code for the subject class exists in the database
+            $classCodeExists = DB::table('tbl_class_code')
+                ->where('class_code', $classCode)
+                ->where('subject_class_id_fk', $lectureClassId)
+                ->exists();
+        } else {
+            // Check if the class code for the subject class exists in the database
+            $classCodeExists = DB::table('tbl_class_code')
+                ->where('subject_class_id_fk', $lectureClassId)
+                ->exists();
+        }
 
         $remainingClassSize = 0;
         if ($classCodeExists){
             //Check start date and end dat of the class (Start)
             // Get the start_date and end_date for the specified subject class
-            $classInfo = DB::table('tbl_class_code')
-                ->select('start_date', 'end_date')
-                ->where('subject_class_id_fk', $lectureClassId)
-                ->first();
+            if ($classCode != null && $classCode != "") {
+                $classInfo = DB::table('tbl_class_code')
+                    ->select('start_date', 'end_date')
+                    ->where('class_code', $classCode)
+                    ->where('subject_class_id_fk', $lectureClassId)
+                    ->first();
+            } else {
+                $classInfo = DB::table('tbl_class_code')
+                    ->select('start_date', 'end_date')
+                    ->where('subject_class_id_fk', $lectureClassId)
+                    ->first();
+            }
 
             // print_r($classInfo); exit;
 

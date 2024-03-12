@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 27, 2024 at 01:41 PM
--- Server version: 8.0.35-0ubuntu0.22.04.1
+-- Generation Time: Feb 13, 2024 at 04:31 AM
+-- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -43,7 +43,6 @@ INSERT INTO `tbl_auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Lecturer', 15, 1601368082),
 ('Lecturer', 77, 1622174186),
 ('Lecturer', 81, 1624843918),
-('Lecturer_Manager', 78, 1650357011),
 ('Student', 46, 1693319045),
 ('Student', 47, 1619690035),
 ('Student', 48, 1619690192),
@@ -871,6 +870,12 @@ INSERT INTO `tbl_auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Student', 882, 1706233188),
 ('Student', 885, 1706352163),
 ('Student', 886, 1706352573),
+('Student', 887, 1706515426),
+('Student', 888, 1706516044),
+('Student', 889, 1706516963),
+('Student', 890, 1706517232),
+('Student', 891, 1706517279),
+('Student', 892, 1706694817),
 ('super_admin', 1, 1692895490),
 ('super_admin', 2, 1692606526),
 ('user', 868, 1705653100);
@@ -13635,7 +13640,12 @@ INSERT INTO `tbl_subject_class_enrolment` (`subject_class_enrolment_id`, `subjec
 (887, 33, 878, '2024-01-25 16:37:40', 878, '2024-01-25 16:37:40', 878),
 (888, 33, 882, '2024-01-26 09:39:48', 882, '2024-01-26 09:39:48', 882),
 (889, 33, 885, '2024-01-27 18:42:43', 885, '2024-01-27 18:42:43', 885),
-(890, 33, 886, '2024-01-27 18:49:33', 886, '2024-01-27 18:49:33', 886);
+(890, 33, 886, '2024-01-27 18:49:33', 886, '2024-01-27 18:49:33', 886),
+(891, 33, 887, '2024-01-29 16:03:46', 887, '2024-01-29 16:03:46', 887),
+(892, 33, 888, '2024-01-29 16:14:04', 888, '2024-01-29 16:14:04', 888),
+(893, 33, 889, '2024-01-29 16:29:23', 889, '2024-01-29 16:29:23', 889),
+(894, 33, 890, '2024-01-29 16:33:52', 890, '2024-01-29 16:33:52', 890),
+(895, 33, 891, '2024-01-29 16:34:39', 891, '2024-01-29 16:34:39', 891);
 
 -- --------------------------------------------------------
 
@@ -14913,7 +14923,6 @@ INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, 
 (75, 'test_p01_student_30', 'test_p01_student_30@domain.com', 'i0zcsYBbhmpYMMhY7Qw_A7K0F9h74nWO', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1619690400, 1619690400, 1, '', '', NULL, 1, 'Yes'),
 (76, 'XimonC', 'cby_simon@hotmail.com', 'rP-wAQdWh1VzpL3mD8GK3L2mPXMyr0xr', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1621924124, 1625795467, 1, '', '', NULL, 1, 'No'),
 (77, 'iman_tang', 'Iman_tang@tp.edu.sg', 'ZorTrYyihFpB5tj4pf-aBkYn3aKmhibz', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1622110740, 1622445542, 1, '', '', NULL, 1, 'No'),
-(78, 'linda_william', 'linda_william@tp.edu.sg', 'sbRc2BfcK7NxTmby8X2KGtYQzNwtBDw4', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1622445264, 1622445264, 1, '', '', NULL, 1, 'No'),
 (79, 'dokkims', 'rizal@yahoo.com', '7An-nx175w0chqtBjSE39umN_tKdqiLk', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1622597389, 1624849058, 1, '', '', NULL, 1, 'No'),
 (80, 'student_tester', 'test_p02_student_3@domain.com', 'mg3VfLkd_HjaqVH1lDRPmUxy10tEek5F', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1624507052, 1655356769, 1, '', '', NULL, 1, 'No'),
 (81, 'eternalsunshineofhappiness', 'nuraisha.tp@gmail.com', 'mCFexXtGMIFdGo09HR0hbx8ILeNFn9MK', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1624843877, 1626258533, 1, '', '', NULL, 1, 'No'),
@@ -15115,9 +15124,9 @@ INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, 
 (277, 'Dani_yaa', 'daniyams1997@gmail.com', 'lTumvuO3LieyyMKevo9nz3JQhevlJJ4T', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443393, 1651465409, 1, '', '', NULL, 1, 'No'),
 (278, 'C22B04_10', 'C22B04_10@tp.edu.sg', 'OO2mwYeLs2xNdefwShEEydILXbyjt37C', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443393, 1650443393, 1, '', '', NULL, 1, 'Yes'),
 (279, 'weihao', 'weihaoderrick97@hotmail.com', 'lOgfT4QlPpzxjsMYOaHihdWcVGxokQGU', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443394, 1651242707, 1, '', '', NULL, 1, 'No'),
-(280, 'Lyk', 'rusydi0303@gmail.com', 'RECNmklvYkoZr3XArkNeHmM4T4HNIXS8', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443394, 1650959222, 1, '', '', NULL, 1, 'No');
+(280, 'Lyk', 'rusydi0303@gmail.com', 'RECNmklvYkoZr3XArkNeHmM4T4HNIXS8', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443394, 1650959222, 1, '', '', NULL, 1, 'No'),
+(281, 'C22B04_13', 'C22B04_13@tp.edu.sg', 'VxBhsBhhnQNpi-AeOVNteuOno6BSa2Ep', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443395, 1650443395, 1, '', '', NULL, 1, 'Yes');
 INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, `password_reset_token`, `email_confirm_token`, `created_at`, `updated_at`, `status`, `role`, `remember_token`, `profile`, `is_verified`, `first_login`) VALUES
-(281, 'C22B04_13', 'C22B04_13@tp.edu.sg', 'VxBhsBhhnQNpi-AeOVNteuOno6BSa2Ep', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443395, 1650443395, 1, '', '', NULL, 1, 'Yes'),
 (282, 'C22B04_14', 'C22B04_14@tp.edu.sg', '0TIzuih_rUGrLSpNSJ6ceKOeBvNgp4Ej', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443396, 1650443396, 1, '', '', NULL, 1, 'Yes'),
 (283, 'C22B04_15', 'C22B04_15@tp.edu.sg', '4kdBJA9HANuW1ABggBe_i10f_j-jxtIs', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443396, 1650443396, 1, '', '', NULL, 1, 'Yes'),
 (284, 'C22B04_16', 'C22B04_16@tp.edu.sg', 'qsp04-6uLSvOOy9MnuEE2tKp8GqQeaN_', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650443397, 1650443397, 1, '', '', NULL, 1, 'Yes'),
@@ -15360,9 +15369,9 @@ INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, 
 (521, 'C22S02_5', 'C22S02_5@tp.edu.sg', 'qOtnargrEJHQPD-CpqTeu0SAynd6tkC7', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444874, 1650444874, 1, '', '', NULL, 1, 'Yes'),
 (522, 'C22S02_6', 'C22S02_6@tp.edu.sg', '28qBOlA0JmlRpJQLxIBZHYA6PVQFx9Y9', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444875, 1650444875, 1, '', '', NULL, 1, 'Yes'),
 (523, 'C22S02_7', 'C22S02_7@tp.edu.sg', '0gcHVpGeU4ImLbe7JYO_UU8XnmBMJZO6', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444875, 1650444875, 1, '', '', NULL, 1, 'Yes'),
-(524, 'C22S02_8', 'C22S02_8@tp.edu.sg', '1bO77jAombbLu9yf-shPvV-VYZOjkW-d', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444876, 1650444876, 1, '', '', NULL, 1, 'Yes');
+(524, 'C22S02_8', 'C22S02_8@tp.edu.sg', '1bO77jAombbLu9yf-shPvV-VYZOjkW-d', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444876, 1650444876, 1, '', '', NULL, 1, 'Yes'),
+(525, 'C22S02_9', 'C22S02_9@tp.edu.sg', 'UMp_0CzAqvGvH5wpS3KGFASpLH60y1Al', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444877, 1650444877, 1, '', '', NULL, 1, 'Yes');
 INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, `password_reset_token`, `email_confirm_token`, `created_at`, `updated_at`, `status`, `role`, `remember_token`, `profile`, `is_verified`, `first_login`) VALUES
-(525, 'C22S02_9', 'C22S02_9@tp.edu.sg', 'UMp_0CzAqvGvH5wpS3KGFASpLH60y1Al', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444877, 1650444877, 1, '', '', NULL, 1, 'Yes'),
 (526, 'C22S02_10', 'C22S02_10@tp.edu.sg', 'wmzRQAnlF65592Zu1c29_XioDSR0N35l', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444877, 1650444877, 1, '', '', NULL, 1, 'Yes'),
 (527, 'C22S02_11', 'C22S02_11@tp.edu.sg', 'UqXRFmMPAQtEWym7lX0KMdPJGqJsehRU', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444878, 1650444878, 1, '', '', NULL, 1, 'Yes'),
 (528, 'C22S02_12', 'C22S02_12@tp.edu.sg', 'tRlzNwdIyUXcHif71y1S8NKmUAqEcxKV', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650444878, 1650444878, 1, '', '', NULL, 1, 'Yes'),
@@ -15605,9 +15614,9 @@ INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, 
 (765, 'ArtificiallyIntelligent', 'alric.lim@gmail.com', '8xJc_OZRs1YfALiE6GFnGf9MV8mObvkS', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445542, 1650951852, 1, '', '', NULL, 1, 'No'),
 (766, 'Kuebiko', 'amirirfaan.mf@gmail.com', 'tIEfcs4qAU1E1lTcRtQJRf6aadRdPs6f', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445543, 1650952062, 1, '', '', NULL, 1, 'No'),
 (767, 'Taumy', 'amilo225x@gmail.com', 'iWc8PUwGfmSNbW-KOLEcYrrUPiOmyPKl', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445543, 1651038193, 1, '', '', NULL, 1, 'No'),
-(768, 'Arun', 'donarun108@gmail.com', 'Xn3Wz201p2NpwljPKLDnQyfvq2FEruhj', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445544, 1650952827, 1, '', '', NULL, 1, 'No');
+(768, 'Arun', 'donarun108@gmail.com', 'Xn3Wz201p2NpwljPKLDnQyfvq2FEruhj', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445544, 1650952827, 1, '', '', NULL, 1, 'No'),
+(769, 'C22U02_6', 'C22U02_6@tp.edu.sg', 'm8eeEtirbWF5V-R1CTp14RHP3MoQ2SuC', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445545, 1650445545, 1, '', '', NULL, 1, 'Yes');
 INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, `password_reset_token`, `email_confirm_token`, `created_at`, `updated_at`, `status`, `role`, `remember_token`, `profile`, `is_verified`, `first_login`) VALUES
-(769, 'C22U02_6', 'C22U02_6@tp.edu.sg', 'm8eeEtirbWF5V-R1CTp14RHP3MoQ2SuC', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445545, 1650445545, 1, '', '', NULL, 1, 'Yes'),
 (770, 'C22U02_7', 'C22U02_7@tp.edu.sg', 'BUUkA0Hr9X7XA680fyR1qiWSCV3t-F5S', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445545, 1650445545, 1, '', '', NULL, 1, 'Yes'),
 (771, 'C22U02_8', 'C22U02_8@tp.edu.sg', 'EyQ9Evd0Ps2SHrySbcHtVmLlNXojlNot', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445546, 1650445546, 1, '', '', NULL, 1, 'Yes'),
 (772, 'C22U02_9', 'C22U02_9@tp.edu.sg', 'IyVVxyD1twuHVMuA6WF2FX39mCl8QbMB', '$2y$10$0bIKLZs3uXc38a7EcE.WAuLiV0nJ30LG.ZKbRuMZy7fPsblXKJ4oa', NULL, NULL, 1650445546, 1650445546, 1, '', '', NULL, 1, 'Yes'),
@@ -15712,7 +15721,10 @@ INSERT INTO `tbl_user` (`id`, `username`, `email`, `auth_key`, `password_hash`, 
 (877, 'Linda William', 'abc@abc1.com', 'Xl5180KbGkCiiWhh4D0Rfrs086CESbf7', '$2y$10$NL1ZN88ag/ia.5RXugVvCO6janotzm3zZTyebl1ya0b6DWdBAi7PG', NULL, NULL, 1706148356, 1706148356, 1, 'Student', 'fxzm9luEFtg8ci5G0snM2iy5smphIUhauqVHlGRGNYvO0lkQnoSgNB9bZD9N', NULL, 1, 'Yes'),
 (878, 'Linda William', 'abc@abcacb.ced.com', 'N5k4e8K6JguGK34g4iJTvZ7DppYM2S42', '$2y$10$KBL4AXkoSXUUaajv.SE5Xumt9qmZ2X/mtQC.EkFGwW.kzP/Dz.Dxe', NULL, NULL, 1706171860, 1706171860, 1, 'Student', '5rmfS3ZT2QI1o9AQulbZTbIweUygLyMYd5S9Tm98KBhMtprklCVthQamiXtz', NULL, 1, 'Yes'),
 (882, 'Linda William', 'xyq@thod.com', 'Zt1HI2hBZPCMPvCqws573qvnywIEiDIm', '$2y$10$xyAZ/8/9muaxWpgxDaRxWO9cTXZQt/0sXg3mxJ4AT6FO3oWrnW9.O', NULL, NULL, 1706233188, 1706233188, 1, 'Student', 'k4wQPVeE0GJEP19LLApAiEJYExnm4Chg1yl8gVHNSbB7IMDl1FKxICHYgmHw', NULL, 1, 'Yes'),
-(886, 'King Slayer', 'tds.mm.dev004@gmail.com', 'AyYw28bDHU8cLUXCa5IvAkTZwWYRzZto', '$2y$10$XOwhHCpH1MuqgSUKObhML.uyK.R9nC/in5awyHTFu51o1ylRocsEW', NULL, NULL, 1706352573, 1706352634, 1, 'Student', NULL, NULL, 1, 'Yes');
+(887, 'Linda William', 'lindawilliam0026@gmail.com', 'TKxs7d4E99vthlq8BcbbsJoq2oWw8Bub', '$2y$10$cSqIHbmp.J4x5gUtkvx2FOX3gE8XaQJKSI3ow87od.gohcoL3W8Hi', NULL, '9071f382-ad09-4211-aa69-152650a58f0d', 1706515426, 1706515426, 1, 'Student', NULL, NULL, 1, 'Yes'),
+(889, 'Linda William', 'linda_william@tp.edu.sg', '1Mll59ol8fHNRMeXJhdQKXerKKU3zhDn', '$2y$10$gjDFXA3hi/AHERJS7FfGHen2./xz./fbPkQtzFXTJqFFLHolPcqcm', NULL, 'efb9df92-ce54-4429-9a41-bc22d19e1132', 1706516963, 1706516963, 1, 'Student', NULL, NULL, 1, 'Yes'),
+(891, 'King Slayer', 'kimshinpyae@gmail.com', '8AaLADmGhbyYREusOYv9MkRlvgYUhFOy', '$2y$10$iuMdog82kX3kLlwDaxxFX.c8gxRtRrYf5FelhYW87rsIgKxjstGcK', NULL, '29e2edb5-190e-4420-9cec-0a18fc3cbe84', 1706517279, 1706517279, 1, 'Student', NULL, NULL, 1, 'Yes'),
+(892, 'King Slayer', 'tds.mm.dev004@gmail.com', 'Yt3CNGlmrllC70auZcLaWgmPEw4b9VUR', '$2y$10$Ri0uVOp8UR8Z.e0TnVdI/Ovi//qO7NRRwLDGHQuTjr0neHe7OGDPC', NULL, '5dab4c33-1a44-4e44-ba92-171615ad8485', 1706694817, 1706694817, 1, 'Student', 'WE5hbsVFGOjLWAi4OW728ZkWmkGmyhyCR88wEf2Xu8prRww3Du4kMcu1Y45w', NULL, 1, 'Yes');
 
 -- --------------------------------------------------------
 
@@ -15984,7 +15996,7 @@ CREATE TABLE `tbl_user_profile` (
 --
 
 INSERT INTO `tbl_user_profile` (`id`, `user_id`, `first_name`, `last_name`, `full_name`, `admin_no`, `email_gravatar`, `last_visit`, `player_tag`, `created_at`, `updated_at`) VALUES
-(1, 1, '', '', 'admin', '', 'cbysimon@gmail.com', 1706248608, '', 1598431510, 1694057859),
+(1, 1, '', '', 'admin', '', 'cbysimon@gmail.com', 1706516923, '', 1598431510, 1694057859),
 (2, 2, '', '', 'wannabee_admin', '', 'cby_simon@hotmail.com', 1692895490, '', 1598434082, 1647483957),
 (4, 4, '', '', 'Lecturer 1', '', 'lecturer1@abc.com', 1706238746, '', 1598928873, 1693469488),
 (5, 5, NULL, NULL, 'Manager 1', '', 'manager1@abc.com', 1670397999, '', 1599105111, 1599105111),
@@ -16021,7 +16033,6 @@ INSERT INTO `tbl_user_profile` (`id`, `user_id`, `first_name`, `last_name`, `ful
 (75, 75, NULL, NULL, 'test_p01_student_30', '', 'test_p01_student_30@domain.com', NULL, '6f58e8f3eb6c4e6cb9d96d450c1bb14f', 1619690400, 1619690400),
 (76, 76, '', '', 'Chan Bing Yao, Simon', '', 'cby_simon2@hotmail.com', 1625795549, 'ca7396875f25414e9c5311b7cec8e1f9', 1621924124, 1625795467),
 (77, 77, '', '', 'Iman Tang', '', 'Iman_tang@tp.edu.sg', 1622513050, '030a55c522934fab8c373d50226e5d00', 1622110740, 1622445542),
-(78, 78, NULL, NULL, 'Linda William', '', 'linda_william@tp.edu.sg', 1676443306, '', 1622445264, 1622445264),
 (79, 79, NULL, NULL, 'rizal', 'Rizal', 'rizal@yahoo.com', 1624849240, '', 1622597390, 1624849058),
 (80, 80, '', '', 'Student Tester', 'test_p02_student_3', 'test_p02_student_3@domain.com', 1655980062, '9a65bc03da644302a9170412cec2d0b1', 1624507052, 1655356769),
 (81, 81, NULL, NULL, 'Aisha', '', 'nuraisha.tp@gmail.com', 1626258655, '', 1624843877, 1626258533),
@@ -16820,7 +16831,13 @@ INSERT INTO `tbl_user_profile` (`id`, `user_id`, `first_name`, `last_name`, `ful
 (876, 880, NULL, NULL, 'KingSlayer', ' ', 'kingkingkk@gmail.com', 1706179528, NULL, 1706179528, 1706179528),
 (878, 882, NULL, NULL, 'Linda', ' ', 'xyq@thod.com', 1706233188, NULL, 1706233188, 1706233188),
 (881, 885, NULL, NULL, 'KingSlayer', ' ', 'tds.mm.dev004@gmail.com', NULL, NULL, 1706352163, 1706352163),
-(882, 886, NULL, NULL, 'KingSlayer', ' ', 'tds.mm.dev004@gmail.com', 1706352644, NULL, 1706352573, 1706352573);
+(882, 886, NULL, NULL, 'KingSlayer', ' ', 'tds.mm.dev004@gmail.com', 1706352644, NULL, 1706352573, 1706352573),
+(883, 887, NULL, NULL, 'Linda', ' ', 'lindawilliam0026@gmail.com', NULL, NULL, 1706515426, 1706515426),
+(884, 888, NULL, NULL, 'KingSlayer', ' ', 'tds.mm.dev004@gmail.com', NULL, NULL, 1706516044, 1706516044),
+(885, 889, NULL, NULL, 'Linda', ' ', 'linda_william@tp.edu.sg', NULL, NULL, 1706516963, 1706516963),
+(886, 890, NULL, NULL, 'KingSlayer', ' ', 'tds.mm.dev004@gmail.com', NULL, NULL, 1706517232, 1706517232),
+(887, 891, NULL, NULL, 'KingSlayer', ' ', 'kimshinpyae@gmail.com', NULL, NULL, 1706517279, 1706517279),
+(888, 892, NULL, NULL, 'KingSlayer', ' ', 'tds.mm.dev004@gmail.com', 1706694827, NULL, 1706694817, 1706694817);
 
 --
 -- Indexes for dumped tables
@@ -17063,7 +17080,7 @@ ALTER TABLE `tbl_subject_class`
 -- AUTO_INCREMENT for table `tbl_subject_class_enrolment`
 --
 ALTER TABLE `tbl_subject_class_enrolment`
-  MODIFY `subject_class_enrolment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=891;
+  MODIFY `subject_class_enrolment_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=896;
 
 --
 -- AUTO_INCREMENT for table `tbl_subtopic`
@@ -17093,13 +17110,13 @@ ALTER TABLE `tbl_topic_feedback`
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=887;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=893;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_profile`
 --
 ALTER TABLE `tbl_user_profile`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=883;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=889;
 
 --
 -- Constraints for dumped tables
